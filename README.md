@@ -10,6 +10,8 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 
 The hardware design can be found in the [Source/Hardware](Source/Hardware) folder.
 
+Design documentation can be found in [Docs](Docs).
+
 ### [Industrial Design](Source/Industrial_Design)
 
 ![](Docs/Enclosure.png)
