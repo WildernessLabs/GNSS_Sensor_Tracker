@@ -6,6 +6,8 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 
 ## Design
 
+This board was designed while streaming live, you can watch the videos [here](https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS).
+
 ### Hardware
 
 The hardware design can be found in the [Source/Hardware](Source/Hardware) folder.
