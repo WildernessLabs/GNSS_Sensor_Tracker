@@ -4,6 +4,8 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 
 ![](Docs/GNSS_Tracker_Display.jpg)
 
+![](Docs/GPS_Tracker_Two-up.jpg)
+
 ![](Docs/Board.png)
 
 ## Design
