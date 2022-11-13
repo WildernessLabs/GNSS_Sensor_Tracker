@@ -1,35 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1703.6
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_App", "Demo_App\Demo_App.csproj", "{036BDC35-77A4-465E-986D-C55E3561F1DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo_App", "Demo_App\Demo_App.csproj", "{036BDC35-77A4-465E-986D-C55E3561F1DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refs", "Refs", "{32A92B7C-9776-48EE-A2C4-9213B7E4FED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Contracts", "..\..\..\..\Meadow.Contracts\Source\Meadow.Contracts\Meadow.Contracts.csproj", "{366593C9-754C-400E-8934-9C8B46416B49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Contracts", "..\..\..\..\Meadow.Contracts\Source\Meadow.Contracts\Meadow.Contracts.csproj", "{366593C9-754C-400E-8934-9C8B46416B49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Logging", "..\..\..\..\Meadow.Logging\lib\Meadow.Logging.csproj", "{30E877DF-EE9A-4A71-8DE9-6F05782B9774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging", "..\..\..\..\Meadow.Logging\lib\Meadow.Logging.csproj", "{30E877DF-EE9A-4A71-8DE9-6F05782B9774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Units", "..\..\..\..\Meadow.Units\Source\Meadow.Units\Meadow.Units.csproj", "{5592D978-05B6-4ECB-8EE1-90ADF33DEADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Units", "..\..\..\..\Meadow.Units\Source\Meadow.Units\Meadow.Units.csproj", "{5592D978-05B6-4ECB-8EE1-90ADF33DEADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Core", "..\..\..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{68EB489C-D851-45C1-90FE-414819CE8B60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{68EB489C-D851-45C1-90FE-414819CE8B60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.F7", "..\..\..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj", "{D6F72965-26BB-4D92-A3A3-89C60A1D12E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj", "{D6F72965-26BB-4D92-A3A3-89C60A1D12E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Foundation.Core", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{8B61B791-E35B-40EF-8410-8EEA48EC01BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Core", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{8B61B791-E35B-40EF-8410-8EEA48EC01BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.GnssTracker.Core", "Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj", "{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.GnssTracker.Core", "Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj", "{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensors.Atmospheric.Bme68x", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj", "{E7DCA7AB-6BA8-4268-891F-D7E44F668868}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Atmospheric.Bme68x", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj", "{E7DCA7AB-6BA8-4268-891F-D7E44F668868}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensors.Gnss.Mt3339", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.Mt3339\Driver\Sensors.Gnss.Mt3339.csproj", "{415ABBD0-B34F-463B-AA32-89A5FC7A0F70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Gnss.Mt3339", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.Mt3339\Driver\Sensors.Gnss.Mt3339.csproj", "{415ABBD0-B34F-463B-AA32-89A5FC7A0F70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displays.ePaperWaveShare", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaperWaveShare\Driver\Displays.ePaperWaveShare.csproj", "{B7306C6E-706F-4B02-94A7-BBFA53A50766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.ePaperWaveShare", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaperWaveShare\Driver\Displays.ePaperWaveShare.csproj", "{B7306C6E-706F-4B02-94A7-BBFA53A50766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displays.ePaper", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj", "{E978AF42-6B20-44E1-82D9-03530A151C91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.ePaper", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj", "{E978AF42-6B20-44E1-82D9-03530A151C91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphics.MicroGraphics", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroGraphics\Driver\Graphics.MicroGraphics.csproj", "{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graphics.MicroGraphics", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroGraphics\Driver\Graphics.MicroGraphics.csproj", "{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Location.Gnss.NmeaProcessor", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Sensors.Location.Gnss.NmeaProcessor\Driver\Sensors.Location.Gnss.NmeaProcessor.csproj", "{38716BC6-1B4C-4366-807F-53B91290794B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Gnss.NeoM8", "..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.NeoM8\Driver\Sensors.Gnss.NeoM8.csproj", "{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,12 +93,21 @@ Global
 		{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38716BC6-1B4C-4366-807F-53B91290794B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288E593D-D2D4-41F3-ABBB-C5BFC43F825F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0F0B7DD0-BD16-4CB0-B369-5649BDD66664}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{366593C9-754C-400E-8934-9C8B46416B49} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
@@ -108,5 +121,9 @@ Global
 		{B7306C6E-706F-4B02-94A7-BBFA53A50766} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
 		{E978AF42-6B20-44E1-82D9-03530A151C91} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
 		{829B14F0-23CE-4F6B-86C4-146C2A0EEB2D} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
+		{38716BC6-1B4C-4366-807F-53B91290794B} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F0B7DD0-BD16-4CB0-B369-5649BDD66664}
 	EndGlobalSection
 EndGlobal

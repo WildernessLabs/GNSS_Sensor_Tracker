@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Meadow.Devices;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Leds;
-using Meadow.Gateways.Bluetooth;
-using Meadow.Devices;
-using Meadow.Peripherals.Sensors;
-using Meadow.Hardware;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Gnss;
-using Meadow.Foundation.Displays;
-using Meadow.Foundation.Displays.ePaper;
+using Meadow.Hardware;
+using System;
 
 namespace Meadow.GnssTracker.Core
 {
@@ -19,8 +16,11 @@ namespace Meadow.GnssTracker.Core
 
         public PwmLed? OnboardLed { get; protected set; }
         public Bme688 Bme68X { get; protected set; }
-        public Mt3339 Gnss { get; protected set; }
+        public NeoM8 Gnss { get; protected set; }
+        //public Mt3339 Gnss { get; protected set; }
         public Epd2in13b EPaperDisplay { get; protected set; }
+
+        private IDigitalOutputPort Reset { get; set; }
 
         public GnssTrackerHardware(F7CoreComputeV2 device)
         {
@@ -65,16 +65,18 @@ namespace Meadow.GnssTracker.Core
             Console.WriteLine("BME688 initialized.");
 
             ////==== GNSS
-            //Console.WriteLine("Initializing GNSS.");
-            //try
-            //{
-            //    Gnss = new Mt3339(Device, Device.SerialPortNames.Com4);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine($"Err initializing GNSS: {e.Message}");
-            //}
-            //Console.WriteLine("GNSS initialized.");
+            Resolver.Log.Debug("Initializing GNSS.");
+            try
+            {
+                //Reset = Device.CreateDigitalOutputPort(Device.Pins.D09, true);
+                //Gnss = new Mt3339(Device, Device.SerialPortNames.Com4);
+                Gnss = new NeoM8(Device, Device.SerialPortNames.Com4, device.Pins.D09, device.Pins.D11);
+            }
+            catch (Exception e)
+            {
+                Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
+            }
+            Resolver.Log.Debug("GNSS initialized.");
 
             //==== SPI
             Console.WriteLine("Initializing SPI Bus.");

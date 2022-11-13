@@ -1,26 +1,21 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Meadow;
+﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
-using Meadow.Foundation.Leds;
 using Meadow.GnssTracker.Core;
-using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Location.Gnss;
-using SQLite;
+using System;
+using System.Threading.Tasks;
 
 namespace Demo_App
 {
-	// Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-	public class MeadowApp : App<F7CoreComputeV2>
-	{
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7CoreComputeV2>
+    {
         //PwmLed onboardLed;
         protected GnssTrackerHardware Hardware { get; set; }
 
         public override Task Initialize()
         {
-            //Console.WriteLine("Initialize hardware...");
+            Resolver.Log.Info("Initialize hardware...");
             //onboardLed = new PwmLed(device: Device, Device.Pins.D20, TypicalForwardVoltage.Green);
 
             //==== Bring up the hardware
@@ -45,54 +40,71 @@ namespace Demo_App
 
         public override Task Run()
         {
-            Console.WriteLine("Running");
+            Resolver.Log.Info("Running");
 
             Hardware.OnboardLed.StartPulse();
 
-            if (Hardware.Bme68X is { } bme) {
+            if (Hardware.Bme68X is { } bme)
+            {
                 bme.Updated += Bme_Updated;
                 bme.StartUpdating(TimeSpan.FromSeconds(20));
             }
 
-            if (Hardware.Gnss is { } gnss) {
-                gnss.GgaReceived += (object sender, GnssPositionInfo location) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(location);
-                    Console.WriteLine("*********************************************");
+            if (Hardware.Gnss is { } gnss)
+            {
+                Resolver.Log.Debug("Starting GNSS");
+
+                gnss.GgaReceived += (object sender, GnssPositionInfo location) =>
+                {
+                    //                    Console.WriteLine("*********************************************");
+                    //                    Console.WriteLine(location);
+                    //                    Console.WriteLine("*********************************************");
                 };
                 // GLL
-                gnss.GllReceived += (object sender, GnssPositionInfo location) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(location);
-                    Console.WriteLine("*********************************************");
+                gnss.GllReceived += (object sender, GnssPositionInfo location) =>
+                {
+                    //Console.WriteLine("*********************************************");
+                    //Console.WriteLine(location);
+                    //Console.WriteLine("*********************************************");
                 };
                 // GSA
-                gnss.GsaReceived += (object sender, ActiveSatellites activeSatellites) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(activeSatellites);
-                    Console.WriteLine("*********************************************");
+                gnss.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
+                {
+                    //Console.WriteLine("*********************************************");
+                    //Console.WriteLine(activeSatellites);
+                    //Console.WriteLine("*********************************************");
                 };
                 // RMC (recommended minimum)
-                gnss.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(positionCourseAndTime);
-                    Console.WriteLine("*********************************************");
+                gnss.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) =>
+                {
+                    //Console.WriteLine("*********************************************");
+                    //Console.WriteLine(positionCourseAndTime);
+                    //Console.WriteLine("*********************************************");
 
                 };
                 // VTG (course made good)
-                gnss.VtgReceived += (object sender, CourseOverGround courseAndVelocity) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine($"{courseAndVelocity}");
-                    Console.WriteLine("*********************************************");
+                gnss.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
+                {
+                    //Console.WriteLine("*********************************************");
+                    //Console.WriteLine($"{courseAndVelocity}");
+                    //Console.WriteLine("*********************************************");
                 };
                 // GSV (satellites in view)
-                gnss.GsvReceived += (object sender, SatellitesInView satellites) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine($"{satellites}");
-                    Console.WriteLine("*********************************************");
+                gnss.GsvReceived += (object sender, SatellitesInView satellites) =>
+                {
+                    //Console.WriteLine("*********************************************");
+                    //Console.WriteLine($"{satellites}");
+                    //Console.WriteLine("*********************************************");
                 };
 
-                gnss.StartUpdating();
+                try
+                {
+                    gnss.StartUpdating();
+                }
+                catch (Exception ex)
+                {
+                    Resolver.Log.Error($"{ex.Message}");
+                }
             }
 
             return base.Run();
