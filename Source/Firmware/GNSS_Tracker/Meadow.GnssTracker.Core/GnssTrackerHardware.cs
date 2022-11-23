@@ -62,7 +62,7 @@ namespace Meadow.GnssTracker.Core
                 Console.WriteLine($"Err initializing BME688: {e.Message}");
             }
 
-            ////==== GNSS
+            //==== GNSS
             Resolver.Log.Debug("Initializing GNSS");
             try
             {

@@ -3,3 +3,5 @@
     Default: Trace
 Lifecycle:
   RestartOnAppFailure: false
+MonoControl:
+#  Options: --jit
