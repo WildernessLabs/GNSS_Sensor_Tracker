@@ -58,9 +58,9 @@ namespace Demo_App
             Log.Info("DisplayController.UpdateConditions()");
             canvas.Clear(Color.White);
             canvas.CurrentFont = new Font12x20();
-            canvas.DrawText(2, 2, $"Temp: {CurrentConditions.Temperature?.Celsius:N2}C/{CurrentConditions.Temperature?.Fahrenheit:N2}F°", Color.Black);
-            canvas.DrawText(2, 22, $"Humidity: {CurrentConditions.RelativeHumidity:N2}%", Color.Black);
-            canvas.DrawText(2, 42, $"Pressure: {CurrentConditions.Pressure?.StandardAtmosphere:N2}A", Color.Black);
+            canvas.DrawText(2, 2, $"Temp: {CurrentConditions.Temperature?.Celsius:N1}°C/{CurrentConditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
+            canvas.DrawText(2, 22, $"Humidity: {CurrentConditions.RelativeHumidity:N1}%", Color.Black);
+            canvas.DrawText(2, 42, $"Pressure: {CurrentConditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
             try
             {
                 if (CurrentConditions.PositionCourseAndTime?.Position is { } pos)
