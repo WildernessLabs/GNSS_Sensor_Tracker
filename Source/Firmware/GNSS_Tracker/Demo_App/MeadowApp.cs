@@ -24,7 +24,6 @@ namespace Demo_App
             //==== Bring up our database
             try
             {
-                // configure the database and open a connection
                 DatabaseController.ConfigureDatabase();
             }
             catch (Exception e)
@@ -44,7 +43,7 @@ namespace Demo_App
 
             Hardware.OnboardLed.StartPulse();
 
-            if (Hardware.Bme68X is { } bme)
+            if (Hardware.AtmosphericSensor is { } bme)
             {
                 bme.Updated += Bme_Updated;
                 bme.StartUpdating(TimeSpan.FromSeconds(20));
