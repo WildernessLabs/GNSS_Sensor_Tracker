@@ -4,4 +4,4 @@
 Lifecycle:
   RestartOnAppFailure: false
 MonoControl:
-#  Options: --jit
+  Options: --jit

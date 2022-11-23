@@ -14,6 +14,7 @@ namespace Meadow.GnssTracker.Core.Models
             this.RelativeHumidityPercent = model.RelativeHumidity?.Percent;
             this.PressureAtmos = model.Pressure?.StandardAtmosphere;
             this.Timestamp = model.Timestamp.Value;
+            //this.Position = model.PositionCourseAndTime.Position.ToString();
         }
 
         [PrimaryKey, AutoIncrement]
@@ -22,5 +23,6 @@ namespace Meadow.GnssTracker.Core.Models
         public double? TemperatureC { get; set; }
         public double? RelativeHumidityPercent { get; set; }
         public double? PressureAtmos { get; set; }
+        public string? Position { get; set; }
     }
 }

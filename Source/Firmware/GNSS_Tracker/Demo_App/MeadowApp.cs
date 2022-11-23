@@ -15,6 +15,7 @@ namespace Demo_App
     {
         protected GnssTrackerHardware Hardware { get; set; }
         protected Logger Log { get => Resolver.Log; }
+        protected TrackingModel? CurrentConditions { get; set; } 
 
         public override Task Initialize()
         {
@@ -48,7 +49,7 @@ namespace Demo_App
             if (Hardware.AtmosphericSensor is { } bme)
             {
                 bme.Updated += Bme_Updated;
-                bme.StartUpdating(TimeSpan.FromSeconds(20));
+                bme.StartUpdating(TimeSpan.FromSeconds(10));
             }
 
             if (Hardware.Gnss is { } gnss)
@@ -64,25 +65,18 @@ namespace Demo_App
                 // GLL
                 gnss.GllReceived += (object sender, GnssPositionInfo location) =>
                 {
-                    //Log.Info("*********************************************");
-                    //Log.Info(location);
-                    //Log.Info("*********************************************");
+                    Log.Info($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
                 };
                 // GSA
                 gnss.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
                 {
-                    //Log.Info("*********************************************");
-                    //Log.Info(activeSatellites);
-                    //Log.Info("*********************************************");
+                    if (activeSatellites.SatellitesUsedForFix is { } sats) {
+                        Log.Info($"Number of active satellites: {sats.Length}");
+                    }
                 };
                 // RMC (recommended minimum)
-                gnss.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) =>
-                {
-                    //Log.Info("*********************************************");
-                    //Log.Info(positionCourseAndTime);
-                    //Log.Info("*********************************************");
+                gnss.RmcReceived += Gnss_RmcReceived;
 
-                };
                 // VTG (course made good)
                 gnss.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
                 {
@@ -93,11 +87,10 @@ namespace Demo_App
                 // GSV (satellites in view)
                 gnss.GsvReceived += (object sender, SatellitesInView satellites) =>
                 {
-                    //Log.Info("*********************************************");
-                    //Log.Info($"{satellites}");
-                    //Log.Info("*********************************************");
+                    Log.Info($"Satellites in view: {satellites.Satellites.Length}");
                 };
 
+                //---- start updating the GNSS receiver
                 try
                 {
                     gnss.StartUpdating();
@@ -111,22 +104,52 @@ namespace Demo_App
             return base.Run();
         }
 
+        private void Gnss_RmcReceived(object sender, GnssPositionInfo positionCourseAndTime)
+        {
+            if (positionCourseAndTime.Position is { } pos)
+            {
+                if (pos.Latitude is { } lat && pos.Longitude is { } lon)
+                {
+                    Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
+
+                    //---- update CurrentConditions
+                    if (CurrentConditions == null) { this.CurrentConditions = new TrackingModel(); }
+                    var newConditions = new TrackingModel
+                    {
+                        PositionCourseAndTime = positionCourseAndTime
+                    };
+                    this.CurrentConditions.Update(newConditions);
+
+                    //---- update display and save to database
+                    DisplayController.UpdateConditions(this.CurrentConditions);
+                    //SaveConditions(this.CurrentConditions);
+
+                }
+                else { Log.Info("RM Position lat/long empty."); }
+            }
+            else { Log.Info("RM Position not yet found."); }
+        }
+
         void Bme_Updated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
         {
             Log.Info($"  Temperature: {result.New.Temperature?.Celsius:N2}C,");
             Log.Info($"  Relative Humidity: {result.New.Humidity:N2}%, ");
             Log.Info($"  Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.Pascal:N2}Pa)");
 
-            TrackingModel conditions = new TrackingModel
+            //---- update CurrentConditions
+            if (CurrentConditions == null) { this.CurrentConditions = new TrackingModel(); }
+            var newConditions = new TrackingModel
             {
                 Temperature = result.New.Temperature,
                 RelativeHumidity = result.New.Humidity,
                 Pressure = result.New.Pressure,
                 Timestamp = DateTime.Now
             };
+            this.CurrentConditions.Update(newConditions);
 
-            DisplayController.UpdateConditions(conditions);
-            SaveConditions(conditions);
+            //---- update display and save to database
+            DisplayController.UpdateConditions(this.CurrentConditions);
+            SaveConditions(this.CurrentConditions);
         }
 
         protected void SaveConditions(TrackingModel conditions)

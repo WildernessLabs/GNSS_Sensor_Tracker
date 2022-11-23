@@ -1,4 +1,5 @@
-﻿using Meadow;
+﻿using System;
+using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
@@ -27,10 +28,10 @@ namespace Demo_App
                 Rotation = RotationType._270Degrees, 
             };
 
-            canvas.Clear(Color.White);
-            canvas.CurrentFont = new Font12x16();
-            canvas.DrawText(2, 20, "Hello, Meadow", Color.Red);
-            canvas.Show();
+            //canvas.Clear(Color.White);
+            //canvas.CurrentFont = new Font12x16();
+            //canvas.DrawText(2, 20, "Hello, Meadow", Color.Red);
+            //canvas.Show();
 
             Log.Info("DisplayController up.");
         }
@@ -42,22 +43,39 @@ namespace Demo_App
         {
             CurrentConditions = conditions;
             UpdateDisplay();
-
         }
 
         static void UpdateDisplay()
         {
             // if already rendering, bail out
-            if (Rendering) { return; }
+            if (Rendering) {
+                Log.Info("Already rendering, bailing out.");
+                return;
+            }
 
             Rendering = true;
 
             Log.Info("DisplayController.UpdateConditions()");
             canvas.Clear(Color.White);
             canvas.CurrentFont = new Font12x16();
-            canvas.DrawText(2, 18, $"Temp: {CurrentConditions.Temperature?.Celsius:N2}C", Color.Black);
-            canvas.DrawText(2, 38, $"Humidity: {CurrentConditions.RelativeHumidity:N2}%", Color.Black);
-            canvas.DrawText(2, 58, $"Pressure: {CurrentConditions.Pressure?.StandardAtmosphere:N2}A", Color.Black);
+            canvas.DrawText(2, 2, $"Temp: {CurrentConditions.Temperature?.Celsius:N2}C/{CurrentConditions.Temperature?.Fahrenheit:N2}F", Color.Black);
+            canvas.DrawText(2, 22, $"Humidity: {CurrentConditions.RelativeHumidity:N2}%", Color.Black);
+            canvas.DrawText(2, 42, $"Pressure: {CurrentConditions.Pressure?.StandardAtmosphere:N2}A", Color.Black);
+            try
+            {
+                if (CurrentConditions.PositionCourseAndTime?.Position is { } pos)
+                {
+                    if (pos.Latitude is { } lat && pos.Longitude is { } lon)
+                    {
+                        canvas.DrawText(2, 62, $"Lat: {lat.Degrees} {lat.Minutes}' {lat.seconds}\"");
+                        canvas.DrawText(2, 82, $"Long: {lon.Degrees} {lon.Minutes}' {lon.seconds}\"");
+                    }
+                }
+            }
+            catch (Exception ex) {
+                Log.Info($"Render exception:{ex.Message}");
+            }
+            Log.Info("DisplayController.Update 2");
             canvas.Show();
             Log.Info("Display Updated.");
 

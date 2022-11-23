@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="sqlite-net-static" />
+    <None Remove="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.config.yaml">
@@ -15,5 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>
