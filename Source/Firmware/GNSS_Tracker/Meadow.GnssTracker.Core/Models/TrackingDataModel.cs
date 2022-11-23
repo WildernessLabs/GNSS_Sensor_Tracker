@@ -14,6 +14,7 @@ namespace Meadow.GnssTracker.Core.Models
             this.RelativeHumidityPercent = model.RelativeHumidity?.Percent;
             this.PressureAtmos = model.Pressure?.StandardAtmosphere;
             this.Timestamp = model.Timestamp.Value;
+            // TODO: figure out how we want to save this data
             //this.Position = model.PositionCourseAndTime.Position.ToString();
         }
 

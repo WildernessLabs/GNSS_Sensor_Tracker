@@ -112,16 +112,24 @@ namespace Demo_App
                 {
                     Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
 
+                    //TODO: consider updating system time
+                    //if (positionCourseAndTime.TimeOfReading is { } timeOfReading) {
+                    //    Resolver.Device.SetClock(timeOfReading);
+                    //}
+
                     //---- update CurrentConditions
                     if (CurrentConditions == null) { this.CurrentConditions = new TrackingModel(); }
                     var newConditions = new TrackingModel
                     {
                         PositionCourseAndTime = positionCourseAndTime
+                        //TODO: set time:
+                        //Timestamp = positionCourseAndTime.TimeOfReading
                     };
                     this.CurrentConditions.Update(newConditions);
 
                     //---- update display and save to database
                     DisplayController.UpdateConditions(this.CurrentConditions);
+                    //TODO:
                     //SaveConditions(this.CurrentConditions);
 
                 }
