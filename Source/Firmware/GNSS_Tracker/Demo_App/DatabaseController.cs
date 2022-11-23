@@ -2,6 +2,7 @@
 using Meadow;
 using SQLite;
 using System.IO;
+using Meadow.GnssTracker.Core.Models;
 
 namespace Demo_App
 {
@@ -24,7 +25,7 @@ namespace Demo_App
             // make the connection
             Database = new SQLiteConnection(databasePath);
             // add table(s)
-            Database.CreateTable<TrackingModel>();
+            Database.CreateTable<TrackingDataModel>();
 
             Console.WriteLine("Database up!");
         }

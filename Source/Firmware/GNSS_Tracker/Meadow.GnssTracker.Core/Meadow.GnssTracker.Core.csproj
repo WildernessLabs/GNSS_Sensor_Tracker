@@ -5,10 +5,23 @@
     <AssemblyName>Meadow.GnssTracker.Core</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj" />
-    <ProjectReference Include="..\..\..\..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj" />
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj" />
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.Mt3339\Driver\Sensors.Gnss.Mt3339.csproj" />
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaperWaveShare\Driver\Displays.ePaperWaveShare.csproj" />
+    <None Remove="Meadow.F7" />
+    <None Remove="Meadow.Foundation.Displays.ePaper" />
+    <None Remove="Meadow.Foundation" />
+    <None Remove="Meadow.Foundation.Sensors.Atmospheric.Bme68x" />
+    <None Remove="Meadow.Foundation.Sensors.Gnss.NeoM8" />
+    <None Remove="Models\" />
+    <None Remove="sqlite-net-static" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Meadow.F7" Version="0.90.0" />
+    <PackageReference Include="Meadow.Foundation.Displays.ePaper" Version="0.90.0" />
+    <PackageReference Include="Meadow.Foundation" Version="0.90.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="0.90.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Gnss.NeoM8" Version="0.90.0" />
+    <PackageReference Include="sqlite-net-static" Version="1.8.116" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

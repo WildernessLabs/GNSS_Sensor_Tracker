@@ -6,14 +6,14 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj" />
-    <ProjectReference Include="..\Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj" />
-    <ProjectReference Include="..\..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="sqlite-net-static" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="sqlite-net-static" Version="1.8.116" />
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj" />
   </ItemGroup>
 </Project>

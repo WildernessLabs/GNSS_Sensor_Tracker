@@ -1,27 +1,24 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Meadow;
+﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
-using Meadow.Foundation.Leds;
 using Meadow.GnssTracker.Core;
-using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Location.Gnss;
-using SQLite;
+using System;
+using System.Threading.Tasks;
+using Meadow.Logging;
+using Meadow.GnssTracker.Core.Models;
+using static SQLite.SQLite3;
 
 namespace Demo_App
 {
-	// Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-	public class MeadowApp : App<F7CoreComputeV2>
-	{
-        //PwmLed onboardLed;
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7CoreComputeV2>
+    {
         protected GnssTrackerHardware Hardware { get; set; }
+        protected Logger Log { get => Resolver.Log; }
 
         public override Task Initialize()
         {
-            //Console.WriteLine("Initialize hardware...");
-            //onboardLed = new PwmLed(device: Device, Device.Pins.D20, TypicalForwardVoltage.Green);
+            Log.Info("Initialize hardware...");
 
             //==== Bring up the hardware
             Hardware = new GnssTrackerHardware(Device);
@@ -29,12 +26,11 @@ namespace Demo_App
             //==== Bring up our database
             try
             {
-                // configure the database and open a connection
                 DatabaseController.ConfigureDatabase();
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Err bringing up database: {e.Message}");
+                Log.Info($"Err bringing up database: {e.Message}");
             }
 
             //==== Initialize Display Controller
@@ -45,54 +41,71 @@ namespace Demo_App
 
         public override Task Run()
         {
-            Console.WriteLine("Running");
+            Resolver.Log.Info("Running");
 
             Hardware.OnboardLed.StartPulse();
 
-            if (Hardware.Bme68X is { } bme) {
+            if (Hardware.AtmosphericSensor is { } bme)
+            {
                 bme.Updated += Bme_Updated;
                 bme.StartUpdating(TimeSpan.FromSeconds(20));
             }
 
-            if (Hardware.Gnss is { } gnss) {
-                gnss.GgaReceived += (object sender, GnssPositionInfo location) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(location);
-                    Console.WriteLine("*********************************************");
+            if (Hardware.Gnss is { } gnss)
+            {
+                Resolver.Log.Debug("Starting GNSS");
+
+                gnss.GgaReceived += (object sender, GnssPositionInfo location) =>
+                {
+                    //                    Log.Info("*********************************************");
+                    //                    Log.Info(location);
+                    //                    Log.Info("*********************************************");
                 };
                 // GLL
-                gnss.GllReceived += (object sender, GnssPositionInfo location) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(location);
-                    Console.WriteLine("*********************************************");
+                gnss.GllReceived += (object sender, GnssPositionInfo location) =>
+                {
+                    //Log.Info("*********************************************");
+                    //Log.Info(location);
+                    //Log.Info("*********************************************");
                 };
                 // GSA
-                gnss.GsaReceived += (object sender, ActiveSatellites activeSatellites) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(activeSatellites);
-                    Console.WriteLine("*********************************************");
+                gnss.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
+                {
+                    //Log.Info("*********************************************");
+                    //Log.Info(activeSatellites);
+                    //Log.Info("*********************************************");
                 };
                 // RMC (recommended minimum)
-                gnss.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine(positionCourseAndTime);
-                    Console.WriteLine("*********************************************");
+                gnss.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) =>
+                {
+                    //Log.Info("*********************************************");
+                    //Log.Info(positionCourseAndTime);
+                    //Log.Info("*********************************************");
 
                 };
                 // VTG (course made good)
-                gnss.VtgReceived += (object sender, CourseOverGround courseAndVelocity) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine($"{courseAndVelocity}");
-                    Console.WriteLine("*********************************************");
+                gnss.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
+                {
+                    //Log.Info("*********************************************");
+                    //Log.Info($"{courseAndVelocity}");
+                    //Log.Info("*********************************************");
                 };
                 // GSV (satellites in view)
-                gnss.GsvReceived += (object sender, SatellitesInView satellites) => {
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine($"{satellites}");
-                    Console.WriteLine("*********************************************");
+                gnss.GsvReceived += (object sender, SatellitesInView satellites) =>
+                {
+                    //Log.Info("*********************************************");
+                    //Log.Info($"{satellites}");
+                    //Log.Info("*********************************************");
                 };
 
-                gnss.StartUpdating();
+                try
+                {
+                    gnss.StartUpdating();
+                }
+                catch (Exception ex)
+                {
+                    Resolver.Log.Error($"{ex.Message}");
+                }
             }
 
             return base.Run();
@@ -100,32 +113,40 @@ namespace Demo_App
 
         void Bme_Updated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
         {
-            Console.Write($"  Temperature: {result.New.Temperature?.Celsius:N2}C,");
-            Console.Write($"  Relative Humidity: {result.New.Humidity:N2}%, ");
-            Console.WriteLine($"  Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.Pascal:N2}Pa)");
+            Log.Info($"  Temperature: {result.New.Temperature?.Celsius:N2}C,");
+            Log.Info($"  Relative Humidity: {result.New.Humidity:N2}%, ");
+            Log.Info($"  Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.Pascal:N2}Pa)");
 
-            TrackingModel trackingModel = new TrackingModel()
+            TrackingModel conditions = new TrackingModel
             {
-                TemperatureC = result.New.Temperature?.Celsius,
-                RelativeHumdityPercent = result.New.Humidity?.Percent,
-                PressureAtmos = result.New.Pressure?.StandardAtmosphere
+                Temperature = result.New.Temperature,
+                RelativeHumidity = result.New.Humidity,
+                Pressure = result.New.Pressure,
+                Timestamp = DateTime.Now
             };
 
+            DisplayController.UpdateConditions(conditions);
+            SaveConditions(conditions);
+        }
+
+        protected void SaveConditions(TrackingModel conditions)
+        {
+            TrackingDataModel trackingModel = new TrackingDataModel(conditions);
+
+            Log.Info("Saving conditions to database.");
             DatabaseController.Database.Insert(trackingModel);
-            Console.WriteLine("Saved sensor reading to database.");
+            Log.Info("Saved sensor reading to database.");
 
             RetreiveData();
-
-            DisplayController.UpdateConditions(result);
         }
 
         void RetreiveData()
         {
-            Console.WriteLine("Reading back the data...");
-            var rows = DatabaseController.Database.Table<TrackingModel>();
+            Log.Info("Reading back the data...");
+            var rows = DatabaseController.Database.Table<TrackingDataModel>();
             foreach (var r in rows)
             {
-                Console.WriteLine($"Reading was {r.TemperatureC:N2}C at {r.Timestamp.ToString("HH:mm:ss")}");
+                Log.Info($"Reading was {r.TemperatureC:N2}C at {r.Timestamp.ToString("HH:mm:ss")}");
             }
         }
     }
