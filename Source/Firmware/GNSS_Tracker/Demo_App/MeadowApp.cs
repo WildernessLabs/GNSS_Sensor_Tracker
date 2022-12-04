@@ -112,7 +112,7 @@ namespace Demo_App
                 {
                     Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
 
-                    //TODO: consider updating system time
+                    //---- Update system time from SPAAAAACE
                     if (positionCourseAndTime.TimeOfReading is { } timeOfReading)
                     {
                         //Resolver.Device.SetClock(timeOfReading);
