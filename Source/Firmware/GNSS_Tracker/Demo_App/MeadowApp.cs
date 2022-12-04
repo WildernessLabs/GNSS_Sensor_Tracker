@@ -113,9 +113,18 @@ namespace Demo_App
                     Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
 
                     //TODO: consider updating system time
-                    //if (positionCourseAndTime.TimeOfReading is { } timeOfReading) {
-                    //    Resolver.Device.SetClock(timeOfReading);
-                    //}
+                    if (positionCourseAndTime.TimeOfReading is { } timeOfReading)
+                    {
+                        //Resolver.Device.SetClock(timeOfReading);
+                        Log.Info($"UTC DateTime from GPS: {timeOfReading.ToShortDateString()} :: {timeOfReading.ToShortTimeString()}");
+                        Log.Info($"Device DateTime: {DateTime.Now.ToShortDateString()} :: {DateTime.Now.ToShortTimeString()}");
+
+                        if (timeOfReading.Date != DateTime.Now.Date) {
+                            Log.Info($"Device date is different than GPS time. Updating.");
+                            Resolver.Device.SetClock(timeOfReading);
+                            Log.Info($"Device time set. {DateTime.Now.ToShortDateString()}");
+                        }
+                    }
 
                     //---- update CurrentConditions
                     if (CurrentConditions == null) { this.CurrentConditions = new TrackingModel(); }
