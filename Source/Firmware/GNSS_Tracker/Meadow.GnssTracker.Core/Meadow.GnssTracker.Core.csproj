@@ -12,6 +12,8 @@
     <None Remove="Meadow.Foundation.Sensors.Gnss.NeoM8" />
     <None Remove="Models\" />
     <None Remove="sqlite-net-static" />
+    <None Remove="Models\Logical\" />
+    <None Remove="Models\Data\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Meadow.F7" Version="0.90.0" />
@@ -23,5 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Models\Logical\" />
+    <Folder Include="Models\Data\" />
   </ItemGroup>
 </Project>
