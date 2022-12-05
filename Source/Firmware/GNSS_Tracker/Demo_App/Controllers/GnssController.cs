@@ -7,6 +7,9 @@ using Meadow.Peripherals.Sensors.Location.Gnss;
 
 namespace Demo_App.Controllers
 {
+    /// <summary>
+    /// Responsible for initializing the GPS stuff and running all things GPS
+    /// </summary>
     public static class GnssController
     {
         public static event EventHandler<GnssPositionInfo> GnssPositionInfoUpdated = delegate { };
@@ -87,4 +90,3 @@ namespace Demo_App.Controllers
         }
     }
 }
-

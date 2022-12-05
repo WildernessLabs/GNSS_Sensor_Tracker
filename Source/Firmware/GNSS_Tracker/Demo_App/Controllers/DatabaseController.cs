@@ -24,7 +24,13 @@ namespace Demo_App.Controllers
             //SQLite3.Config(SQLite3.ConfigOption.SingleThread);
 
             // database files should go in the `DataDirectory`
-            var databasePath = Path.Combine(MeadowOS.FileSystem.DataDirectory, "MySqliteDatabase.db");
+            var databasePath = Path.Combine(MeadowOS.FileSystem.DataDirectory, "SensorReadings.db");
+
+            // debug only:
+            Log?.Info("Deleting old db.");
+            File.Delete(databasePath);
+            Log?.Info("Deleted.");
+
             // make the connection
             Database = new SQLiteConnection(databasePath);
             // add table(s)
@@ -45,7 +51,7 @@ namespace Demo_App.Controllers
             Database.Insert(dataModel);
             Log.Info("Saved to database.");
 
-            //RetreiveData();
+            RetreiveData();
         }
 
         public static void SaveLocationInfo(LocationModel location)
@@ -56,7 +62,7 @@ namespace Demo_App.Controllers
             Database.Insert(dataModel);
             Log.Info("Saved to database.");
 
-            //RetreiveData();
+            RetreiveData();
         }
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace Demo_App.Controllers
             var rows = DatabaseController.Database.Table<SensorDataModel>();
             foreach (var r in rows)
             {
-                Log.Info($"Reading was {r.TemperatureC:N2}C at {r.Timestamp.ToString("HH:mm:ss")}");
+                Log.Info($"Reading was {r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
             }
         }
     }

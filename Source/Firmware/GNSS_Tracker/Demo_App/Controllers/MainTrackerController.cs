@@ -7,7 +7,8 @@ using Meadow.Logging;
 namespace Demo_App.Controllers
 {
     /// <summary>
-    /// 
+    /// This is the main tracker application controller. It's responsible for
+    /// orchestrating the entire operation of the application.
     /// </summary>
     public class MainTrackerController
     {
@@ -22,6 +23,9 @@ namespace Demo_App.Controllers
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
         }
 
+        /// <summary>
+        /// Starts updating all the things
+        /// </summary>
         public void Start()
         {
             //==== start updating everything
@@ -82,7 +86,7 @@ namespace Demo_App.Controllers
         {
             Log.Info($"BME688: Temperature: {result.New.Temperature?.Celsius:N2}C,");
             Log.Info($"BME688: Relative Humidity: {result.New.Humidity:N2}%, ");
-            Log.Info($"BME688: Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.Pascal:N2}Pa)");
+            Log.Info($"BME688: Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
 
             //---- update CurrentConditions
             if (LastAtmosphericConditions == null) { this.LastAtmosphericConditions = new AtmosphericModel(); }

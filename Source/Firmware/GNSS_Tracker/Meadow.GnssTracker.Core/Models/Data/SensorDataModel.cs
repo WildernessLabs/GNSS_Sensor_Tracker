@@ -39,8 +39,8 @@ namespace Meadow.GnssTracker.Core.Models.Data
         {
             var dataModel = new SensorDataModel
             {
-                Latitude = $"{model.PositionInformation?.Position?.Latitude?.Degrees}°{model.PositionInformation?.Position?.Latitude?.Minutes}'{model.PositionInformation?.Position?.Latitude?.seconds}\"",
-                Longitude = $"{model.PositionInformation?.Position?.Longitude?.Degrees}°{model.PositionInformation?.Position?.Longitude?.Minutes}'{model.PositionInformation?.Position?.Longitude?.seconds}\"",
+                Latitude = $"{model.PositionInformation?.Position?.Latitude?.Degrees} {model.PositionInformation?.Position?.Latitude?.Minutes}'{model.PositionInformation?.Position?.Latitude?.seconds}\"",
+                Longitude = $"{model.PositionInformation?.Position?.Longitude?.Degrees} {model.PositionInformation?.Position?.Longitude?.Minutes}'{model.PositionInformation?.Position?.Longitude?.seconds}\"",
             };
             return dataModel;
         }
