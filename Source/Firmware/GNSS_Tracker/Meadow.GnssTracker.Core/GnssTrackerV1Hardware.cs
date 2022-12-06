@@ -1,25 +1,27 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Displays;
+using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Gnss;
+using Meadow.GnssTracker.Core.Contracts;
 using Meadow.Hardware;
 using System;
 
 namespace Meadow.GnssTracker.Core
 {
-    public class GnssTrackerHardware
+    public class GnssTrackerV1Hardware : IGnssTrackerHardware
     {
         protected F7CoreComputeV2 Device { get; }
-        protected II2cBus I2cBus { get; }
-        protected ISpiBus SpiBus { get; }
 
+        public II2cBus I2cBus { get; }
+        public ISpiBus SpiBus { get; }
         public PwmLed OnboardLed { get; protected set; }
         public Bme688 AtmosphericSensor { get; protected set; }
         public NeoM8 Gnss { get; protected set; }
-        public Ssd1680 EPaperDisplay { get; protected set; }
+        public IGraphicsDisplay Display { get; protected set; }
 
-        public GnssTrackerHardware(F7CoreComputeV2 device)
+        public GnssTrackerV1Hardware(F7CoreComputeV2 device)
         {
             Device = device;
 
@@ -90,7 +92,7 @@ namespace Meadow.GnssTracker.Core
             Console.WriteLine("Initializing ePaper Display");
             try
             {
-                EPaperDisplay = new Ssd1680(device: Device,
+                Display = new Ssd1680(device: Device,
                     spiBus: Device.CreateSpiBus(),
                     chipSelectPin: Device.Pins.D02,
                     dcPin: Device.Pins.D03,

@@ -1,6 +1,7 @@
 ﻿using System;
 using Meadow;
 using Meadow.GnssTracker.Core;
+using Meadow.GnssTracker.Core.Contracts;
 using Meadow.GnssTracker.Core.Models.Logical;
 using Meadow.Logging;
 
@@ -13,11 +14,11 @@ namespace Demo_App.Controllers
     public class MainTrackerController
     {
         protected Logger Log { get => Resolver.Log; }
-        protected GnssTrackerHardware Hardware { get; set; }
+        protected IGnssTrackerHardware Hardware { get; set; }
         protected AtmosphericModel? LastAtmosphericConditions { get; set; }
         protected LocationModel? LastLocationInfo { get; set; }
 
-        public MainTrackerController(GnssTrackerHardware hardware)
+        public MainTrackerController(IGnssTrackerHardware hardware)
         {
             this.Hardware = hardware;
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;

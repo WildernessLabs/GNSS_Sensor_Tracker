@@ -4,6 +4,7 @@ using Demo_App.Controllers;
 using Meadow;
 using Meadow.Devices;
 using Meadow.GnssTracker.Core;
+using Meadow.GnssTracker.Core.Contracts;
 using Meadow.Logging;
 
 namespace Demo_App
@@ -11,7 +12,7 @@ namespace Demo_App
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        protected GnssTrackerHardware Hardware { get; set; }
+        protected IGnssTrackerHardware Hardware { get; set; }
         protected Logger Log { get => Resolver.Log; }
         protected MainTrackerController MainController { get; set; }
 
@@ -20,7 +21,7 @@ namespace Demo_App
             Log.Info("Initialize hardware...");
 
             //==== Bring up the hardware
-            Hardware = new GnssTrackerHardware(Device);
+            Hardware = new GnssTrackerV1Hardware(Device);
 
             //==== Bring up all the controllers
             //---- Database
@@ -28,7 +29,7 @@ namespace Demo_App
             catch (Exception e) { Log.Info($"Err bringing up database: {e.Message}"); }
 
             //---- Display Controller
-            DisplayController.Initialize(Hardware.EPaperDisplay);
+            DisplayController.Initialize(Hardware.Display);
 
             //---- GNSS Controller
             GnssController.Initialize(Hardware.Gnss);

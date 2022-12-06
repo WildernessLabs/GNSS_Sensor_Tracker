@@ -14,17 +14,17 @@ namespace Demo_App.Controllers
     public static class DisplayController
     {
         private static Logger Log { get => Resolver.Log; }
-        private static Ssd1680 ePaperDisplay { get; set; }
+        private static IGraphicsDisplay Display { get; set; }
         private static MicroGraphics canvas { get; set; }
         private static bool Rendering { get; set; }
         private static AtmosphericModel? CurrentAtmosphericConditions { get; set; }
         private static LocationModel? CurrentPositionInfo { get; set; }
         private static object renderLock = new object();
 
-        public static void Initialize(Ssd1680 display)
+        public static void Initialize(IGraphicsDisplay display)
         {
             Log.Info("Initializing DisplayController.");
-            ePaperDisplay = display;
+            Display = display;
 
             canvas = new MicroGraphics(display)
             {
