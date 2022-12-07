@@ -21,7 +21,7 @@ namespace Demo_App
             Log.Info("Initialize hardware...");
 
             //==== Bring up the hardware
-            Hardware = new GnssTrackerV1Hardware(Device);
+            Hardware = new GnssTrackerV1Hardware();
 
             //==== Bring up all the controllers
             //---- Database

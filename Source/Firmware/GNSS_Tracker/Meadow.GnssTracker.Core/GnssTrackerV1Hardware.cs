@@ -21,9 +21,9 @@ namespace Meadow.GnssTracker.Core
         public NeoM8 Gnss { get; protected set; }
         public IGraphicsDisplay Display { get; protected set; }
 
-        public GnssTrackerV1Hardware(F7CoreComputeV2 device)
+        public GnssTrackerV1Hardware()
         {
-            Device = device;
+            F7CoreComputeV2 device = (F7CoreComputeV2)Resolver.Device;
 
             Console.WriteLine("Initialize hardware...");
 
