@@ -6,12 +6,14 @@ using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.GnssTracker.Core.Contracts;
 using Meadow.Hardware;
+using Meadow.Logging;
 using System;
 
 namespace Meadow.GnssTracker.Core
 {
     public class GnssTrackerV1Hardware : IGnssTrackerHardware
     {
+        protected Logger Log = Resolver.Log;
         protected F7CoreComputeV2 Device { get; }
 
         public II2cBus I2cBus { get; }
@@ -23,7 +25,7 @@ namespace Meadow.GnssTracker.Core
 
         public GnssTrackerV1Hardware()
         {
-            F7CoreComputeV2 device = (F7CoreComputeV2)Resolver.Device;
+            Device = (F7CoreComputeV2)Resolver.Device;
 
             Console.WriteLine("Initialize hardware...");
 
@@ -51,7 +53,6 @@ namespace Meadow.GnssTracker.Core
                 Console.WriteLine($"Err initializing I2C Bus: {e.Message}");
             }
             
-
             //==== BME688
             Console.WriteLine("Initializing BME688");
             try
@@ -68,7 +69,7 @@ namespace Meadow.GnssTracker.Core
             Resolver.Log.Debug("Initializing GNSS");
             try
             {
-                Gnss = new NeoM8(Device, Device.SerialPortNames.Com4, device.Pins.D09, device.Pins.D11);
+                Gnss = new NeoM8(Device, Device.SerialPortNames.Com4, Device.Pins.D09, Device.Pins.D11);
                 Resolver.Log.Debug("GNSS initialized");
             }
             catch (Exception e)
