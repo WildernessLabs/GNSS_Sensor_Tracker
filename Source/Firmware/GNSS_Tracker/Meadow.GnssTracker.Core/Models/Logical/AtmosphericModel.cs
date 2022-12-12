@@ -12,10 +12,10 @@ namespace Meadow.GnssTracker.Core.Models.Logical
 
         public void Update(AtmosphericModel model)
         {
-            if (model.Timestamp is { } time) { this.Timestamp = time; }
-            if (model.Temperature is { } temp) { this.Temperature = temp; }
-            if (model.RelativeHumidity is { } humidity) { this.RelativeHumidity = humidity; }
-            if (model.Pressure is { } pressure) { this.Pressure = Pressure; }
+            if (model.Timestamp is { } time) { Timestamp = time; }
+            if (model.Temperature is { } temp) { Temperature = temp; }
+            if (model.RelativeHumidity is { } humidity) { RelativeHumidity = humidity; }
+            if (model.Pressure is { } pressure) { Pressure = pressure; }
         }
     }
 }
