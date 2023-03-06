@@ -33,7 +33,7 @@ namespace Meadow.GnssTracker.Core
             Console.WriteLine("Initializing Onboard LED");
             try
             {
-                OnboardLed = new PwmLed(device: Device, Device.Pins.D20, TypicalForwardVoltage.Green);
+                OnboardLed = new PwmLed(Device.Pins.D20, TypicalForwardVoltage.Green);
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace Meadow.GnssTracker.Core
             Resolver.Log.Debug("Initializing GNSS");
             try
             {
-                Gnss = new NeoM8(Device, Device.SerialPortNames.Com4, Device.Pins.D09, Device.Pins.D11);
+                Gnss = new NeoM8(Device, Device.PlatformOS.GetSerialPortName("COM4"), Device.Pins.D09, Device.Pins.D11);
                 Resolver.Log.Debug("GNSS initialized");
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace Meadow.GnssTracker.Core
             Console.WriteLine("Initializing ePaper Display");
             try
             {
-                Display = new Ssd1680(device: Device,
+                Display = new Ssd1680(
                     spiBus: Device.CreateSpiBus(),
                     chipSelectPin: Device.Pins.D02,
                     dcPin: Device.Pins.D03,
