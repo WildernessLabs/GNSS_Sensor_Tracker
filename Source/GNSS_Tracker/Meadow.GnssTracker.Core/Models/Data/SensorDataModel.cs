@@ -6,7 +6,6 @@ namespace Meadow.GnssTracker.Core.Models.Data
     [Table("SensorReadings")]
     public class SensorDataModel
     {
-        //==== properties
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public DateTime Timestamp { get; set; }
@@ -17,7 +16,6 @@ namespace Meadow.GnssTracker.Core.Models.Data
         public string? Longitude { get; set; }
         //public string? Altitude { get; set; }
 
-        //==== ctors
         public SensorDataModel() { }
 
         // From Atmospheric model

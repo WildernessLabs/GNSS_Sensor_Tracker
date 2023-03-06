@@ -1,6 +1,4 @@
-﻿using System;
-using Meadow.Peripherals.Sensors.Location;
-using Meadow.Peripherals.Sensors.Location.Gnss;
+﻿using Meadow.Peripherals.Sensors.Location.Gnss;
 
 namespace Meadow.GnssTracker.Core.Models.Logical
 {
