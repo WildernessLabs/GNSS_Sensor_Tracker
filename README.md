@@ -1,4 +1,6 @@
-# GNSS Sensor Tracker
+<img src="Design/banner.jpg" style="margin-bottom:10px" />
+
+# GNSS_Sensor_Tracker
 
 The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board intended to provide a base design accelerator for custom Meadow-based GNSS tracking solutions.
 
