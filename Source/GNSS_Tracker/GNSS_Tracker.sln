@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo_App", "Demo_App\Demo_App.csproj", "{036BDC35-77A4-465E-986D-C55E3561F1DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refs", "Refs", "{32A92B7C-9776-48EE-A2C4-9213B7E4FED3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.GnssTracker.Core", "Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj", "{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{036BDC35-77A4-465E-986D-C55E3561F1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036BDC35-77A4-465E-986D-C55E3561F1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036BDC35-77A4-465E-986D-C55E3561F1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036BDC35-77A4-465E-986D-C55E3561F1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F0B7DD0-BD16-4CB0-B369-5649BDD66664}
+	EndGlobalSection
+EndGlobal
