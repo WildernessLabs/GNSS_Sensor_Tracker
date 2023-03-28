@@ -1,9 +1,8 @@
-﻿using System;
-using Meadow;
-using Meadow.GnssTracker.Core;
+﻿using Meadow;
 using Meadow.GnssTracker.Core.Contracts;
 using Meadow.GnssTracker.Core.Models.Logical;
 using Meadow.Logging;
+using System;
 
 namespace Demo_App.Controllers
 {
@@ -73,7 +72,7 @@ namespace Demo_App.Controllers
                 if (timeOfReading.Date != DateTime.Now.Date)
                 {
                     Log.Info($"Device date is different than GPS time. Updating.");
-                    Resolver.Device.SetClock(timeOfReading);
+                    Resolver.Device.PlatformOS.SetClock(timeOfReading);
                     Log.Info($"Device time set. {DateTime.Now.ToShortDateString()}");
                 }
             }
