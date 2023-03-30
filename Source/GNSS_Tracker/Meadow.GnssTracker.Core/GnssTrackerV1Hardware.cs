@@ -25,11 +25,10 @@ namespace Meadow.GnssTracker.Core
 
         public GnssTrackerV1Hardware()
         {
-            Device = (F7CoreComputeV2)Resolver.Device;
+            Device = (F7CoreComputeV2) Resolver.Device;
 
             Console.WriteLine("Initialize hardware...");
 
-            //==== Onboard LED
             Console.WriteLine("Initializing Onboard LED");
             try
             {
@@ -41,22 +40,10 @@ namespace Meadow.GnssTracker.Core
             }
             Console.WriteLine("Onboard LED initialized");
 
-            //==== I2C Bus
-            Console.WriteLine("Initializing I2C Bus");
-            try
-            {
-                I2cBus = Device.CreateI2cBus();
-                Console.WriteLine("I2C initialized");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Err initializing I2C Bus: {e.Message}");
-            }
-            
-            //==== BME688
             Console.WriteLine("Initializing BME688");
             try
             {
+                I2cBus = Device.CreateI2cBus();
                 AtmosphericSensor = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
                 Console.WriteLine("BME688 initialized");
             }
@@ -65,7 +52,6 @@ namespace Meadow.GnssTracker.Core
                 Console.WriteLine($"Err initializing BME688: {e.Message}");
             }
 
-            //==== GNSS
             Resolver.Log.Debug("Initializing GNSS");
             try
             {
@@ -76,23 +62,11 @@ namespace Meadow.GnssTracker.Core
             {
                 Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
             }
-            
-            //==== SPI
-            Console.WriteLine("Initializing SPI Bus");
+
+            Resolver.Log.Debug("Initializing ePaper Display");
             try
             {
                 SpiBus = Device.CreateSpiBus(new Units.Frequency(48, Units.Frequency.UnitType.Kilohertz));
-                Console.WriteLine("SPI initialized");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Err initializing SPI: {e.Message}");
-            }
-
-            //==== ePaper Display
-            Console.WriteLine("Initializing ePaper Display");
-            try
-            {
                 Display = new Ssd1680(
                     spiBus: Device.CreateSpiBus(),
                     chipSelectPin: Device.Pins.D02,
@@ -101,11 +75,11 @@ namespace Meadow.GnssTracker.Core
                     busyPin: Device.Pins.D05,
                     width: 122,
                     height: 250);
-                Console.WriteLine("ePaper Display initialized");
+                Resolver.Log.Debug("ePaper Display initialized");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Err initializing ePaper Display: {e.Message}");
+                Resolver.Log.Error($"Err initializing ePaper Display: {e.Message}");
             }
         }
     }

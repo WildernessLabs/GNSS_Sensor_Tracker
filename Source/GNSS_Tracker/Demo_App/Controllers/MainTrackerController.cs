@@ -19,7 +19,7 @@ namespace Demo_App.Controllers
 
         public MainTrackerController(IGnssTrackerHardware hardware)
         {
-            this.Hardware = hardware;
+            Hardware = hardware;
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
         }
 
@@ -28,41 +28,37 @@ namespace Demo_App.Controllers
         /// </summary>
         public void Start()
         {
-            //==== start updating everything
-
-            //---- Heartbeat LED
             Hardware.OnboardLed.StartPulse();
 
-            //---- BME688 Atmo sensor
             if (Hardware.AtmosphericSensor is { } bme)
             {
                 bme.Updated += AtmosphericSensorUpdated;
-                bme.StartUpdating(TimeSpan.FromSeconds(10));
+                bme.StartUpdating(TimeSpan.FromMinutes(1));
             }
 
-            //---- GPS
             GnssController.StartUpdating();
         }
 
         void GnssPositionInfoUpdated(object sender, Meadow.Peripherals.Sensors.Location.Gnss.GnssPositionInfo result)
         {
-            // update
-            this.LastLocationInfo = new LocationModel { PositionInformation = result };
+            LastLocationInfo = new LocationModel { PositionInformation = result };
 
-            //---- Console/Debug Output
             if (result.Position is { } pos)
             {
                 if (pos.Latitude is { } lat && pos.Longitude is { } lon)
                 {
                     Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
-                    ////---- save to database
-                    //SaveConditions(this.CurrentConditions);
                 }
-                else { Log.Info("RM Position lat/long empty."); }
+                else 
+                { 
+                    Log.Info("RM Position lat/long empty."); 
+                }
             }
-            else { Log.Info("RM Position not yet found."); }
+            else 
+            { 
+                Log.Info("RM Position not yet found."); 
+            }
 
-            //---- Update system time from SPAAAAACE
             if (result.TimeOfReading is { } timeOfReading)
             {
                 //Resolver.Device.SetClock(timeOfReading);
@@ -77,7 +73,6 @@ namespace Demo_App.Controllers
                 }
             }
 
-            //---- update the display and save to the database
             DatabaseController.SaveLocationInfo(LastLocationInfo);
             DisplayController.UpdateGnssPositionInformation(LastLocationInfo);
         }
@@ -88,8 +83,11 @@ namespace Demo_App.Controllers
             Log.Info($"BME688: Relative Humidity: {result.New.Humidity:N2}%, ");
             Log.Info($"BME688: Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
 
-            //---- update CurrentConditions
-            if (LastAtmosphericConditions == null) { this.LastAtmosphericConditions = new AtmosphericModel(); }
+            if (LastAtmosphericConditions == null) 
+            { 
+                LastAtmosphericConditions = new AtmosphericModel(); 
+            }
+
             var newConditions = new AtmosphericModel
             {
                 Temperature = result.New.Temperature,
@@ -97,11 +95,10 @@ namespace Demo_App.Controllers
                 Pressure = result.New.Pressure,
                 Timestamp = DateTime.Now
             };
-            this.LastAtmosphericConditions.Update(newConditions);
+            LastAtmosphericConditions.Update(newConditions);
 
-            //---- update display and save to database
-            DatabaseController.SaveAtmosphericConditions(this.LastAtmosphericConditions);
-            DisplayController.UpdateAtmosphericConditions(this.LastAtmosphericConditions);
+            DatabaseController.SaveAtmosphericConditions(LastAtmosphericConditions);
+            DisplayController.UpdateAtmosphericConditions(LastAtmosphericConditions);
         }
     }
 }

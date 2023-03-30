@@ -20,22 +20,22 @@ namespace Demo_App
         {
             Log.Info("Initialize hardware...");
 
-            //==== Bring up the hardware
             Hardware = new GnssTrackerV1Hardware();
+            
+            try 
+            { 
+                DatabaseController.ConfigureDatabase(); 
+            }
+            catch (Exception e) 
+            { 
+                Log.Info($"Err bringing up database: {e.Message}"); 
+            }
 
-            //==== Bring up all the controllers
-            //---- Database
-            try { DatabaseController.ConfigureDatabase(); }
-            catch (Exception e) { Log.Info($"Err bringing up database: {e.Message}"); }
-
-            //---- Display Controller
             DisplayController.Initialize(Hardware.Display);
 
-            //---- GNSS Controller
             GnssController.Initialize(Hardware.Gnss);
 
-            //---- Main Tracker Controller (ties everything together)
-            this.MainController = new MainTrackerController(Hardware);
+            MainController = new MainTrackerController(Hardware);
 
             return base.Initialize();
         }
@@ -44,8 +44,7 @@ namespace Demo_App
         {
             Resolver.Log.Info("Running");
 
-            //---- start the engines
-            this.MainController.Start();
+            MainController.Start();
 
             return base.Run();
         }

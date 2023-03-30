@@ -1,8 +1,6 @@
-﻿using System;
-using Meadow;
+﻿using Meadow;
 using SQLite;
 using System.IO;
-using Meadow.GnssTracker.Core.Models;
 using Meadow.Logging;
 using Meadow.GnssTracker.Core.Models.Data;
 using Meadow.GnssTracker.Core.Models.Logical;
@@ -16,8 +14,6 @@ namespace Demo_App.Controllers
 
         public static void ConfigureDatabase()
         {
-            Console.WriteLine("Bringing up database.");
-
             // by default, SQLite runs in `Serialized` mode, which is thread safe.
             // if you need to change the threading mode, you can do it with the
             // following API
@@ -31,12 +27,8 @@ namespace Demo_App.Controllers
             File.Delete(databasePath);
             Log?.Info("Deleted.");
 
-            // make the connection
             Database = new SQLiteConnection(databasePath);
-            // add table(s)
             Database.CreateTable<SensorDataModel>();
-
-            Console.WriteLine("Database up!");
         }
 
         /// <summary>
@@ -45,33 +37,34 @@ namespace Demo_App.Controllers
         /// <param name="conditions"></param>
         public static void SaveAtmosphericConditions(AtmosphericModel conditions)
         {
-            SensorDataModel dataModel = SensorDataModel.From(conditions);
+            var dataModel = SensorDataModel.From(conditions);
 
             Log.Info("Saving conditions to database.");
             Database.Insert(dataModel);
             Log.Info("Saved to database.");
 
-            RetreiveData();
+            RetrieveData();
         }
 
         public static void SaveLocationInfo(LocationModel location)
         {
-            SensorDataModel dataModel = SensorDataModel.From(location);
+            var dataModel = SensorDataModel.From(location);
 
             Log.Info("Saving location info to database.");
             Database.Insert(dataModel);
             Log.Info("Saved to database.");
 
-            RetreiveData();
+            RetrieveData();
         }
 
         /// <summary>
         /// retrieves the data from the database and reads them out to the console
         /// </summary>
-        public static void RetreiveData()
+        public static void RetrieveData()
         {
             Log.Info("Reading back the data...");
-            var rows = DatabaseController.Database.Table<SensorDataModel>();
+            var rows = Database.Table<SensorDataModel>();
+
             foreach (var r in rows)
             {
                 Log.Info($"Reading was {r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
