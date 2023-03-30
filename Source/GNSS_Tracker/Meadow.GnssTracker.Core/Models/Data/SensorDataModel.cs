@@ -14,32 +14,21 @@ namespace Meadow.GnssTracker.Core.Models.Data
         public double? PressureAtmos { get; set; }
         public string? Latitude { get; set; }
         public string? Longitude { get; set; }
-        //public string? Altitude { get; set; }
 
         public SensorDataModel() { }
 
-        // From Atmospheric model
-        public static SensorDataModel From(Logical.AtmosphericModel model)
+        public static SensorDataModel From(Logical.AtmosphericModel atmospheric, Logical.LocationModel location)
         {
             var dataModel = new SensorDataModel
             {
-                TemperatureC = model.Temperature?.Celsius,
-                RelativeHumidityPercent = model.RelativeHumidity?.Percent,
-                PressureAtmos = model.Pressure?.StandardAtmosphere,
-                Timestamp = model.Timestamp.Value,
+                TemperatureC = atmospheric.Temperature?.Celsius,
+                RelativeHumidityPercent = atmospheric.RelativeHumidity?.Percent,
+                PressureAtmos = atmospheric.Pressure?.StandardAtmosphere,
+                Timestamp = atmospheric.Timestamp.Value,
+                Latitude = $"{location.PositionInformation?.Position?.Latitude?.Degrees} {location.PositionInformation?.Position?.Latitude?.Minutes}'{location.PositionInformation?.Position?.Latitude?.seconds}\"",
+                Longitude = $"{location.PositionInformation?.Position?.Longitude?.Degrees} {location.PositionInformation?.Position?.Longitude?.Minutes}'{location.PositionInformation?.Position?.Longitude?.seconds}\"",
             };
 
-            return dataModel;
-        }
-
-        // From Location model
-        public static SensorDataModel From(Logical.LocationModel model)
-        {
-            var dataModel = new SensorDataModel
-            {
-                Latitude = $"{model.PositionInformation?.Position?.Latitude?.Degrees} {model.PositionInformation?.Position?.Latitude?.Minutes}'{model.PositionInformation?.Position?.Latitude?.seconds}\"",
-                Longitude = $"{model.PositionInformation?.Position?.Longitude?.Degrees} {model.PositionInformation?.Position?.Longitude?.Minutes}'{model.PositionInformation?.Position?.Longitude?.seconds}\"",
-            };
             return dataModel;
         }
     }

@@ -20,6 +20,10 @@ namespace Demo_App.Controllers
         public MainTrackerController(IGnssTrackerHardware hardware)
         {
             Hardware = hardware;
+
+            LastLocationInfo = new LocationModel();
+            LastAtmosphericConditions = new AtmosphericModel();
+
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
         }
 
@@ -41,7 +45,7 @@ namespace Demo_App.Controllers
 
         void GnssPositionInfoUpdated(object sender, Meadow.Peripherals.Sensors.Location.Gnss.GnssPositionInfo result)
         {
-            LastLocationInfo = new LocationModel { PositionInformation = result };
+            LastLocationInfo.PositionInformation = result;
 
             if (result.Position is { } pos)
             {
@@ -61,7 +65,6 @@ namespace Demo_App.Controllers
 
             if (result.TimeOfReading is { } timeOfReading)
             {
-                //Resolver.Device.SetClock(timeOfReading);
                 Log.Info($"UTC DateTime from GPS: {timeOfReading.ToShortDateString()} :: {timeOfReading.ToShortTimeString()}");
                 Log.Info($"Device DateTime: {DateTime.Now.ToShortDateString()} :: {DateTime.Now.ToShortTimeString()}");
 
@@ -73,8 +76,8 @@ namespace Demo_App.Controllers
                 }
             }
 
-            DatabaseController.SaveLocationInfo(LastLocationInfo);
-            DisplayController.UpdateGnssPositionInformation(LastLocationInfo);
+            //DatabaseController.SaveLocationInfo(LastLocationInfo);
+            //DisplayController.UpdateGnssPositionInformation(LastLocationInfo);
         }
 
         void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
@@ -82,11 +85,6 @@ namespace Demo_App.Controllers
             Log.Info($"BME688: Temperature: {result.New.Temperature?.Celsius:N2}C,");
             Log.Info($"BME688: Relative Humidity: {result.New.Humidity:N2}%, ");
             Log.Info($"BME688: Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
-
-            if (LastAtmosphericConditions == null) 
-            { 
-                LastAtmosphericConditions = new AtmosphericModel(); 
-            }
 
             var newConditions = new AtmosphericModel
             {
@@ -97,8 +95,8 @@ namespace Demo_App.Controllers
             };
             LastAtmosphericConditions.Update(newConditions);
 
-            DatabaseController.SaveAtmosphericConditions(LastAtmosphericConditions);
-            DisplayController.UpdateAtmosphericConditions(LastAtmosphericConditions);
+            DatabaseController.SaveAtmosphericLocations(LastAtmosphericConditions, LastLocationInfo);
+            DisplayController.UpdateDisplay(LastAtmosphericConditions, LastLocationInfo);
         }
     }
 }

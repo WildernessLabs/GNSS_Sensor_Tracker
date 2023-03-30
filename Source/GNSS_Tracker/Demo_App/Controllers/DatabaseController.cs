@@ -35,22 +35,11 @@ namespace Demo_App.Controllers
         /// Saves the atmospheric conditions to the database
         /// </summary>
         /// <param name="conditions"></param>
-        public static void SaveAtmosphericConditions(AtmosphericModel conditions)
+        public static void SaveAtmosphericLocations(AtmosphericModel conditions, LocationModel location)
         {
-            var dataModel = SensorDataModel.From(conditions);
+            var dataModel = SensorDataModel.From(conditions, location);
 
             Log.Info("Saving conditions to database.");
-            Database.Insert(dataModel);
-            Log.Info("Saved to database.");
-
-            RetrieveData();
-        }
-
-        public static void SaveLocationInfo(LocationModel location)
-        {
-            var dataModel = SensorDataModel.From(location);
-
-            Log.Info("Saving location info to database.");
             Database.Insert(dataModel);
             Log.Info("Saved to database.");
 

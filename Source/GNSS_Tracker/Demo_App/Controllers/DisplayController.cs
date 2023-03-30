@@ -12,8 +12,7 @@ namespace Demo_App.Controllers
         private static Logger Log { get => Resolver.Log; }
         private static MicroGraphics graphics { get; set; }
         private static bool Rendering { get; set; }
-        private static AtmosphericModel? CurrentAtmosphericConditions { get; set; }
-        private static LocationModel? CurrentPositionInfo { get; set; }
+
         private static object renderLock = new object();
 
         public static void Initialize(IGraphicsDisplay display)
@@ -47,19 +46,7 @@ namespace Demo_App.Controllers
             graphics.Show();
         }
 
-        public static void UpdateAtmosphericConditions(AtmosphericModel conditions)
-        {
-            CurrentAtmosphericConditions = conditions;
-            UpdateDisplay(true);
-        }
-
-        public static void UpdateGnssPositionInformation(LocationModel locationInfo)
-        {
-            CurrentPositionInfo = locationInfo;
-            UpdateDisplay(false);
-        }
-
-        static void UpdateDisplay(bool atmosphericValues)
+        public static void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
         {
             lock (renderLock)
             {
@@ -72,19 +59,15 @@ namespace Demo_App.Controllers
 
             try
             {
-                if (atmosphericValues)
-                {
-                    graphics.DrawRectangle(10, 10, 230, 60, Color.White, true);
-                    graphics.DrawText(10, 10, $"Temp: {CurrentAtmosphericConditions.Temperature?.Celsius:N1}°C/{CurrentAtmosphericConditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
-                    graphics.DrawText(10, 30, $"Humidity: {CurrentAtmosphericConditions.RelativeHumidity:N1}%", Color.Black);
-                    graphics.DrawText(10, 50, $"Pressure: {CurrentAtmosphericConditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
-                }
-                else
-                {
-                    graphics.DrawRectangle(10, 72, 230, 40, Color.White, true);
-                    graphics.DrawText(10, 72, $"Lat: {CurrentPositionInfo?.PositionInformation?.Position?.Latitude?.Degrees}°{CurrentPositionInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'{CurrentPositionInfo?.PositionInformation?.Position?.Latitude?.seconds}\"", Color.Black);
-                    graphics.DrawText(10, 92, $"Long: {CurrentPositionInfo?.PositionInformation?.Position?.Longitude?.Degrees}°{CurrentPositionInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'{CurrentPositionInfo?.PositionInformation?.Position?.Longitude?.seconds}\"", Color.Black);
-                }
+                graphics.DrawRectangle(10, 10, 230, 60, Color.White, true);
+                // graphics.DrawText(10, 10, $"Temp: {conditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
+                graphics.DrawText(10, 10, $"Temperature: {conditions.Temperature?.Celsius:N1}°C", Color.Black);
+                graphics.DrawText(10, 30, $"Humidity: {conditions.RelativeHumidity:N1}%", Color.Black);
+                graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
+                
+                graphics.DrawRectangle(10, 72, 230, 40, Color.White, true);
+                graphics.DrawText(10, 72, $"Latd: {locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"", Color.Black);
+                graphics.DrawText(10, 92, $"Long: {locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"", Color.Black);
                 
                 graphics.Show();
             }
