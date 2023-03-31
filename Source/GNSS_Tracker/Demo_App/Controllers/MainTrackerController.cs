@@ -75,9 +75,6 @@ namespace Demo_App.Controllers
                     Log.Info($"Device time set. {DateTime.Now.ToShortDateString()}");
                 }
             }
-
-            //DatabaseController.SaveLocationInfo(LastLocationInfo);
-            //DisplayController.UpdateGnssPositionInformation(LastLocationInfo);
         }
 
         void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
