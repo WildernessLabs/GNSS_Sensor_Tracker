@@ -16,7 +16,7 @@ namespace Demo_App
         protected Logger Log { get => Resolver.Log; }
         protected MainTrackerController MainController { get; set; }
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             Log.Info("Initialize hardware...");
 
@@ -33,11 +33,11 @@ namespace Demo_App
 
             DisplayController.Initialize(Hardware.Display);
 
+            await Task.Delay(TimeSpan.FromSeconds(10));
+
             GnssController.Initialize(Hardware.Gnss);
 
             MainController = new MainTrackerController(Hardware);
-
-            return base.Initialize();
         }
 
         public override Task Run()

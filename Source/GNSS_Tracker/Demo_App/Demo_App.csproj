@@ -6,11 +6,18 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="gnss_tracker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gnss_tracker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="app.config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Meadow.GnssTracker.Core\Meadow.GnssTracker.Core.csproj" />
+    <PackageReference Include="SimpleJpegDecoder" Version="*" />
   </ItemGroup>
 </Project>

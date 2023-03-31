@@ -65,14 +65,12 @@ namespace Demo_App.Controllers
 
             if (result.TimeOfReading is { } timeOfReading)
             {
-                Log.Info($"UTC DateTime from GPS: {timeOfReading.ToShortDateString()} :: {timeOfReading.ToShortTimeString()}");
-                Log.Info($"Device DateTime: {DateTime.Now.ToShortDateString()} :: {DateTime.Now.ToShortTimeString()}");
+                //Log.Info($"UTC DateTime from GPS: {timeOfReading.ToShortDateString()} :: {timeOfReading.ToShortTimeString()}");
+                //Log.Info($"Device DateTime: {DateTime.Now.ToShortDateString()} :: {DateTime.Now.ToShortTimeString()}");
 
                 if (timeOfReading.Date != DateTime.Now.Date)
                 {
-                    Log.Info($"Device date is different than GPS time. Updating.");
                     Resolver.Device.PlatformOS.SetClock(timeOfReading);
-                    Log.Info($"Device time set. {DateTime.Now.ToShortDateString()}");
                 }
             }
         }
