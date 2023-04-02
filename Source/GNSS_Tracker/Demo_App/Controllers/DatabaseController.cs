@@ -56,7 +56,7 @@ namespace Demo_App.Controllers
 
             foreach (var r in rows)
             {
-                Log.Info($"Reading was {r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
+                Log.Info($"{r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
             }
         }
     }

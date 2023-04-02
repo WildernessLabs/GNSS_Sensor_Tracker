@@ -3,6 +3,7 @@ using Meadow.GnssTracker.Core.Contracts;
 using Meadow.GnssTracker.Core.Models.Logical;
 using Meadow.Logging;
 using System;
+using Meadow.Peripherals.Sensors.Location.Gnss;
 
 namespace Demo_App.Controllers
 {
@@ -12,6 +13,8 @@ namespace Demo_App.Controllers
     /// </summary>
     public class MainTrackerController
     {
+        private TimeSpan UPDATE_INTERVAL = TimeSpan.FromSeconds(30);
+
         protected Logger Log { get => Resolver.Log; }
         protected IGnssTrackerHardware Hardware { get; set; }
         protected AtmosphericModel? LastAtmosphericConditions { get; set; }
@@ -37,13 +40,13 @@ namespace Demo_App.Controllers
             if (Hardware.AtmosphericSensor is { } bme)
             {
                 bme.Updated += AtmosphericSensorUpdated;
-                bme.StartUpdating(TimeSpan.FromMinutes(1));
+                bme.StartUpdating(UPDATE_INTERVAL);
             }
 
             GnssController.StartUpdating();
         }
 
-        void GnssPositionInfoUpdated(object sender, Meadow.Peripherals.Sensors.Location.Gnss.GnssPositionInfo result)
+        void GnssPositionInfoUpdated(object sender, GnssPositionInfo result)
         {
             LastLocationInfo.PositionInformation = result;
 

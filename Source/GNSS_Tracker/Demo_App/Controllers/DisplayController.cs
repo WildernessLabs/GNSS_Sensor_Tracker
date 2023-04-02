@@ -108,8 +108,24 @@ namespace Demo_App.Controllers
                 graphics.DrawText(10, 10, $"Temperat: {conditions.Temperature?.Celsius:N1}°C", Color.Black);
                 graphics.DrawText(10, 30, $"Humidity: {conditions.RelativeHumidity:N1}%", Color.Black);
                 graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
-                graphics.DrawText(10, 72, $"Lttd: {locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"", Color.Black);
-                graphics.DrawText(10, 92, $"Long: {locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"", Color.Black);
+
+                string latitude = locationInfo.PositionInformation == null
+                    ? $"Lttd: 0°0.00'00\""
+                    : $"Lttd: " +
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°" +
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"";
+
+                graphics.DrawText(10, 72, latitude, Color.Black);
+
+                string longitud = locationInfo.PositionInformation == null
+                    ? $"Long: 0°0.00'00\""
+                    : $"Long: " +
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°" +
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"";
+
+                graphics.DrawText(10, 92, longitud, Color.Black);
 
                 counter++;
 
