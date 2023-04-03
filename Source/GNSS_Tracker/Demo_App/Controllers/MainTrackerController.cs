@@ -13,7 +13,7 @@ namespace Demo_App.Controllers
     /// </summary>
     public class MainTrackerController
     {
-        private TimeSpan UPDATE_INTERVAL = TimeSpan.FromSeconds(30);
+        private TimeSpan UPDATE_INTERVAL = TimeSpan.FromMinutes(1);
 
         protected Logger Log { get => Resolver.Log; }
         protected IGnssTrackerHardware Hardware { get; set; }
