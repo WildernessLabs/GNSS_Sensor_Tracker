@@ -137,7 +137,7 @@ namespace Demo_App.Controllers
             }
             catch (Exception e)
             {
-                Log?.Info($"err while rendering: {e.Message}");
+                Log?.Error($"err while rendering: {e.Message}");
             }
             finally
             {

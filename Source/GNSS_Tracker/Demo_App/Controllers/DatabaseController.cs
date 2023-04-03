@@ -23,9 +23,9 @@ namespace Demo_App.Controllers
             var databasePath = Path.Combine(MeadowOS.FileSystem.DataDirectory, "SensorReadings.db");
 
             // debug only:
-            Log?.Info("Deleting old db.");
+            Log?.Debug("Deleting old db.");
             File.Delete(databasePath);
-            Log?.Info("Deleted.");
+            Log?.Debug("Deleted.");
 
             Database = new SQLiteConnection(databasePath);
             Database.CreateTable<SensorDataModel>();
@@ -39,9 +39,9 @@ namespace Demo_App.Controllers
         {
             var dataModel = SensorDataModel.From(conditions, location);
 
-            Log.Info("Saving conditions to database.");
+            Log.Debug("Saving conditions to database.");
             Database.Insert(dataModel);
-            Log.Info("Saved to database.");
+            Log.Debug("Saved to database.");
 
             RetrieveData();
         }
@@ -51,12 +51,12 @@ namespace Demo_App.Controllers
         /// </summary>
         public static void RetrieveData()
         {
-            Log.Info("Reading back the data...");
+            Log.Debug("Reading back the data...");
             var rows = Database.Table<SensorDataModel>();
 
             foreach (var r in rows)
             {
-                Log.Info($"{r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
+                Log.Debug($"{r.TemperatureC:N2}C, @ {r.Latitude}/{r.Longitude} - {r.Timestamp.ToString("HH:mm:ss")} @");
             }
         }
     }

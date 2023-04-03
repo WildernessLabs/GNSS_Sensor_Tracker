@@ -31,7 +31,7 @@ namespace Demo_App.Controllers
                 {
                     if (location.Valid)
                     {
-                        Log.Info($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
+                        Log.Debug($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
                     }
                 };
 
@@ -39,7 +39,23 @@ namespace Demo_App.Controllers
                 {
                     if (activeSatellites.SatellitesUsedForFix is { } sats)
                     {
-                        //Log.Info($"Number of active satellites: {sats.Length}");
+                        Log.Debug($"Number of active satellites: {sats.Length}");
+                    }
+                };
+
+                GnssDevice.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
+                {
+                    if (courseAndVelocity is { } cv)
+                    {
+                        Log.Debug($"{cv}");
+                    };
+                };
+
+                GnssDevice.GsvReceived += (object sender, SatellitesInView satellites) =>
+                {
+                    if (satellites is { } s)
+                    {
+                        Log.Debug($"Satellites in view: {s.Satellites.Length}");
                     }
                 };
 
@@ -50,22 +66,6 @@ namespace Demo_App.Controllers
                         LastGnssPositionInfo = positionCourseAndTime;
 
                         GnssPositionInfoUpdated(sender, positionCourseAndTime);
-                    }
-                };
-
-                GnssDevice.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
-                {
-                    if (courseAndVelocity is { } cv)
-                    {
-                        //Log.Info($"{cv}");
-                    };
-                };
-
-                GnssDevice.GsvReceived += (object sender, SatellitesInView satellites) =>
-                {
-                    if (satellites is { } s)
-                    {
-                        //Log.Info($"Satellites in view: {s.Satellites.Length}");
                     }
                 };
             }

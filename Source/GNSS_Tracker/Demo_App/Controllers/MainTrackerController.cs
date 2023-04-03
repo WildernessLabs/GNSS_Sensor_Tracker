@@ -54,16 +54,16 @@ namespace Demo_App.Controllers
             {
                 if (pos.Latitude is { } lat && pos.Longitude is { } lon)
                 {
-                    Log.Info($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
+                    Log.Debug($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
                 }
                 else 
                 { 
-                    Log.Info("RM Position lat/long empty."); 
+                    Log.Debug("RM Position lat/long empty."); 
                 }
             }
             else 
             { 
-                Log.Info("RM Position not yet found."); 
+                Log.Debug("RM Position not yet found."); 
             }
 
             if (result.TimeOfReading is { } timeOfReading)
