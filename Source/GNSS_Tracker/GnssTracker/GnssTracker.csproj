@@ -1,8 +1,20 @@
 ﻿<Project Sdk="Meadow.Sdk/1.1.0">
   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <Authors>Wilderness Labs, Inc</Authors>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyName>GnssTracker</AssemblyName>
+    <Company>Wilderness Labs, Inc</Company>
+    <PackageProjectUrl>https://github.com/WildernessLabs/GNSS_Sensor_Tracker</PackageProjectUrl>
+    <PackageId>Meadow.GnssTracker</PackageId>
+    <RepositoryUrl>https://github.com/WildernessLabs/Meadow.ProjectLab</RepositoryUrl>
+    <PackageTags>Meadow.GnssTracker, Meadow, GnssTracker</PackageTags>
+    <Version>0.96.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Convenience library for the Meadow GnssTracker family of boards</Description>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
     <PropertyGroup>
     <LangVersion>10.0</LangVersion>
