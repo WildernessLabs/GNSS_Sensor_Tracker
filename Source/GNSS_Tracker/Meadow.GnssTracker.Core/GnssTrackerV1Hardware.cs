@@ -27,34 +27,34 @@ namespace Meadow.GnssTracker.Core
         {
             Device = (F7CoreComputeV2) Resolver.Device;
 
-            Console.WriteLine("Initialize hardware...");
+            Log.Debug("Initialize hardware...");
 
-            Console.WriteLine("Initializing Onboard LED");
             try
             {
+                Log.Debug("Initializing Onboard LED");
                 OnboardLed = new PwmLed(Device.Pins.D20, TypicalForwardVoltage.Green);
+                Log.Debug("Onboard LED initialized");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Err initializing onboard LED: {e.Message}");
+                Log.Error($"Err initializing onboard LED: {e.Message}");
             }
-            Console.WriteLine("Onboard LED initialized");
-
-            Console.WriteLine("Initializing BME688");
+            
             try
             {
+                Log.Debug("Initializing BME688");
                 I2cBus = Device.CreateI2cBus();
                 AtmosphericSensor = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
-                Console.WriteLine("BME688 initialized");
+                Log.Debug("BME688 initialized");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Err initializing BME688: {e.Message}");
+                Log.Error($"Err initializing BME688: {e.Message}");
             }
 
-            Resolver.Log.Debug("Initializing GNSS");
             try
             {
+                Resolver.Log.Debug("Initializing GNSS");
                 Gnss = new NeoM8(Device, Device.PlatformOS.GetSerialPortName("COM4"), Device.Pins.D09, Device.Pins.D11);
                 Resolver.Log.Debug("GNSS initialized");
             }
@@ -62,13 +62,13 @@ namespace Meadow.GnssTracker.Core
             {
                 Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
             }
-
-            Resolver.Log.Debug("Initializing ePaper Display");
+            
             try
             {
+                Resolver.Log.Debug("Initializing ePaper Display");
                 SpiBus = Device.CreateSpiBus(new Units.Frequency(48, Units.Frequency.UnitType.Kilohertz));
                 Display = new Ssd1680(
-                    spiBus: Device.CreateSpiBus(),
+                    spiBus: SpiBus,
                     chipSelectPin: Device.Pins.D02,
                     dcPin: Device.Pins.D03,
                     resetPin: Device.Pins.D04,
