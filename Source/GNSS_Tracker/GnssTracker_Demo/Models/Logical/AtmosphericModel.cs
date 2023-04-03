@@ -1,7 +1,7 @@
-﻿using System;
-using Meadow.Units;
+﻿using Meadow.Units;
+using System;
 
-namespace Meadow.GnssTracker.Core.Models.Logical
+namespace GnssTracker_Demo.Models.Logical
 {
     public class AtmosphericModel
     {

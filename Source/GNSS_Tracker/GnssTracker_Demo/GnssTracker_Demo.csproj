@@ -1,0 +1,26 @@
+﻿<Project Sdk="Meadow.Sdk/1.1.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputType>Library</OutputType>
+    <AssemblyName>App</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="gnss_tracker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gnss_tracker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SimpleJpegDecoder" Version="*" />
+    <PackageReference Include="sqlite-net-static" Version="1.8.116" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GnssTracker\GnssTracker.csproj" />
+  </ItemGroup>
+</Project>
