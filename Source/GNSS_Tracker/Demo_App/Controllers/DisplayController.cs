@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using GnssTracker_Demo.Models.Logical;
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
-using Meadow.GnssTracker.Core.Models.Logical;
 using Meadow.Logging;
 using SimpleJpegDecoder;
 
-namespace Demo_App.Controllers
+namespace GnssTracker_Demo.Controllers
 {
     public static class DisplayController
     {
@@ -49,7 +49,7 @@ namespace Demo_App.Controllers
         private static byte[] LoadResource(string filename)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"Demo_App.{filename}";
+            var resourceName = $"GnssTracker_Demo.{filename}";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {

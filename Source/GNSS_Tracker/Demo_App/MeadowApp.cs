@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Demo_App.Controllers;
+using GnssTracker_Demo.Controllers;
 using Meadow;
 using Meadow.Devices;
-using Meadow.GnssTracker.Core;
-using Meadow.GnssTracker.Core.Contracts;
 using Meadow.Logging;
+using WildernessLabs.Hardware.GnssTracker;
 
-namespace Demo_App
+namespace GnssTracker_Demo
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7CoreComputeV2>
@@ -20,7 +19,7 @@ namespace Demo_App
         {
             Log.Info("Initialize hardware...");
 
-            Hardware = new GnssTrackerV1Hardware();
+            Hardware = GnssTracker.Create();
             
             try 
             { 

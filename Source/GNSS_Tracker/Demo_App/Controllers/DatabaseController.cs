@@ -2,10 +2,10 @@
 using SQLite;
 using System.IO;
 using Meadow.Logging;
-using Meadow.GnssTracker.Core.Models.Data;
-using Meadow.GnssTracker.Core.Models.Logical;
+using GnssTracker_Demo.Models.Data;
+using GnssTracker_Demo.Models.Logical;
 
-namespace Demo_App.Controllers
+namespace GnssTracker_Demo.Controllers
 {
     public static class DatabaseController
     {

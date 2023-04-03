@@ -1,11 +1,11 @@
 ﻿using Meadow;
-using Meadow.GnssTracker.Core.Contracts;
-using Meadow.GnssTracker.Core.Models.Logical;
 using Meadow.Logging;
 using System;
 using Meadow.Peripherals.Sensors.Location.Gnss;
+using WildernessLabs.Hardware.GnssTracker;
+using GnssTracker_Demo.Models.Logical;
 
-namespace Demo_App.Controllers
+namespace GnssTracker_Demo.Controllers
 {
     /// <summary>
     /// This is the main tracker application controller. It's responsible for
@@ -46,7 +46,7 @@ namespace Demo_App.Controllers
             GnssController.StartUpdating();
         }
 
-        void GnssPositionInfoUpdated(object sender, GnssPositionInfo result)
+        private void GnssPositionInfoUpdated(object sender, GnssPositionInfo result)
         {
             LastLocationInfo.PositionInformation = result;
 
@@ -78,7 +78,7 @@ namespace Demo_App.Controllers
             }
         }
 
-        void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
+        private void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
         {
             Log.Info($"BME688: Temperature: {result.New.Temperature?.Celsius:N2}C,");
             Log.Info($"BME688: Relative Humidity: {result.New.Humidity:N2}%, ");
