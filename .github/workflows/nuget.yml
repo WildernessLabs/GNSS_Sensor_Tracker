@@ -1,0 +1,27 @@
+name: NuGet Package Creation
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+    - "v[0-9]+.[0-9]+.[0-9]"
+
+env:
+  token: ${{ secrets.NUGET_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set VERSION variable from env.version
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      
+    - uses: ./.github/actions/build-package
+      with:
+        packageId: Meadow.GnssTracker
+        path: Source/GNSS_Tracker/GnssTracker/GnssTracker.csproj
+        version: ${VERSION}
+        token: ${{ env.token }}
