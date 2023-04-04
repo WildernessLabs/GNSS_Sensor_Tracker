@@ -9,16 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_External", "_External", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnssTracker", "GnssTracker\GnssTracker.csproj", "{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Core", "..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{680B1206-3C52-4EA0-B583-747AF072A81E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Atmospheric.Bme68x", "..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj", "{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Gnss.NeoM8", "..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.NeoM8\Driver\Sensors.Gnss.NeoM8.csproj", "{3D12AF44-9056-44BD-B36C-3F3C20C73090}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\..\Meadow.Core\source\implementations\f7\Meadow.F7\Meadow.F7.csproj", "{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.ePaper", "..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj", "{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,46 +23,9 @@ Global
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{680B1206-3C52-4EA0-B583-747AF072A81E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{680B1206-3C52-4EA0-B583-747AF072A81E} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
-		{7600E7E6-A63F-4D34-AC0C-238AA9B02EF6} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
-		{3D12AF44-9056-44BD-B36C-3F3C20C73090} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
-		{6AF8C781-B7BE-4B54-A85A-3184C563E6EA} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
-		{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1} = {32A92B7C-9776-48EE-A2C4-9213B7E4FED3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F0B7DD0-BD16-4CB0-B369-5649BDD66664}
