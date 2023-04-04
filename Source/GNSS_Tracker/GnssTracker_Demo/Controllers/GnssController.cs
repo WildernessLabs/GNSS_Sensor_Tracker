@@ -1,11 +1,10 @@
 ﻿using System;
 using Meadow;
 using Meadow.Foundation.Sensors.Gnss;
-using Meadow.GnssTracker.Core.Models;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 
-namespace Demo_App.Controllers
+namespace GnssTracker_Demo.Controllers
 {
     /// <summary>
     /// Responsible for initializing the GPS stuff and running all things GPS
@@ -28,57 +27,56 @@ namespace Demo_App.Controllers
             {
                 GnssDevice = gnss;
 
-                Resolver.Log.Debug("Starting GNSS");
-
-                // GLL
                 GnssDevice.GllReceived += (object sender, GnssPositionInfo location) =>
                 {
-                    Log.Info($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
+                    if (location.Valid)
+                    {
+                        Log.Debug($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
+                    }
                 };
-                // GSA
+
                 GnssDevice.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
                 {
                     if (activeSatellites.SatellitesUsedForFix is { } sats)
                     {
-                        Log.Info($"Number of active satellites: {sats.Length}");
+                        Log.Debug($"Number of active satellites: {sats.Length}");
                     }
                 };
-                // RMC (recommended minimum)
-                GnssDevice.RmcReceived += Gnss_RecMinimumReceived;
 
-                // VTG (course made good)
                 GnssDevice.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
                 {
-                    //Log.Info("*********************************************");
-                    //Log.Info($"{courseAndVelocity}");
-                    //Log.Info("*********************************************");
+                    if (courseAndVelocity is { } cv)
+                    {
+                        Log.Debug($"{cv}");
+                    };
                 };
-                // GSV (satellites in view)
+
                 GnssDevice.GsvReceived += (object sender, SatellitesInView satellites) =>
                 {
-                    //Log.Info($"Satellites in view: {satellites.Satellites.Length}");
+                    if (satellites is { } s)
+                    {
+                        Log.Debug($"Satellites in view: {s.Satellites.Length}");
+                    }
                 };
 
+                GnssDevice.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) =>
+                {
+                    if (positionCourseAndTime.Valid)
+                    {
+                        LastGnssPositionInfo = positionCourseAndTime;
+
+                        GnssPositionInfoUpdated(sender, positionCourseAndTime);
+                    }
+                };
             }
-        }
-
-        static void Gnss_RecMinimumReceived(object sender, GnssPositionInfo positionCourseAndTime)
-        {
-            // update the property
-            LastGnssPositionInfo = positionCourseAndTime;
-
-            // raise the event TODO: should be IChangeResult
-            GnssPositionInfoUpdated(sender, positionCourseAndTime);
         }
 
         public static void StartUpdating()
         {
-            Log?.Info("GnssController.StartUpdating()");
-
-            //---- start updating the GNSS receiver
             try
             {
-                if (GnssDevice is { } gnss) {
+                if (GnssDevice is { } gnss) 
+                {
                     GnssDevice.StartUpdating();
                 }
             }
@@ -86,7 +84,6 @@ namespace Demo_App.Controllers
             {
                 Resolver.Log.Error($"{ex.Message}");
             }
-
         }
     }
 }
