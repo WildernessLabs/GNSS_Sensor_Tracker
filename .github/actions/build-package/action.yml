@@ -1,5 +1,5 @@
 name: build-package
-description: Builds and publishes GNSS_Tracker
+description: Builds and publishes Meadow.AmqpNetLite
 
 inputs:
   packageId:
