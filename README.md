@@ -99,19 +99,20 @@ public class MeadowApp : App<F7FeatherV2>
     </tr>
 </table>
 
-You can find the schematics and other design files in the [Hardware folder](Source/Hardware).
+You can find the schematics and other design files in the [Hardware folder](Hardware/Design%20Files/).
 
 ## Video Stream Design Series
 
 This board was designed while streaming live, you can watch the videos [here](https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS).
 
-<img src="Design/gnss-playlist.png" href="https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS" style="margin-top:10px;margin-bottom:10px" />
-
+<a href="https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS">
+    <img src="Design/gnss-playlist.png" style="margin-top:10px;margin-bottom:10px" />
+</a>
 
 ### [Industrial Design](Hardware/Enclosure)
 
-The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Source/Industrial_Design/GNSS_Tracker_Enclosure.f3d).
+The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Hardware/Enclosure/GNSS_Tracker_Enclosure.f3d).
 
 ![](Design/gnss-tracker-enclosure.png)
 
-STL files for printing can be found in the [Industrial Design folder](Source/Industrial_Design).
+STL files for printing can be found in the [Industrial Design folder](Hardware/Enclosure/).
