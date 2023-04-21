@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using GnssTracker_Demo.Models.Logical;
+﻿using GnssTracker_Demo.Models.Logical;
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Logging;
 using SimpleJpegDecoder;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace GnssTracker_Demo.Controllers
 {
@@ -36,7 +36,7 @@ namespace GnssTracker_Demo.Controllers
             ShowSplashScreen();
         }
 
-        private static void ShowSplashScreen() 
+        private static void ShowSplashScreen()
         {
             graphics.Clear(Color.White);
 
@@ -105,13 +105,13 @@ namespace GnssTracker_Demo.Controllers
 
                 graphics.DrawRectangle(10, 10, 230, 102, Color.White, true);
                 // graphics.DrawText(10, 10, $"Temp: {conditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
-                graphics.DrawText(10, 10, $"Temperat: {conditions.Temperature?.Celsius:N1}°C", Color.Black);
+                graphics.DrawText(10, 10, $"Temp:     {conditions.Temperature?.Celsius:N1}°C", Color.Black);
                 graphics.DrawText(10, 30, $"Humidity: {conditions.RelativeHumidity:N1}%", Color.Black);
                 graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
 
                 string latitude = locationInfo.PositionInformation == null
-                    ? $"Lttd: 0°0.00'00\""
-                    : $"Lttd: " +
+                    ? $"Lat: 19°42'39.0\""
+                    : $"Lat: " +
                     $"{locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°" +
                     $"{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
                     $"{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"";
@@ -119,8 +119,8 @@ namespace GnssTracker_Demo.Controllers
                 graphics.DrawText(10, 72, latitude, Color.Black);
 
                 string longitud = locationInfo.PositionInformation == null
-                    ? $"Long: 0°0.00'00\""
-                    : $"Long: " +
+                    ? $"Lon: 173°45'47.9\""
+                    : $"Lon: " +
                     $"{locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°" +
                     $"{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
                     $"{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"";
