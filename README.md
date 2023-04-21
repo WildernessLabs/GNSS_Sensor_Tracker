@@ -67,7 +67,7 @@ public class MeadowApp : App<F7FeatherV2>
 
 ## Hardware Specifications
 
-<img src="Design/GnssTracker-Specs.jpg" style="margin-top:10px;margin-bottom:10px" />
+<img src="Design/gnss-tracker-specs.jpg" style="margin-top:10px;margin-bottom:10px" />
 
 <table>
     <tr>
