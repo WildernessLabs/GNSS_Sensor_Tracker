@@ -8,9 +8,8 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 * [Purchasing or Building](#purchasing-or-building)
 * [Getting Started](#getting-started)
 * [Hardware Specifications](#hardware-specifications)
-* [Pinout Diagram](#pinout-diagram)
-  * [GNSS Tracker v1.e](#project-lab-v1e)
-* [Additional Samples](#additional-samples)
+* [Video Stream Design Series](#video-design-stream-series)
+* [Industrial Enclosure Design](#industrial-enclosure-design)
 
 ## Purchasing or Building
 
@@ -28,7 +27,7 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
             You can get a Gnss Sensor Tracker fully assembled from the <a href="https://store.wildernesslabs.co/collections/frontpage/products/project-lab-board">Wilderness Labs store</a>.
         </td>
         <td> 
-            It's also designed so that it can be assembled at home for the adventurous. All design files can be found in the <a href="Source/Hardware">Hardware Design</a> folder.
+            It's also designed so that it can be assembled at home for the adventurous. All design files can be found in the <a href="Hardware/Design%20Files/">Hardware Design</a> folder.
         </td>
     </tr>
 </table>
@@ -40,7 +39,7 @@ To simplify the way to use this Meadow-powered reference IoT product, we've crea
 1. Add the ProjectLab Nuget package your project: 
     - `dotnet add package Meadow.GnssTracker`, or
     - [Meadow.GnssTracker Nuget Package](https://www.nuget.org/packages/Meadow.GnssTracker)
-    - [Explore in Fuget.org](https://www.fuget.org/packages/Meadow.ProjectLab/0.1.0/lib/netstandard2.1/ProjectLab.dll/Meadow.Devices/ProjectLab)
+    - [Explore in Fuget.org](https://www.fuget.org/packages/Meadow.GnssTracker/0.96.0/lib/netstandard2.1/GnssTracker.dll/WildernessLabs.Hardware.GnssTracker/GnssTracker?code=true)
 
 2. Instantiate the `IGnssTrackerHardware` object:  
 ```csharp
@@ -109,7 +108,7 @@ This board was designed while streaming live, you can watch the videos [here](ht
     <img src="Design/gnss-playlist.png" style="margin-top:10px;margin-bottom:10px" />
 </a>
 
-### [Industrial Design](Hardware/Enclosure)
+### [Industrial Enclosure Design](Hardware/Enclosure)
 
 The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Hardware/Enclosure/GNSS_Tracker_Enclosure.f3d).
 
