@@ -43,7 +43,7 @@ To simplify the way to use this Meadow-powered reference IoT product, we've crea
 
 2. Instantiate the `IGnssTrackerHardware` object:  
 ```csharp
-public class MeadowApp : App<F7FeatherV2>
+public class MeadowApp : App<F7CoreComputeV2>
 {
     IGnssTrackerHardware gnssTracker;
 
@@ -110,8 +110,6 @@ This board was designed while streaming live, you can watch the videos [here](ht
 
 ## Industrial Enclosure Design
 
-The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Hardware/Enclosure/).
+The enclosure was designed in Autodesk Fusion 360. The source file can be found and STL files can be found [here](Hardware/Enclosure/).
 
 ![](Design/gnss-tracker-enclosure.png)
-
-STL files for printing can be found in the [Enclosure folder](Hardware/Enclosure/).
