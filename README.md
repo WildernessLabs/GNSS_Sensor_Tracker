@@ -17,10 +17,10 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 <table width="100%">
     <tr>
         <td>
-            <img src="Design/GnssTracker-Store.jpg" />
+            <img src="Design/gnss-tracker-store.jpg" />
         </td>
         <td>
-            <img src="Design/GnssTracker-PCB.jpg" /> 
+            <img src="Design/gnss-tracker-pcb.jpg" /> 
         </td>
     </tr>
     <tr>
@@ -42,36 +42,27 @@ To simplify the way to use this Meadow-powered reference IoT product, we've crea
     - [Meadow.GnssTracker Nuget Package](https://www.nuget.org/packages/Meadow.GnssTracker)
     - [Explore in Fuget.org](https://www.fuget.org/packages/Meadow.ProjectLab/0.1.0/lib/netstandard2.1/ProjectLab.dll/Meadow.Devices/ProjectLab)
 
-2. Instantiate the `ProjectLab` class:  
+2. Instantiate the `IGnssTrackerHardware` object:  
 ```csharp
 public class MeadowApp : App<F7FeatherV2>
 {
-    IProjectLabHardware projLab;
+    IGnssTrackerHardware gnssTracker;
 
     public override Task Initialize()
     {
-        projLab = ProjectLab.Create();
+        gnssTracker = GnssTracker.Create();
         ...
 ```
 
-3. To Access the `Project Lab` onboard peripherals:
+3. To Access the `GNSS Tracker` onboard peripherals (Display, for example):
 ```csharp
-    if (projLab.EnvironmentalSensor is { } bme688)
+    if (gnssTracker.Display is { } display)
     {
-        bme688.Updated += Bme688Updated;
-        bme688.StartUpdating(TimeSpan.FromSeconds(5));
+        microGraphics = new MicroGraphics(display);
+        microGraphics.Clear();
+        microGraphics.DrawText(10, 10, "Hello World");
+        microGraphics.Show();
     }
-```
-
-4. To use an I2C peripheral (with a [Grove Character display](https://wiki.seeedstudio.com/Grove-16x2_LCD_Series) as an example):
-```csharp
-    var display = new CharacterDisplay
-    (
-        i2cBus: projLab.I2cBus,
-        address: (byte)I2cCharacterDisplay.Addresses.Grove,
-        rows: 2, columns: 16,
-        isGroveDisplay: true
-    );
 ```
 
 ## Hardware Specifications
@@ -83,47 +74,44 @@ public class MeadowApp : App<F7FeatherV2>
         <th>Onboard Peripherals</th>
     </tr>
     <tr>
-        <td><strong>ST7789</strong> - SPI 240x240 color display</li></td>
+        <td><strong>6V Solar Input</strong></td>
     </tr>
     <tr>
-        <td><strong>BMI270</strong> - I2C motion and acceleration sensor</td>
+        <td><strong>SSD1680 122x250 Adafruit E-Paper Display</strong></td>
     </tr>
     <tr>
-        <td><strong>BH1750</strong> - I2C light sensor</td>
+        <td><strong>NEO-M8 GNSS/GPS</strong></td>
     </tr>
     <tr>
-        <td><strong>BME688</strong> - I2C atmospheric sensor</td>
+        <td><strong>GNSS/GPS Antenna</strong></td>
     </tr>
     <tr>
-        <td><strong>Push Button</strong> - 4 momentary buttons</td>
+        <td><strong>Solar Power/Battery Charging Add-on Module</strong></td>
     </tr>
     <tr>
-        <td><strong>Magnetic Audio Transducer</strong> - High quality piezo speaker</td>
+        <td><strong>Meadow F7 Core-Compute Module (CCM)</strong></td>
+    </tr>
+    <tr>
+        <td><strong>USB-C, Boot, Reset Add-on Module</strong></td>
+    </tr>
+    <tr>
+        <td><strong>3.7V Lipo Rechargeable Battery</strong></td>
     </tr>
 </table>
 
 You can find the schematics and other design files in the [Hardware folder](Source/Hardware).
 
-![](Docs/GNSS_Tracker_Display.jpg)
-
-![](Docs/GPS_Tracker_Two-up.jpg)
-
-![](Docs/Board.png)
-
-## Design
+## Video Stream Design Series
 
 This board was designed while streaming live, you can watch the videos [here](https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS).
 
-### Hardware
+<img src="Design/gnss-playlist.png" href="https://www.youtube.com/watch?v=L4MavM8ilkg&list=PLoP9Fu9zn7qY4rkFJjHBhnpI8mPlw8RfS" style="margin-top:10px;margin-bottom:10px" />
 
-The hardware design can be found in the [Source/Hardware](Source/Hardware) folder.
 
-Design documentation can be found in [Docs](Docs).
-
-### [Industrial Design](Source/Industrial_Design)
-
-![](Docs/Enclosure.png)
+### [Industrial Design](Hardware/Enclosure)
 
 The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Source/Industrial_Design/GNSS_Tracker_Enclosure.f3d).
+
+![](Design/gnss-tracker-enclosure.png)
 
 STL files for printing can be found in the [Industrial Design folder](Source/Industrial_Design).
