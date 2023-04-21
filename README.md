@@ -9,8 +9,7 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 * [Getting Started](#getting-started)
 * [Hardware Specifications](#hardware-specifications)
 * [Pinout Diagram](#pinout-diagram)
-  * [Project Lab v1.e](#project-lab-v1e)
-  * [Project Lab v2.e](#project-lab-v2e)
+  * [GNSS Tracker v1.e](#project-lab-v1e)
 * [Additional Samples](#additional-samples)
 
 ## Purchasing or Building
@@ -18,10 +17,10 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 <table width="100%">
     <tr>
         <td>
-            <img src="Design/ProjectLab-Store.jpg" />
+            <img src="Design/GnssTracker-Store.jpg" />
         </td>
         <td>
-            <img src="Design/ProjectLab-PCB.jpg" /> 
+            <img src="Design/GnssTracker-PCB.jpg" /> 
         </td>
     </tr>
     <tr>
@@ -74,6 +73,36 @@ public class MeadowApp : App<F7FeatherV2>
         isGroveDisplay: true
     );
 ```
+
+## Hardware Specifications
+
+<img src="Design/GnssTracker-Specs.jpg" style="margin-top:10px;margin-bottom:10px" />
+
+<table>
+    <tr>
+        <th>Onboard Peripherals</th>
+    </tr>
+    <tr>
+        <td><strong>ST7789</strong> - SPI 240x240 color display</li></td>
+    </tr>
+    <tr>
+        <td><strong>BMI270</strong> - I2C motion and acceleration sensor</td>
+    </tr>
+    <tr>
+        <td><strong>BH1750</strong> - I2C light sensor</td>
+    </tr>
+    <tr>
+        <td><strong>BME688</strong> - I2C atmospheric sensor</td>
+    </tr>
+    <tr>
+        <td><strong>Push Button</strong> - 4 momentary buttons</td>
+    </tr>
+    <tr>
+        <td><strong>Magnetic Audio Transducer</strong> - High quality piezo speaker</td>
+    </tr>
+</table>
+
+You can find the schematics and other design files in the [Hardware folder](Source/Hardware).
 
 ![](Docs/GNSS_Tracker_Display.jpg)
 
