@@ -8,7 +8,7 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
 * [Purchasing or Building](#purchasing-or-building)
 * [Getting Started](#getting-started)
 * [Hardware Specifications](#hardware-specifications)
-* [Video Stream Design Series](#video-design-stream-series)
+* [Video Stream Design Series](#video-stream-design-series)
 * [Industrial Enclosure Design](#industrial-enclosure-design)
 
 ## Purchasing or Building
@@ -24,7 +24,7 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
     </tr>
     <tr>
         <td>
-            You can get a Gnss Sensor Tracker fully assembled from the <a href="https://store.wildernesslabs.co/collections/frontpage/products/project-lab-board">Wilderness Labs store</a>.
+            You can get a Gnss Sensor Tracker fully assembled from the <strong>Wilderness Labs store</strong>.
         </td>
         <td> 
             It's also designed so that it can be assembled at home for the adventurous. All design files can be found in the <a href="Hardware/Design%20Files/">Hardware Design</a> folder.
@@ -108,10 +108,10 @@ This board was designed while streaming live, you can watch the videos [here](ht
     <img src="Design/gnss-playlist.png" style="margin-top:10px;margin-bottom:10px" />
 </a>
 
-### [Industrial Enclosure Design](Hardware/Enclosure)
+## Industrial Enclosure Design
 
-The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Hardware/Enclosure/GNSS_Tracker_Enclosure.f3d).
+The enclosure was designed in Autodesk Fusion 360 the source file can be found [here](Hardware/Enclosure/).
 
 ![](Design/gnss-tracker-enclosure.png)
 
-STL files for printing can be found in the [Industrial Design folder](Hardware/Enclosure/).
+STL files for printing can be found in the [Enclosure folder](Hardware/Enclosure/).
