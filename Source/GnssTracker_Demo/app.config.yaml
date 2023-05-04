@@ -1,6 +1,6 @@
 ﻿Logging:
   LogLevel:
-    Default: Info
+    Default: Information
 Lifecycle:
   RestartOnAppFailure: false
 MonoControl:

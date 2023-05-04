@@ -1,5 +1,4 @@
 ﻿using Meadow;
-using Meadow.Units;
 using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
@@ -7,6 +6,7 @@ using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Logging;
+using Meadow.Units;
 using System;
 
 namespace WildernessLabs.Hardware.GnssTracker
@@ -41,7 +41,7 @@ namespace WildernessLabs.Hardware.GnssTracker
             {
                 Log.Error($"Err initializing onboard LED: {e.Message}");
             }
-            
+
             try
             {
                 Log.Debug("Initializing BME688");
@@ -68,16 +68,16 @@ namespace WildernessLabs.Hardware.GnssTracker
             {
                 Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
             }
-            
+
             try
             {
                 Resolver.Log.Debug("Initializing ePaper Display");
 
                 var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
                 SpiBus = Device.CreateSpiBus(
-                    Device.Pins.SCK, 
+                    Device.Pins.SCK,
                     Device.Pins.COPI,
-                    Device.Pins.CIPO, 
+                    Device.Pins.CIPO,
                     config);
                 Display = new Ssd1680(
                     spiBus: SpiBus,

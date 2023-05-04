@@ -110,7 +110,7 @@ namespace GnssTracker_Demo.Controllers
                 graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
 
                 string latitude = locationInfo.PositionInformation == null
-                    ? $"Lat: 19°42'39.0\""
+                    ? $"Lat: 0°0'0.0\""
                     : $"Lat: " +
                     $"{locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°" +
                     $"{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
@@ -119,7 +119,7 @@ namespace GnssTracker_Demo.Controllers
                 graphics.DrawText(10, 72, latitude, Color.Black);
 
                 string longitud = locationInfo.PositionInformation == null
-                    ? $"Lon: 173°45'47.9\""
+                    ? $"Lon: 0°0'0.0\""
                     : $"Lon: " +
                     $"{locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°" +
                     $"{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
