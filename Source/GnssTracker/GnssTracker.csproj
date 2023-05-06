@@ -1,4 +1,4 @@
-﻿<Project Sdk="Meadow.Sdk/1.1.0">
+<Project Sdk="Meadow.Sdk/1.1.0">
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageIcon>icon.png</PackageIcon>
@@ -23,11 +23,11 @@
     <None Include="icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.Core\source\implementations\f7\Meadow.F7\Meadow.F7.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.NeoM8\Driver\Sensors.Gnss.NeoM8.csproj" />
+    <PackageReference Include="Meadow.F7" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Displays.ePaper" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Gnss.NeoM8" Version="0.*" />
   </ItemGroup>
   <!--<ItemGroup>
     <PackageReference Include="Meadow.F7" Version="0.*" />
