@@ -1,9 +1,9 @@
-﻿using Meadow;
+﻿using GnssTracker_Demo.Models.Logical;
+using Meadow;
 using Meadow.Logging;
-using System;
 using Meadow.Peripherals.Sensors.Location.Gnss;
+using System;
 using WildernessLabs.Hardware.GnssTracker;
-using GnssTracker_Demo.Models.Logical;
 
 namespace GnssTracker_Demo.Controllers
 {
@@ -56,14 +56,14 @@ namespace GnssTracker_Demo.Controllers
                 {
                     Log.Debug($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
                 }
-                else 
-                { 
-                    Log.Debug("RM Position lat/long empty."); 
+                else
+                {
+                    Log.Debug("RM Position lat/long empty.");
                 }
             }
-            else 
-            { 
-                Log.Debug("RM Position not yet found."); 
+            else
+            {
+                Log.Debug("RM Position not yet found.");
             }
 
             if (result.TimeOfReading is { } timeOfReading)
@@ -80,9 +80,9 @@ namespace GnssTracker_Demo.Controllers
 
         private void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
         {
-            Log.Info($"BME688: Temperature: {result.New.Temperature?.Celsius:N2}C,");
-            Log.Info($"BME688: Relative Humidity: {result.New.Humidity:N2}%, ");
-            Log.Info($"BME688: Pressure: {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
+            Log.Info($"BME688 - Temperature: {result.New.Temperature?.Celsius:N2}C,");
+            Log.Info($"BME688 - Humidity:    {result.New.Humidity:N2}%, ");
+            Log.Info($"BME688 - Pressure:    {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
 
             var newConditions = new AtmosphericModel
             {
