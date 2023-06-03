@@ -1,8 +1,8 @@
-﻿using System;
-using Meadow;
+﻿using Meadow;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
+using System;
 
 namespace GnssTracker_Demo.Controllers
 {
@@ -27,42 +27,44 @@ namespace GnssTracker_Demo.Controllers
             {
                 GnssDevice = gnss;
 
-                GnssDevice.GllReceived += (object sender, GnssPositionInfo location) =>
-                {
-                    if (location.Valid)
-                    {
-                        Log.Debug($"GNSS Position: lat: [{location.Position.Latitude}], long: [{location.Position.Longitude}]");
-                    }
-                };
+                //GnssDevice.GllReceived += (object sender, GnssPositionInfo location) =>
+                //{
+                //    if (location.Valid)
+                //    {
+                //        Log.Debug($"GNSS   - Position:    LAT: [{location.Position.Latitude}], LON: [{location.Position.Longitude}]");
+                //    }
+                //};
 
-                GnssDevice.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
-                {
-                    if (activeSatellites.SatellitesUsedForFix is { } sats)
-                    {
-                        Log.Debug($"Number of active satellites: {sats.Length}");
-                    }
-                };
+                //GnssDevice.GsaReceived += (object sender, ActiveSatellites activeSatellites) =>
+                //{
+                //    if (activeSatellites.SatellitesUsedForFix is { } sats)
+                //    {
+                //        Log.Debug($"GNSS   - Number of active satellites: {sats.Length}");
+                //    }
+                //};
 
-                GnssDevice.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
-                {
-                    if (courseAndVelocity is { } cv)
-                    {
-                        Log.Debug($"{cv}");
-                    };
-                };
+                //GnssDevice.VtgReceived += (object sender, CourseOverGround courseAndVelocity) =>
+                //{
+                //    if (courseAndVelocity is { } cv)
+                //    {
+                //        Log.Debug($"GNSS   - {cv}");
+                //    };
+                //};
 
-                GnssDevice.GsvReceived += (object sender, SatellitesInView satellites) =>
-                {
-                    if (satellites is { } s)
-                    {
-                        Log.Debug($"Satellites in view: {s.Satellites.Length}");
-                    }
-                };
+                //GnssDevice.GsvReceived += (object sender, SatellitesInView satellites) =>
+                //{
+                //    if (satellites is { } s)
+                //    {
+                //        Log.Debug($"GNSS   - Satellites in view: {s.Satellites.Length}");
+                //    }
+                //};
 
                 GnssDevice.RmcReceived += (object sender, GnssPositionInfo positionCourseAndTime) =>
                 {
                     if (positionCourseAndTime.Valid)
                     {
+                        Log.Debug($"GNSS   - Position:    LAT: [{positionCourseAndTime.Position.Latitude}], LON: [{positionCourseAndTime.Position.Longitude}]");
+
                         LastGnssPositionInfo = positionCourseAndTime;
 
                         GnssPositionInfoUpdated(sender, positionCourseAndTime);
@@ -75,7 +77,7 @@ namespace GnssTracker_Demo.Controllers
         {
             try
             {
-                if (GnssDevice is { } gnss) 
+                if (GnssDevice is { } gnss)
                 {
                     GnssDevice.StartUpdating();
                 }
