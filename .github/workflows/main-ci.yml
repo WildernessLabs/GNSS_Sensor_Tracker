@@ -16,7 +16,7 @@ jobs:
     - name: Checkout GNSS_Sensor_Tracker
       uses: actions/checkout@v3
       with:
-        path: Clima
+        path: GNSS_Sensor_Tracker
         ref: main
         
     - name: Setup .NET SDK
