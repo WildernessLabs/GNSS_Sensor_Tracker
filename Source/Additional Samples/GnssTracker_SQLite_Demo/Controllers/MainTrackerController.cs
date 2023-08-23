@@ -1,11 +1,11 @@
-﻿using GnssTracker_Demo.Models.Logical;
+﻿using GnssTracker_SQLite_Demo.Models.Logical;
 using Meadow;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
 using WildernessLabs.Hardware.GnssTracker;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     /// <summary>
     /// This is the main tracker application controller. It's responsible for

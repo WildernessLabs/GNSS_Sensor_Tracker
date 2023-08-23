@@ -1,0 +1,7 @@
+﻿Logging:
+  LogLevel:
+    Default: Information
+Lifecycle:
+  RestartOnAppFailure: false
+MonoControl:
+  Options: --jit

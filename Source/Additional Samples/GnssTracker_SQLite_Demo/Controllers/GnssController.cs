@@ -4,7 +4,7 @@ using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     /// <summary>
     /// Responsible for initializing the GPS stuff and running all things GPS

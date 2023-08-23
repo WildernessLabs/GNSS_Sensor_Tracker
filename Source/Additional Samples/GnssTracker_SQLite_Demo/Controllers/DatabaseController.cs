@@ -1,11 +1,11 @@
-﻿using Meadow;
+﻿using GnssTracker_SQLite_Demo.Models.Data;
+using GnssTracker_SQLite_Demo.Models.Logical;
+using Meadow;
+using Meadow.Logging;
 using SQLite;
 using System.IO;
-using Meadow.Logging;
-using GnssTracker_Demo.Models.Data;
-using GnssTracker_Demo.Models.Logical;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     public static class DatabaseController
     {

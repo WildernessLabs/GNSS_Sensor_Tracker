@@ -1,15 +1,14 @@
-﻿using Meadow;
+﻿using GnssTracker_SQLite_Demo.Models.Logical;
+using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Logging;
-using Meadow.Peripherals.Sensors.Location.Gnss;
-using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
 using System.Reflection;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     public static class DisplayController
     {
@@ -50,7 +49,7 @@ namespace GnssTracker_Demo.Controllers
         private static byte[] LoadResource(string filename)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"GnssTracker_Demo.{filename}";
+            var resourceName = $"GnssTracker_SQLite_Demo.{filename}";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -89,7 +88,7 @@ namespace GnssTracker_Demo.Controllers
             }
         }
 
-        public static void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
+        public static void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
         {
             lock (renderLock)
             {
@@ -107,24 +106,24 @@ namespace GnssTracker_Demo.Controllers
                 graphics.DrawRectangle(10, 10, 230, 102, Color.White, true);
                 // graphics.DrawText(10, 10, $"Temp: {conditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
                 graphics.DrawText(10, 10, $"Temp:     {conditions.Temperature?.Celsius:N1}°C", Color.Black);
-                graphics.DrawText(10, 30, $"Humidity: {conditions.Humidity:N1}%", Color.Black);
+                graphics.DrawText(10, 30, $"Humidity: {conditions.RelativeHumidity:N1}%", Color.Black);
                 graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
 
-                string latitude = locationInfo == null
+                string latitude = locationInfo.PositionInformation == null
                     ? $"Lat: 0°0'0.0\""
                     : $"Lat: " +
-                    $"{locationInfo?.Position?.Latitude?.Degrees}°" +
-                    $"{locationInfo?.Position?.Latitude?.Minutes:n2}'" +
-                    $"{locationInfo?.Position?.Latitude?.seconds}\"";
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°" +
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
+                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"";
 
                 graphics.DrawText(10, 72, latitude, Color.Black);
 
-                string longitud = locationInfo == null
+                string longitud = locationInfo.PositionInformation == null
                     ? $"Lon: 0°0'0.0\""
                     : $"Lon: " +
-                    $"{locationInfo?.Position?.Longitude?.Degrees}°" +
-                    $"{locationInfo?.Position?.Longitude?.Minutes:n2}'" +
-                    $"{locationInfo?.Position?.Longitude?.seconds}\"";
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°" +
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
+                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"";
 
                 graphics.DrawText(10, 92, longitud, Color.Black);
 
