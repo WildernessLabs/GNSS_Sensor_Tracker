@@ -11,7 +11,6 @@ namespace GnssTracker_Demo
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
-
         GnssPositionInfo? _positionInfo;
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
