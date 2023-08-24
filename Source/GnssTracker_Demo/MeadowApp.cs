@@ -14,6 +14,8 @@ namespace GnssTracker_Demo
         GnssPositionInfo? _positionInfo;
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
+        protected DisplayController DisplayController { get; set; }
+
         public override Task Initialize()
         {
             Resolver.Log.Info("Initialize hardware...");
@@ -38,7 +40,7 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.Display is { } display)
             {
-                DisplayController.Initialize(display);
+                DisplayController = new DisplayController(display);
             }
 
             if (gnssTracker.OnboardLed is { } onboardLed)
