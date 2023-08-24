@@ -16,7 +16,7 @@ namespace GnssTracker_Demo
 
         protected DisplayController DisplayController { get; set; }
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             Resolver.Log.Info("Initialize hardware...");
 
@@ -41,6 +41,8 @@ namespace GnssTracker_Demo
             if (gnssTracker.Display is { } display)
             {
                 DisplayController = new DisplayController(display);
+                DisplayController.ShowSplashScreen();
+                await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
             if (gnssTracker.OnboardLed is { } onboardLed)
@@ -49,8 +51,6 @@ namespace GnssTracker_Demo
             }
 
             Resolver.Log.Info("Initialization complete");
-
-            return base.Initialize();
         }
 
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
@@ -58,11 +58,6 @@ namespace GnssTracker_Demo
             Resolver.Log.Info($"BME688:        {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Pressure?.Millibar:0.#}mbar");
 
             DisplayController.UpdateDisplay(e.New, _positionInfo);
-        }
-
-        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
-        {
-            Resolver.Log.Info($"Solar Voltage: {e.New.Volts:0.#} volts");
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
@@ -82,9 +77,16 @@ namespace GnssTracker_Demo
             }
         }
 
+        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
+        {
+            Resolver.Log.Info($"Solar Voltage: {e.New.Volts:0.#} volts");
+        }
+
         public override Task Run()
         {
             Resolver.Log.Info("Run...");
+
+            DisplayController.LoadDataScreen();
 
             if (gnssTracker.AtmosphericSensor is { } bme688)
             {

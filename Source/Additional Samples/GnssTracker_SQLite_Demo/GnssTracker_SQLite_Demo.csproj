@@ -6,10 +6,10 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="gnss_tracker.jpg" />
+    <None Remove="gnss_tracker.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="gnss_tracker.jpg" />
+    <EmbeddedResource Include="gnss_tracker.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.config.yaml">
@@ -21,6 +21,7 @@
     <PackageReference Include="sqlite-net-static" Version="1.8.116" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroLayout\Driver\Graphics.MicroLayout.csproj" />
     <ProjectReference Include="..\..\GnssTracker\GnssTracker.csproj" />
   </ItemGroup>
 </Project>

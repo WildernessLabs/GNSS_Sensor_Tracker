@@ -13,12 +13,12 @@ namespace GnssTracker_Demo.Controllers
     {
         protected int counter = 0;
         protected Logger Log { get => Resolver.Log; }
-        protected DisplayScreen graphics { get; set; }
+        protected DisplayScreen DisplayScreen { get; set; }
 
-        protected Font12x20 largeFont { get; set; }
-        protected Font4x8 smallFont { get; set; }
+        protected Font12x20 LargeFont { get; set; }
+        protected Font4x8 SmallFont { get; set; }
 
-        protected DisplayLabel TempLabel { get; set; }
+        protected DisplayLabel TemperatureLabel { get; set; }
         protected DisplayLabel HumidityLabel { get; set; }
         protected DisplayLabel PressureLabel { get; set; }
         protected DisplayLabel LatitudeLabel { get; set; }
@@ -27,16 +27,13 @@ namespace GnssTracker_Demo.Controllers
 
         public DisplayController(IGraphicsDisplay display)
         {
-            largeFont = new Font12x20();
-            smallFont = new Font4x8();
+            LargeFont = new Font12x20();
+            SmallFont = new Font4x8();
 
-            graphics = new DisplayScreen(display, RotationType._270Degrees);
-
-            //ShowSplashScreen();
-            LoadDataScreen();
+            DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
         }
 
-        private void ShowSplashScreen()
+        public void ShowSplashScreen()
         {
             var image = Image.LoadFromResource("GnssTracker_Demo.gnss_tracker.bmp");
 
@@ -47,16 +44,16 @@ namespace GnssTracker_Demo.Controllers
                 VerticalAlignment = VerticalAlignment.Center,
             };
 
-            graphics.Controls.Add(displayImage);
+            DisplayScreen.Controls.Add(displayImage);
         }
 
-        private void LoadDataScreen()
+        public void LoadDataScreen()
         {
             try
             {
-                graphics.Controls.Clear();
+                DisplayScreen.Controls.Clear();
 
-                var box = new DisplayBox(0, 0, graphics.Width, graphics.Height)
+                var box = new DisplayBox(0, 0, DisplayScreen.Width, DisplayScreen.Height)
                 {
                     ForeColor = Color.White,
                     Filled = true
@@ -68,52 +65,52 @@ namespace GnssTracker_Demo.Controllers
                     Filled = false
                 };
 
-                TempLabel = new DisplayLabel(10, 10, graphics.Width - 20, largeFont.Height)
+                TemperatureLabel = new DisplayLabel(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
                 {
                     Text = $"Temp:     0.00°C",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = largeFont,
+                    Font = LargeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                HumidityLabel = new DisplayLabel(10, 30, graphics.Width - 20, largeFont.Height)
+                HumidityLabel = new DisplayLabel(10, 30, DisplayScreen.Width - 20, LargeFont.Height)
                 {
                     Text = $"Humidity: 0.00%",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = largeFont,
+                    Font = LargeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                PressureLabel = new DisplayLabel(10, 50, graphics.Width - 20, largeFont.Height)
+                PressureLabel = new DisplayLabel(10, 50, DisplayScreen.Width - 20, LargeFont.Height)
                 {
                     Text = $"Pressure: 0.00atm",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = largeFont,
+                    Font = LargeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LatitudeLabel = new DisplayLabel(10, 72, graphics.Width - 20, largeFont.Height)
+                LatitudeLabel = new DisplayLabel(10, 72, DisplayScreen.Width - 20, LargeFont.Height)
                 {
                     Text = $"Lat: 0°0'0.0\"",
                     TextColor = Color.White,
                     BackColor = Color.Red,
-                    Font = largeFont,
+                    Font = LargeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LongitudeLabel = new DisplayLabel(10, 92, graphics.Width - 20, largeFont.Height)
+                LongitudeLabel = new DisplayLabel(10, 92, DisplayScreen.Width - 20, LargeFont.Height)
                 {
                     Text = $"Lon: 0°0'0.0\"",
                     TextColor = Color.White,
                     BackColor = Color.Red,
-                    Font = largeFont,
+                    Font = LargeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
@@ -124,12 +121,12 @@ namespace GnssTracker_Demo.Controllers
                     Text = $"{counter.ToString("D4")}",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = smallFont,
+                    Font = SmallFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-                graphics.Controls.Add(box, frame, TempLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
+                DisplayScreen.Controls.Add(box, frame, TemperatureLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
             }
             catch (Exception e)
             {
@@ -139,7 +136,7 @@ namespace GnssTracker_Demo.Controllers
 
         public void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
         {
-            TempLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
+            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
             HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n2}%";
             PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
 

@@ -1,7 +1,6 @@
 ﻿using GnssTracker_SQLite_Demo.Controllers;
 using Meadow;
 using Meadow.Devices;
-using Meadow.Logging;
 using System;
 using System.Threading.Tasks;
 using WildernessLabs.Hardware.GnssTracker;
@@ -10,15 +9,13 @@ namespace GnssTracker_SQLite_Demo
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        protected IGnssTrackerHardware Hardware { get; set; }
-        protected Logger Log { get => Resolver.Log; }
         protected MainTrackerController MainController { get; set; }
 
         public override async Task Initialize()
         {
-            Log.Info("Initialize hardware...");
+            Resolver.Log.Info("Initialize hardware...");
 
-            Hardware = GnssTracker.Create();
+            var gnssTracker = GnssTracker.Create();
 
             try
             {
@@ -26,16 +23,15 @@ namespace GnssTracker_SQLite_Demo
             }
             catch (Exception e)
             {
-                Log.Info($"Err bringing up database: {e.Message}");
+                Resolver.Log.Info($"Err bringing up database: {e.Message}");
             }
 
-            DisplayController.Initialize(Hardware.Display);
+            //await Task.Delay(TimeSpan.FromSeconds(10));
 
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            GnssController.Initialize(gnssTracker.Gnss);
 
-            GnssController.Initialize(Hardware.Gnss);
-
-            MainController = new MainTrackerController(Hardware);
+            MainController = new MainTrackerController();
+            await MainController.Initialize(gnssTracker);
         }
 
         public override Task Run()

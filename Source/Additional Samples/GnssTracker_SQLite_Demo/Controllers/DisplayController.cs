@@ -2,147 +2,161 @@
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
-using SimpleJpegDecoder;
 using System;
-using System.IO;
-using System.Reflection;
 
 namespace GnssTracker_SQLite_Demo.Controllers
 {
-    public static class DisplayController
+    public class DisplayController
     {
-        private static int counter = 0;
-        private static Logger Log { get => Resolver.Log; }
-        private static MicroGraphics graphics { get; set; }
+        protected int counter = 0;
+        protected Logger Log { get => Resolver.Log; }
+        protected DisplayScreen DisplayScreen { get; set; }
 
-        private static Font12x20 largeFont { get; set; }
-        private static Font4x8 smallFont { get; set; }
+        protected Font12x20 largeFont { get; set; }
+        protected Font4x8 smallFont { get; set; }
 
-        private static bool rendering { get; set; }
-        private static object renderLock = new object();
+        protected DisplayLabel TempLabel { get; set; }
+        protected DisplayLabel HumidityLabel { get; set; }
+        protected DisplayLabel PressureLabel { get; set; }
+        protected DisplayLabel LatitudeLabel { get; set; }
+        protected DisplayLabel LongitudeLabel { get; set; }
+        protected DisplayLabel CounterLabel { get; set; }
 
-        public static void Initialize(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display)
         {
             largeFont = new Font12x20();
             smallFont = new Font4x8();
 
-            graphics = new MicroGraphics(display)
+            DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
+        }
+
+        public void ShowSplashScreen()
+        {
+            var image = Image.LoadFromResource("GnssTracker_SQLite_Demo.gnss_tracker.bmp");
+
+            var displayImage = new DisplayImage(0, 0, 250, 122, image)
             {
-                Rotation = RotationType._270Degrees,
-                Stroke = 1
+                BackColor = Color.FromHex("#23ABE3"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
             };
 
-            ShowSplashScreen();
+            DisplayScreen.Controls.Add(displayImage);
         }
 
-        private static void ShowSplashScreen()
+        public void LoadDataScreen()
         {
-            graphics.Clear(Color.White);
-
-            DrawJPG(0, 0, "gnss_tracker.jpg");
-            graphics.DrawRectangle(5, 5, 240, 112, Color.Black);
-
-            graphics.Show();
-        }
-
-        private static byte[] LoadResource(string filename)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"GnssTracker_SQLite_Demo.{filename}";
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            {
-                using (var ms = new MemoryStream())
-                {
-                    stream.CopyTo(ms);
-                    return ms.ToArray();
-                }
-            }
-        }
-
-        private static void DrawJPG(int x, int y, string filename)
-        {
-            var jpgData = LoadResource(filename);
-            var decoder = new JpegDecoder();
-            var jpg = decoder.DecodeJpeg(jpgData);
-
-            int x_offset = 0;
-            int y_offset = 0;
-            byte r, g, b;
-
-            for (int i = 0; i < jpg.Length; i += 3)
-            {
-                r = jpg[i];
-                g = jpg[i + 1];
-                b = jpg[i + 2];
-
-                graphics.DrawPixel(x + x_offset, y + y_offset, Color.FromRgb(r, g, b).Brightness < 0.85);
-
-                x_offset++;
-                if (x_offset % decoder.Width == 0)
-                {
-                    y_offset++;
-                    x_offset = 0;
-                }
-            }
-        }
-
-        public static void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
-        {
-            lock (renderLock)
-            {
-                if (rendering)
-                {
-                    return;
-                }
-                rendering = true;
-            }
-
             try
             {
-                graphics.CurrentFont = largeFont;
+                DisplayScreen.Controls.Clear();
 
-                graphics.DrawRectangle(10, 10, 230, 102, Color.White, true);
-                // graphics.DrawText(10, 10, $"Temp: {conditions.Temperature?.Fahrenheit:N1}°F", Color.Black);
-                graphics.DrawText(10, 10, $"Temp:     {conditions.Temperature?.Celsius:N1}°C", Color.Black);
-                graphics.DrawText(10, 30, $"Humidity: {conditions.RelativeHumidity:N1}%", Color.Black);
-                graphics.DrawText(10, 50, $"Pressure: {conditions.Pressure?.StandardAtmosphere:N2}atm", Color.Black);
+                var box = new DisplayBox(0, 0, DisplayScreen.Width, DisplayScreen.Height)
+                {
+                    ForeColor = Color.White,
+                    Filled = true
+                };
 
-                string latitude = locationInfo.PositionInformation == null
-                    ? $"Lat: 0°0'0.0\""
-                    : $"Lat: " +
-                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Degrees}°" +
-                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
-                    $"{locationInfo?.PositionInformation?.Position?.Latitude?.seconds}\"";
+                var frame = new DisplayBox(5, 5, 240, 112)
+                {
+                    ForeColor = Color.Black,
+                    Filled = false
+                };
 
-                graphics.DrawText(10, 72, latitude, Color.Black);
+                TempLabel = new DisplayLabel(10, 10, DisplayScreen.Width - 20, largeFont.Height)
+                {
+                    Text = $"Temp:     0.00°C",
+                    TextColor = Color.Black,
+                    BackColor = Color.White,
+                    Font = largeFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
 
-                string longitud = locationInfo.PositionInformation == null
-                    ? $"Lon: 0°0'0.0\""
-                    : $"Lon: " +
-                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Degrees}°" +
-                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
-                    $"{locationInfo?.PositionInformation?.Position?.Longitude?.seconds}\"";
+                HumidityLabel = new DisplayLabel(10, 30, DisplayScreen.Width - 20, largeFont.Height)
+                {
+                    Text = $"Humidity: 0.00%",
+                    TextColor = Color.Black,
+                    BackColor = Color.White,
+                    Font = largeFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
 
-                graphics.DrawText(10, 92, longitud, Color.Black);
+                PressureLabel = new DisplayLabel(10, 50, DisplayScreen.Width - 20, largeFont.Height)
+                {
+                    Text = $"Pressure: 0.00atm",
+                    TextColor = Color.Black,
+                    BackColor = Color.White,
+                    Font = largeFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                LatitudeLabel = new DisplayLabel(10, 72, DisplayScreen.Width - 20, largeFont.Height)
+                {
+                    Text = $"Lat: 0°0'0.0\"",
+                    TextColor = Color.White,
+                    BackColor = Color.Red,
+                    Font = largeFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                LongitudeLabel = new DisplayLabel(10, 92, DisplayScreen.Width - 20, largeFont.Height)
+                {
+                    Text = $"Lon: 0°0'0.0\"",
+                    TextColor = Color.White,
+                    BackColor = Color.Red,
+                    Font = largeFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
 
                 counter++;
+                CounterLabel = new DisplayLabel(222, 113, 20, 8)
+                {
+                    Text = $"{counter.ToString("D4")}",
+                    TextColor = Color.Black,
+                    BackColor = Color.White,
+                    Font = smallFont,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
 
-                graphics.CurrentFont = smallFont;
-                graphics.DrawRectangle(222, 113, 20, 8, Color.White, true);
-                graphics.DrawText(224, 113, $"{counter.ToString("D4")}", Color.Black);
-
-                graphics.Show();
+                DisplayScreen.Controls.Add(box, frame, TempLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
             }
             catch (Exception e)
             {
                 Log?.Error($"err while rendering: {e.Message}");
             }
-            finally
-            {
-                rendering = false;
-            }
+        }
+
+        public void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
+        {
+            TempLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
+            HumidityLabel.Text = $"Humidity: {conditions.RelativeHumidity?.Percent:n2}%";
+            PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
+
+            string lat = locationInfo.PositionInformation == null
+                ? $"Lat: 0°0'0.0\""
+                : $"Lat: " +
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.Degrees}°" +
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.seconds}\"";
+            LatitudeLabel.Text = lat;
+
+            string lon = locationInfo.PositionInformation == null
+                ? $"Lon: 0°0'0.0\""
+                : $"Lon: " +
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.Degrees}°" +
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.seconds}\"";
+            LongitudeLabel.Text = lon;
+
+            counter++;
+            CounterLabel.Text = $"{counter.ToString("D4")}";
         }
     }
 }
