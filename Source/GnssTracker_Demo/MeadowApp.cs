@@ -32,9 +32,6 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.Gnss is { } gnss)
             {
-                //gnss.GsaReceived += GnssGsaReceived;
-                //gnss.GsvReceived += GnssGsvReceived;
-                //gnss.VtgReceived += GnssVtgReceived;
                 gnss.RmcReceived += GnssRmcReceived;
                 gnss.GllReceived += GnssGllReceived;
             }

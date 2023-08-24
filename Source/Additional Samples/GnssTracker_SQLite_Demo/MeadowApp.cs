@@ -16,7 +16,7 @@ namespace GnssTracker_SQLite_Demo
 
         public override async Task Initialize()
         {
-            Log.Info("Initialize hardware..."); //1 888 684-5548
+            Log.Info("Initialize hardware...");
 
             Hardware = GnssTracker.Create();
 

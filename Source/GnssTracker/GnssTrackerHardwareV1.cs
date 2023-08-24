@@ -18,8 +18,6 @@ namespace WildernessLabs.Hardware.GnssTracker
     {
         protected Logger Log = Resolver.Log;
 
-        //protected IF7CoreComputeMeadowDevice Device { get; }
-
         /// <summary>
         /// Gets the I2C Bus
         /// </summary>
@@ -61,8 +59,6 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <param name="device"></param>
         public GnssTrackerHardwareV1(IF7CoreComputeMeadowDevice device)
         {
-            //Device = device;
-
             Log.Debug("Initialize hardware...");
 
             try
@@ -134,7 +130,7 @@ namespace WildernessLabs.Hardware.GnssTracker
             try
             {
                 Resolver.Log.Debug("Instantiating Solar Voltage Input");
-                SolarVoltageInput = device.Pins.A02.CreateAnalogInputPort(5);
+                SolarVoltageInput = device.Pins.A00.CreateAnalogInputPort(5);
                 Resolver.Log.Debug("Solar Voltage Input up");
             }
             catch (Exception ex)
