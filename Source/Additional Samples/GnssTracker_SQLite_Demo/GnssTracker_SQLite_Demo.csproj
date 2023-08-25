@@ -17,7 +17,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroLayout\Driver\Graphics.MicroLayout.csproj" />
-    <ProjectReference Include="..\GnssTracker\GnssTracker.csproj" />
+    <PackageReference Include="SimpleJpegDecoder" Version="*" />
+    <PackageReference Include="sqlite-net-static" Version="1.8.116" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroLayout\Driver\Graphics.MicroLayout.csproj" />
+    <ProjectReference Include="..\..\GnssTracker\GnssTracker.csproj" />
   </ItemGroup>
 </Project>

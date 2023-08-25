@@ -1,24 +1,16 @@
 ﻿using Meadow;
 using Meadow.Foundation.Sensors.Gnss;
-using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
-    /// <summary>
-    /// Responsible for initializing the GPS stuff and running all things GPS
-    /// </summary>
     public static class GnssController
     {
         public static event EventHandler<GnssPositionInfo> GnssPositionInfoUpdated = delegate { };
 
-        private static Logger Log { get => Resolver.Log; }
         private static NeoM8? GnssDevice { get; set; }
 
-        /// <summary>
-        /// Last Gnss Position
-        /// </summary>
         public static GnssPositionInfo? LastGnssPositionInfo { get; private set; }
 
         public static void Initialize(NeoM8 gnssDevice)
@@ -63,7 +55,7 @@ namespace GnssTracker_Demo.Controllers
                 {
                     if (positionCourseAndTime.Valid)
                     {
-                        Log.Debug($"GNSS   - Position:    LAT: [{positionCourseAndTime.Position.Latitude}], LON: [{positionCourseAndTime.Position.Longitude}]");
+                        Resolver.Log.Debug($"GNSS   - Position:    LAT: [{positionCourseAndTime.Position.Latitude}], LON: [{positionCourseAndTime.Position.Longitude}]");
 
                         LastGnssPositionInfo = positionCourseAndTime;
 

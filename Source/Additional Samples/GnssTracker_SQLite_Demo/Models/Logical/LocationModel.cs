@@ -1,6 +1,6 @@
 ﻿using Meadow.Peripherals.Sensors.Location.Gnss;
 
-namespace GnssTracker_Demo.Models.Logical
+namespace GnssTracker_SQLite_Demo.Models.Logical
 {
     public class LocationModel
     {

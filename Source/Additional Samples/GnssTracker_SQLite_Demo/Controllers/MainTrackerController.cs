@@ -1,11 +1,12 @@
-﻿using GnssTracker_Demo.Models.Logical;
+﻿using GnssTracker_SQLite_Demo.Models.Logical;
 using Meadow;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
+using System.Threading.Tasks;
 using WildernessLabs.Hardware.GnssTracker;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     /// <summary>
     /// This is the main tracker application controller. It's responsible for
@@ -15,29 +16,40 @@ namespace GnssTracker_Demo.Controllers
     {
         private TimeSpan UPDATE_INTERVAL = TimeSpan.FromMinutes(1);
 
+        protected IGnssTrackerHardware GnssTracker { get; set; }
+
         protected Logger Log { get => Resolver.Log; }
-        protected IGnssTrackerHardware Hardware { get; set; }
+
         protected AtmosphericModel? LastAtmosphericConditions { get; set; }
+
         protected LocationModel? LastLocationInfo { get; set; }
 
-        public MainTrackerController(IGnssTrackerHardware hardware)
+        protected DisplayController DisplayController { get; set; }
+
+        public MainTrackerController() { }
+
+        public async Task Initialize(IGnssTrackerHardware gnssTracker)
         {
-            Hardware = hardware;
+            GnssTracker = gnssTracker;
 
             LastLocationInfo = new LocationModel();
             LastAtmosphericConditions = new AtmosphericModel();
 
+            if (gnssTracker.Display is { } display)
+            {
+                DisplayController = new DisplayController(display);
+                DisplayController.ShowSplashScreen();
+                await Task.Delay(TimeSpan.FromSeconds(20));
+            }
+
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
         }
 
-        /// <summary>
-        /// Starts updating all the things
-        /// </summary>
         public void Start()
         {
-            Hardware.OnboardLed.StartPulse();
+            DisplayController.LoadDataScreen();
 
-            if (Hardware.AtmosphericSensor is { } bme)
+            if (GnssTracker.AtmosphericSensor is { } bme)
             {
                 bme.Updated += AtmosphericSensorUpdated;
                 bme.StartUpdating(UPDATE_INTERVAL);

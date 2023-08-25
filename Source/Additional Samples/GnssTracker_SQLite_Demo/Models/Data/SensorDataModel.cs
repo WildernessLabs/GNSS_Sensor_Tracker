@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using System;
 
-namespace GnssTracker_Demo.Models.Data
+namespace GnssTracker_SQLite_Demo.Models.Data
 {
     [Table("SensorReadings")]
     public class SensorDataModel
