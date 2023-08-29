@@ -24,7 +24,7 @@ The GNSS Sensor Tracker is an open-source, sensor-rich, GNSS/GPS tracking board 
     </tr>
     <tr>
         <td>
-            You can get a Gnss Sensor Tracker fully assembled from the <strong>Wilderness Labs store</strong>.
+            You can get a Gnss Sensor Tracker fully assembled from the <a href="https://store.wildernesslabs.co/collections/frontpage/products/gnss-sensor-tracker">Wilderness Labs store</a>.
         </td>
         <td> 
             It's also designed so that it can be assembled at home for the adventurous. All design files can be found in the <a href="Hardware/Design%20Files/">Hardware Design</a> folder.

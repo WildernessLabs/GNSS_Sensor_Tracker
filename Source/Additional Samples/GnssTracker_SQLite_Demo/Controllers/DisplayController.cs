@@ -1,13 +1,12 @@
-﻿using Meadow;
+﻿using GnssTracker_SQLite_Demo.Models.Logical;
+using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
-using Meadow.Peripherals.Sensors.Location.Gnss;
-using Meadow.Units;
 using System;
 
-namespace GnssTracker_Demo.Controllers
+namespace GnssTracker_SQLite_Demo.Controllers
 {
     public class DisplayController
     {
@@ -15,10 +14,10 @@ namespace GnssTracker_Demo.Controllers
         protected Logger Log { get => Resolver.Log; }
         protected DisplayScreen DisplayScreen { get; set; }
 
-        protected Font12x20 LargeFont { get; set; }
-        protected Font4x8 SmallFont { get; set; }
+        protected Font12x20 largeFont { get; set; }
+        protected Font4x8 smallFont { get; set; }
 
-        protected DisplayLabel TemperatureLabel { get; set; }
+        protected DisplayLabel TempLabel { get; set; }
         protected DisplayLabel HumidityLabel { get; set; }
         protected DisplayLabel PressureLabel { get; set; }
         protected DisplayLabel LatitudeLabel { get; set; }
@@ -27,15 +26,15 @@ namespace GnssTracker_Demo.Controllers
 
         public DisplayController(IGraphicsDisplay display)
         {
-            LargeFont = new Font12x20();
-            SmallFont = new Font4x8();
+            largeFont = new Font12x20();
+            smallFont = new Font4x8();
 
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
         }
 
         public void ShowSplashScreen()
         {
-            var image = Image.LoadFromResource("GnssTracker_Demo.gnss_tracker.bmp");
+            var image = Image.LoadFromResource("GnssTracker_SQLite_Demo.gnss_tracker.bmp");
 
             var displayImage = new DisplayImage(0, 0, 250, 122, image)
             {
@@ -65,52 +64,52 @@ namespace GnssTracker_Demo.Controllers
                     Filled = false
                 };
 
-                TemperatureLabel = new DisplayLabel(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
+                TempLabel = new DisplayLabel(10, 10, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Temp:     0.00°C",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = LargeFont,
+                    Font = largeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                HumidityLabel = new DisplayLabel(10, 30, DisplayScreen.Width - 20, LargeFont.Height)
+                HumidityLabel = new DisplayLabel(10, 30, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Humidity: 0.00%",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = LargeFont,
+                    Font = largeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                PressureLabel = new DisplayLabel(10, 50, DisplayScreen.Width - 20, LargeFont.Height)
+                PressureLabel = new DisplayLabel(10, 50, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Pressure: 0.00atm",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = LargeFont,
+                    Font = largeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LatitudeLabel = new DisplayLabel(10, 72, DisplayScreen.Width - 20, LargeFont.Height)
+                LatitudeLabel = new DisplayLabel(10, 72, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Lat: 0°0'0.0\"",
                     TextColor = Color.White,
                     BackColor = Color.Red,
-                    Font = LargeFont,
+                    Font = largeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LongitudeLabel = new DisplayLabel(10, 92, DisplayScreen.Width - 20, LargeFont.Height)
+                LongitudeLabel = new DisplayLabel(10, 92, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Lon: 0°0'0.0\"",
                     TextColor = Color.White,
                     BackColor = Color.Red,
-                    Font = LargeFont,
+                    Font = largeFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
@@ -121,12 +120,12 @@ namespace GnssTracker_Demo.Controllers
                     Text = $"{counter.ToString("D4")}",
                     TextColor = Color.Black,
                     BackColor = Color.White,
-                    Font = SmallFont,
+                    Font = smallFont,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-                DisplayScreen.Controls.Add(box, frame, TemperatureLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
+                DisplayScreen.Controls.Add(box, frame, TempLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
             }
             catch (Exception e)
             {
@@ -134,26 +133,26 @@ namespace GnssTracker_Demo.Controllers
             }
         }
 
-        public void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
+        public void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
         {
-            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
-            HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n2}%";
+            TempLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
+            HumidityLabel.Text = $"Humidity: {conditions.RelativeHumidity?.Percent:n2}%";
             PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
 
-            string lat = locationInfo == null
+            string lat = locationInfo.PositionInformation == null
                 ? $"Lat: 0°0'0.0\""
                 : $"Lat: " +
-                $"{locationInfo?.Position?.Latitude?.Degrees}°" +
-                $"{locationInfo?.Position?.Latitude?.Minutes:n2}'" +
-                $"{locationInfo?.Position?.Latitude?.seconds}\"";
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.Degrees}°" +
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.seconds}\"";
             LatitudeLabel.Text = lat;
 
-            string lon = locationInfo == null
+            string lon = locationInfo.PositionInformation == null
                 ? $"Lon: 0°0'0.0\""
                 : $"Lon: " +
-                $"{locationInfo?.Position?.Longitude?.Degrees}°" +
-                $"{locationInfo?.Position?.Longitude?.Minutes:n2}'" +
-                $"{locationInfo?.Position?.Longitude?.seconds}\"";
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.Degrees}°" +
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.seconds}\"";
             LongitudeLabel.Text = lon;
 
             counter++;

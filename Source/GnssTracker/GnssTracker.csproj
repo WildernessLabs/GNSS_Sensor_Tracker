@@ -15,8 +15,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Convenience library for the Meadow GnssTracker family of boards</Description>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-    <PropertyGroup>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
