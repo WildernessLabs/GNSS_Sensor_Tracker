@@ -17,12 +17,12 @@ namespace GnssTracker_SQLite_Demo.Controllers
         protected Font12x20 largeFont { get; set; }
         protected Font4x8 smallFont { get; set; }
 
-        protected DisplayLabel TempLabel { get; set; }
-        protected DisplayLabel HumidityLabel { get; set; }
-        protected DisplayLabel PressureLabel { get; set; }
-        protected DisplayLabel LatitudeLabel { get; set; }
-        protected DisplayLabel LongitudeLabel { get; set; }
-        protected DisplayLabel CounterLabel { get; set; }
+        protected Label TempLabel { get; set; }
+        protected Label HumidityLabel { get; set; }
+        protected Label PressureLabel { get; set; }
+        protected Label LatitudeLabel { get; set; }
+        protected Label LongitudeLabel { get; set; }
+        protected Label CounterLabel { get; set; }
 
         public DisplayController(IGraphicsDisplay display)
         {
@@ -36,7 +36,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
         {
             var image = Image.LoadFromResource("GnssTracker_SQLite_Demo.gnss_tracker.bmp");
 
-            var displayImage = new DisplayImage(0, 0, 250, 122, image)
+            var displayImage = new Picture(0, 0, 250, 122, image)
             {
                 BackColor = Color.FromHex("#23ABE3"),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -52,19 +52,19 @@ namespace GnssTracker_SQLite_Demo.Controllers
             {
                 DisplayScreen.Controls.Clear();
 
-                var box = new DisplayBox(0, 0, DisplayScreen.Width, DisplayScreen.Height)
+                var box = new Box(0, 0, DisplayScreen.Width, DisplayScreen.Height)
                 {
                     ForeColor = Color.White,
                     Filled = true
                 };
 
-                var frame = new DisplayBox(5, 5, 240, 112)
+                var frame = new Box(5, 5, 240, 112)
                 {
                     ForeColor = Color.Black,
                     Filled = false
                 };
 
-                TempLabel = new DisplayLabel(10, 10, DisplayScreen.Width - 20, largeFont.Height)
+                TempLabel = new Label(10, 10, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Temp:     0.00°C",
                     TextColor = Color.Black,
@@ -74,7 +74,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                HumidityLabel = new DisplayLabel(10, 30, DisplayScreen.Width - 20, largeFont.Height)
+                HumidityLabel = new Label(10, 30, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Humidity: 0.00%",
                     TextColor = Color.Black,
@@ -84,7 +84,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                PressureLabel = new DisplayLabel(10, 50, DisplayScreen.Width - 20, largeFont.Height)
+                PressureLabel = new Label(10, 50, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Pressure: 0.00atm",
                     TextColor = Color.Black,
@@ -94,7 +94,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LatitudeLabel = new DisplayLabel(10, 72, DisplayScreen.Width - 20, largeFont.Height)
+                LatitudeLabel = new Label(10, 72, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Lat: 0°0'0.0\"",
                     TextColor = Color.White,
@@ -104,7 +104,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
 
-                LongitudeLabel = new DisplayLabel(10, 92, DisplayScreen.Width - 20, largeFont.Height)
+                LongitudeLabel = new Label(10, 92, DisplayScreen.Width - 20, largeFont.Height)
                 {
                     Text = $"Lon: 0°0'0.0\"",
                     TextColor = Color.White,
@@ -115,7 +115,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 };
 
                 counter++;
-                CounterLabel = new DisplayLabel(222, 113, 20, 8)
+                CounterLabel = new Label(222, 113, 20, 8)
                 {
                     Text = $"{counter.ToString("D4")}",
                     TextColor = Color.Black,
