@@ -38,7 +38,6 @@ namespace GnssTracker_SQLite_Demo.Controllers
             if (gnssTracker.Display is { } display)
             {
                 DisplayController = new DisplayController(display);
-                DisplayController.ShowSplashScreen();
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
@@ -47,8 +46,6 @@ namespace GnssTracker_SQLite_Demo.Controllers
 
         public void Start()
         {
-            DisplayController.LoadDataScreen();
-
             if (GnssTracker.AtmosphericSensor is { } bme)
             {
                 bme.Updated += AtmosphericSensorUpdated;
