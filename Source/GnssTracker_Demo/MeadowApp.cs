@@ -41,7 +41,6 @@ namespace GnssTracker_Demo
             if (gnssTracker.Display is { } display)
             {
                 DisplayController = new DisplayController(display);
-                DisplayController.ShowSplashScreen();
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
@@ -85,8 +84,6 @@ namespace GnssTracker_Demo
         public override Task Run()
         {
             Resolver.Log.Info("Run...");
-
-            DisplayController.LoadDataScreen();
 
             if (gnssTracker.AtmosphericSensor is { } bme688)
             {
