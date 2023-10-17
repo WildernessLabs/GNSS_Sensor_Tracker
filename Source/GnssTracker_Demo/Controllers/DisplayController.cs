@@ -133,7 +133,7 @@ namespace GnssTracker_Demo.Controllers
             string lat = locationInfo == null
                 ? $"Lat: 0°0'0.0\""
                 : $"Lat: " +
-                $"{locationInfo?.Position?.Latitude?.Degrees}°" +
+                $"{locationInfo?.Position?.Latitude?.Degrees}°".PadLeft(4) +
                 $"{locationInfo?.Position?.Latitude?.Minutes:n2}'" +
                 $"{locationInfo?.Position?.Latitude?.seconds}\"";
             LatitudeLabel.Text = lat;
@@ -141,7 +141,7 @@ namespace GnssTracker_Demo.Controllers
             string lon = locationInfo == null
                 ? $"Lon: 0°0'0.0\""
                 : $"Lon: " +
-                $"{locationInfo?.Position?.Longitude?.Degrees}°" +
+                $"{locationInfo?.Position?.Longitude?.Degrees}°".PadLeft(4) +
                 $"{locationInfo?.Position?.Longitude?.Minutes:n2}'" +
                 $"{locationInfo?.Position?.Longitude?.seconds}\"";
             LongitudeLabel.Text = lon;

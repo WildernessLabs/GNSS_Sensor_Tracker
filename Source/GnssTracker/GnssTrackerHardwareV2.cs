@@ -26,9 +26,9 @@ namespace WildernessLabs.Hardware.GnssTracker
         {
             try
             {
-                Log?.Trace("Instantiating motion sensor");
-                MotionSensor = new Bmi270(I2cBus);
-                Log?.Trace("Motion sensor up");
+                Log?.Trace("Initializing BMI270");
+                MotionSensor = new Bmi270(i2cBus);
+                Log?.Trace("BMI270 Initialized");
             }
             catch (Exception ex)
             {
@@ -37,9 +37,9 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
-                Log?.Trace("Instantiating environmental sensor");
-                MotionSensor = new Bmi270(I2cBus);
-                Log?.Trace("Motion sensor up");
+                Log?.Trace("Initializing SCD40");
+                EnvironmentalSensor = new Scd40(i2cBus);
+                Log?.Trace("SCD40 Initialized");
             }
             catch (Exception ex)
             {
