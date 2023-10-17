@@ -1,6 +1,8 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 
@@ -20,6 +22,16 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// Gets the AtmosphericSensor sensor
         /// </summary>
         public Bme688? AtmosphericSensor { get; }
+
+        /// <summary>
+        /// The SCD40 environmental sensor on the Clima board
+        /// </summary>
+        public Scd40? EnvironmentalSensor { get; }
+
+        /// <summary>
+        /// The BMI270 motion sensor on the Clima board
+        /// </summary>
+        public Bmi270? MotionSensor { get; }
 
         /// <summary>
         /// Gets the Neo GNSS sensor

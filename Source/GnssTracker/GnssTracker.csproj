@@ -1,4 +1,4 @@
-<Project Sdk="Meadow.Sdk/1.1.0">
+﻿<Project Sdk="Meadow.Sdk/1.1.0">
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageIcon>icon.png</PackageIcon>
@@ -26,6 +26,8 @@
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj" />
+    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Environmental.Scd4x\Driver\Sensors.Environmental.Scd4x.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.NeoM8\Driver\Sensors.Gnss.NeoM8.csproj" />
+    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Motion.Bmi270\Driver\Sensors.Motion.Bmi270.csproj" />
   </ItemGroup>
 </Project>
