@@ -50,7 +50,8 @@ namespace WildernessLabs.Hardware.GnssTracker
             {
                 try
                 {
-                    i2cBus.Write(0x68, new byte[] { 0 });
+                    //try to write a byte to the address of the SCD40 sensor
+                    i2cBus.Write(0x62, new byte[] { 0 });
                     logger?.Info("Instantiating GnssTracker v2 hardware");
                     hardware = new GnssTrackerHardwareV2(ccm, i2cBus);
                 }
