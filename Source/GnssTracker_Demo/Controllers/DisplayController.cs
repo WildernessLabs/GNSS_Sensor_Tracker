@@ -126,8 +126,8 @@ namespace GnssTracker_Demo.Controllers
             SplashLayout.Visible = false;
             DataLayout.Visible = true;
 
-            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
-            HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n2}%";
+            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n1}°C";
+            HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n1}%";
             PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
 
             string lat = locationInfo == null
