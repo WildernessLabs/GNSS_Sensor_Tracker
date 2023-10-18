@@ -11,10 +11,10 @@ namespace WildernessLabs.Hardware.GnssTracker
     public class GnssTrackerHardwareV1 : GnssTrackerHardwareBase
     {
         /// <inheritdoc/>
-        public override Scd40? EnvironmentalSensor { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+        public override Scd40? EnvironmentalSensor { get => null; protected set => throw new System.NotImplementedException(); }
 
         /// <inheritdoc/>
-        public override Bmi270? MotionSensor { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+        public override Bmi270? MotionSensor { get => null; protected set => throw new System.NotImplementedException(); }
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object
