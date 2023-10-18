@@ -47,5 +47,20 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// Gets the Solar Voltage Input
         /// </summary>
         public IAnalogInputPort? SolarVoltageInput { get; }
+
+        /// <summary>
+        /// Gets the I2C header connector
+        /// </summary>
+        public I2cConnector I2cHeader { get; }
+
+        /// <summary>
+        /// Gets the serial header connector
+        /// </summary>
+        public UartConnector UartHeader { get; }
+
+        /// <summary>
+        /// Gets the display header connector
+        /// </summary>
+        public DisplayConnector DisplayHeader { get; }
     }
 }
