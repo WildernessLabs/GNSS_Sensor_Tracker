@@ -43,7 +43,7 @@ namespace WildernessLabs.Hardware.GnssTracker
             }
             catch (Exception ex)
             {
-                Resolver.Log.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+                Resolver.Log.Error($"Unable to create the SCD40 IMU: {ex.Message}");
             }
         }
     }
