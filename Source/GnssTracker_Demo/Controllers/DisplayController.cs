@@ -135,7 +135,7 @@ namespace GnssTracker_Demo.Controllers
                 : $"Lat: " +
                 $"{locationInfo?.Position?.Latitude?.Degrees}°" +
                 $"{locationInfo?.Position?.Latitude?.Minutes:n2}'" +
-                $"{locationInfo?.Position?.Latitude?.seconds}\"";
+                $"{locationInfo?.Position?.Latitude?.Seconds}\"";
             LatitudeLabel.Text = lat;
 
             string lon = locationInfo == null
@@ -143,7 +143,7 @@ namespace GnssTracker_Demo.Controllers
                 : $"Lon: " +
                 $"{locationInfo?.Position?.Longitude?.Degrees}°" +
                 $"{locationInfo?.Position?.Longitude?.Minutes:n2}'" +
-                $"{locationInfo?.Position?.Longitude?.seconds}\"";
+                $"{locationInfo?.Position?.Longitude?.Seconds}\"";
             LongitudeLabel.Text = lon;
 
             counter++;
