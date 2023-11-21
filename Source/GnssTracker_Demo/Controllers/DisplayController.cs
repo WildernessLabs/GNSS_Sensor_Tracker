@@ -106,7 +106,7 @@ namespace GnssTracker_Demo.Controllers
             counter++;
             CounterLabel = new Label(222, 113, 20, 8)
             {
-                Text = $"{counter.ToString("D4")}",
+                Text = $"{counter:D4}",
                 TextColor = Color.Black,
                 BackColor = Color.White,
                 Font = SmallFont,
@@ -147,7 +147,7 @@ namespace GnssTracker_Demo.Controllers
             LongitudeLabel.Text = lon;
 
             counter++;
-            CounterLabel.Text = $"{counter.ToString("D4")}";
+            CounterLabel.Text = $"{counter:D4}";
         }
     }
 }
