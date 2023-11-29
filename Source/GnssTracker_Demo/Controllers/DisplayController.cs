@@ -106,7 +106,7 @@ namespace GnssTracker_Demo.Controllers
             counter++;
             CounterLabel = new Label(222, 113, 20, 8)
             {
-                Text = $"{counter.ToString("D4")}",
+                Text = $"{counter:D4}",
                 TextColor = Color.Black,
                 BackColor = Color.White,
                 Font = SmallFont,
@@ -126,14 +126,14 @@ namespace GnssTracker_Demo.Controllers
             SplashLayout.Visible = false;
             DataLayout.Visible = true;
 
-            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
-            HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n2}%";
+            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n1}°C";
+            HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n1}%";
             PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
 
             string lat = locationInfo == null
                 ? $"Lat: 0°0'0.0\""
                 : $"Lat: " +
-                $"{locationInfo?.Position?.Latitude?.Degrees}°" +
+                $"{locationInfo?.Position?.Latitude?.Degrees}°".PadLeft(4) +
                 $"{locationInfo?.Position?.Latitude?.Minutes:n2}'" +
                 $"{locationInfo?.Position?.Latitude?.Seconds}\"";
             LatitudeLabel.Text = lat;
@@ -141,13 +141,13 @@ namespace GnssTracker_Demo.Controllers
             string lon = locationInfo == null
                 ? $"Lon: 0°0'0.0\""
                 : $"Lon: " +
-                $"{locationInfo?.Position?.Longitude?.Degrees}°" +
+                $"{locationInfo?.Position?.Longitude?.Degrees}°".PadLeft(4) +
                 $"{locationInfo?.Position?.Longitude?.Minutes:n2}'" +
                 $"{locationInfo?.Position?.Longitude?.Seconds}\"";
             LongitudeLabel.Text = lon;
 
             counter++;
-            CounterLabel.Text = $"{counter.ToString("D4")}";
+            CounterLabel.Text = $"{counter:D4}";
         }
     }
 }

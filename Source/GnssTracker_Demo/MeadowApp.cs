@@ -27,6 +27,16 @@ namespace GnssTracker_Demo
                 bme688.Updated += Bme688Updated;
             }
 
+            if (gnssTracker.EnvironmentalSensor is { } scd40)
+            {
+                scd40.Updated += Scd40_Updated;
+            }
+
+            if (gnssTracker.MotionSensor is { } bmi270)
+            {
+                bmi270.Updated += Bmi270_Updated;
+            }
+
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)
             {
                 solarVoltage.Updated += SolarVoltageUpdated;
@@ -50,6 +60,16 @@ namespace GnssTracker_Demo
             }
 
             Resolver.Log.Info("Initialization complete");
+        }
+
+        private void Bmi270_Updated(object sender, IChangeResult<(Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature)> e)
+        {
+            Resolver.Log.Info($"BMI270:        X:{e.New.Acceleration3D.Value.X.Gravity:0.0}g, Y:{e.New.Acceleration3D.Value.Y.Gravity:0.0}g, Z:{e.New.Acceleration3D.Value.Z.Gravity:0.0}g");
+        }
+
+        private void Scd40_Updated(object sender, IChangeResult<(Concentration? Concentration, Temperature? Temperature, RelativeHumidity? Humidity)> e)
+        {
+            Resolver.Log.Info($"SCD40:         {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Concentration?.PartsPerMillion:0.#}ppm");
         }
 
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
@@ -88,6 +108,16 @@ namespace GnssTracker_Demo
             if (gnssTracker.AtmosphericSensor is { } bme688)
             {
                 bme688.StartUpdating(TimeSpan.FromSeconds(30));
+            }
+
+            if (gnssTracker.EnvironmentalSensor is { } scd40)
+            {
+                scd40.StartUpdating(TimeSpan.FromSeconds(30));
+            }
+
+            if (gnssTracker.MotionSensor is { } bmi270)
+            {
+                bmi270.StartUpdating(TimeSpan.FromSeconds(30));
             }
 
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)

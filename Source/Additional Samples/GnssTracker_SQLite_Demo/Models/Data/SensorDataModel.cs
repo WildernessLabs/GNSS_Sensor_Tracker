@@ -25,8 +25,8 @@ namespace GnssTracker_SQLite_Demo.Models.Data
                 RelativeHumidityPercent = atmospheric.RelativeHumidity?.Percent,
                 PressureAtmos = atmospheric.Pressure?.StandardAtmosphere,
                 Timestamp = atmospheric.Timestamp.Value,
-                Latitude = $"{location.PositionInformation?.Position?.Latitude?.Degrees} {location.PositionInformation?.Position?.Latitude?.Minutes}'{location.PositionInformation?.Position?.Latitude?.seconds}\"",
-                Longitude = $"{location.PositionInformation?.Position?.Longitude?.Degrees} {location.PositionInformation?.Position?.Longitude?.Minutes}'{location.PositionInformation?.Position?.Longitude?.seconds}\"",
+                Latitude = $"{location.PositionInformation?.Position?.Latitude?.Degrees} {location.PositionInformation?.Position?.Latitude?.Minutes}'{location.PositionInformation?.Position?.Latitude?.Seconds}\"",
+                Longitude = $"{location.PositionInformation?.Position?.Longitude?.Degrees} {location.PositionInformation?.Position?.Longitude?.Minutes}'{location.PositionInformation?.Position?.Longitude?.Seconds}\"",
             };
 
             return dataModel;

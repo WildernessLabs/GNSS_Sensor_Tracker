@@ -1,5 +1,6 @@
-﻿using Meadow.Logging;
-using Meadow;
+﻿using Meadow;
+using Meadow.Hardware;
+using Meadow.Logging;
 using System;
 
 namespace WildernessLabs.Hardware.GnssTracker
@@ -14,7 +15,10 @@ namespace WildernessLabs.Hardware.GnssTracker
         public static IGnssTrackerHardware Create()
         {
             IGnssTrackerHardware hardware;
+
             Logger? logger = Resolver.Log;
+
+            II2cBus i2cBus;
 
             logger?.Debug("Initializing GnssTracker...");
 
@@ -27,10 +31,38 @@ namespace WildernessLabs.Hardware.GnssTracker
                 throw new Exception(msg);
             }
 
+            try
+            {
+                logger?.Debug("Initializing I2CBus");
+
+                i2cBus = Resolver.Device.CreateI2cBus();
+
+                logger?.Debug("Initializing I2CBus initialized");
+            }
+            catch (Exception e)
+            {
+                logger?.Error($"Err initializing I2CBus: {e.Message}");
+                throw;
+            }
+
+
             if (device is IF7CoreComputeMeadowDevice { } ccm)
             {
-                logger?.Info("Instantiating GnssTracker v1 hardware");
-                hardware = new GnssTrackerHardwareV1(ccm);
+                try
+                {
+                    //try to write a byte to the address of the SCD40 sensor
+                    i2cBus.Write(0x62, new byte[] { 0 });
+                    logger?.Info("Instantiating GnssTracker v2 hardware");
+                    hardware = new GnssTrackerHardwareV2(ccm, i2cBus);
+                }
+                catch
+                {
+                    logger?.Info("Instantiating GnssTracker v1 hardware");
+                    hardware = new GnssTrackerHardwareV1(ccm, i2cBus);
+                }
+
+
+
             }
             else
             {
