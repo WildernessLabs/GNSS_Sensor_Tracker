@@ -134,7 +134,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 : $"Lat: " +
                 $"{locationInfo.PositionInformation?.Position?.Latitude?.Degrees}°" +
                 $"{locationInfo.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
-                $"{locationInfo.PositionInformation?.Position?.Latitude?.seconds}\"";
+                $"{locationInfo.PositionInformation?.Position?.Latitude?.Seconds}\"";
             LatitudeLabel.Text = lat;
 
             string lon = locationInfo.PositionInformation == null
@@ -142,7 +142,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 : $"Lon: " +
                 $"{locationInfo.PositionInformation?.Position?.Longitude?.Degrees}°" +
                 $"{locationInfo.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
-                $"{locationInfo.PositionInformation?.Position?.Longitude?.seconds}\"";
+                $"{locationInfo.PositionInformation?.Position?.Longitude?.Seconds}\"";
             LongitudeLabel.Text = lon;
 
             counter++;
