@@ -51,12 +51,12 @@ namespace GnssTracker_Demo.Controllers
             var box = new Box(0, 0, DisplayScreen.Width, DisplayScreen.Height)
             {
                 ForeColor = Color.White,
-                Filled = true
+                IsFilled = true
             };
             var frame = new Box(5, 5, 240, 112)
             {
                 ForeColor = Color.Black,
-                Filled = false
+                IsFilled = false
             };
             TemperatureLabel = new Label(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
             {
@@ -118,13 +118,13 @@ namespace GnssTracker_Demo.Controllers
 
             DisplayScreen.Controls.Add(SplashLayout, DataLayout);
 
-            DataLayout.Visible = false;
+            DataLayout.IsVisible = false;
         }
 
         public void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
         {
-            SplashLayout.Visible = false;
-            DataLayout.Visible = true;
+            SplashLayout.IsVisible = false;
+            DataLayout.IsVisible = true;
 
             TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n1}°C";
             HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n1}%";
