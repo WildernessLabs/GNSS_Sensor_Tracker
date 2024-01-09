@@ -1,33 +1,33 @@
 <Project Sdk="Meadow.Sdk/1.1.0">
   <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageIcon>icon.png</PackageIcon>
+    <Version>1.7.0</Version>
+    <Company>Wilderness Labs, Inc</Company>
     <Authors>Wilderness Labs, Inc</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <PackageIcon>icon.png</PackageIcon>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyName>GnssTracker</AssemblyName>
-    <Company>Wilderness Labs, Inc</Company>
     <PackageProjectUrl>https://github.com/WildernessLabs/GNSS_Sensor_Tracker</PackageProjectUrl>
     <PackageId>Meadow.GnssTracker</PackageId>
     <RepositoryUrl>https://github.com/WildernessLabs/Meadow.ProjectLab</RepositoryUrl>
     <PackageTags>Meadow.GnssTracker, Meadow, GnssTracker</PackageTags>
-    <Version>0.96.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Convenience library for the Meadow GnssTracker family of boards</Description>
-    <Nullable>enable</Nullable>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.F7" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation.Displays.ePaper" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Environmental.Scd4x" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Gnss.NeoM8" Version="1.6.0" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Motion.Bmi270" Version="1.6.0" />
+    <PackageReference Include="Meadow.F7" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Displays.ePaper" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Environmental.Scd4x" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Gnss.NeoM8" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Motion.Bmi270" Version="1.7.0" />
   </ItemGroup>
 </Project>

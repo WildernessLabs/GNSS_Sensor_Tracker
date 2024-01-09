@@ -1,6 +1,5 @@
 ﻿using GnssTracker_SQLite_Demo.Models.Logical;
 using Meadow;
-using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
@@ -50,12 +49,12 @@ namespace GnssTracker_SQLite_Demo.Controllers
             var box = new Box(0, 0, DisplayScreen.Width, DisplayScreen.Height)
             {
                 ForeColor = Color.White,
-                Filled = true
+                IsFilled = true
             };
             var frame = new Box(5, 5, 240, 112)
             {
                 ForeColor = Color.Black,
-                Filled = false
+                IsFilled = false
             };
             TemperatureLabel = new Label(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
             {
@@ -117,13 +116,13 @@ namespace GnssTracker_SQLite_Demo.Controllers
 
             DisplayScreen.Controls.Add(SplashLayout, DataLayout);
 
-            DataLayout.Visible = false;
+            DataLayout.IsVisible = false;
         }
 
         public void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
         {
-            SplashLayout.Visible = false;
-            DataLayout.Visible = true;
+            SplashLayout.IsVisible = false;
+            DataLayout.IsVisible = true;
 
             TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
             HumidityLabel.Text = $"Humidity: {conditions.RelativeHumidity?.Percent:n2}%";
