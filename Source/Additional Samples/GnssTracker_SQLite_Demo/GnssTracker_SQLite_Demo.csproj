@@ -21,7 +21,7 @@
     <PackageReference Include="sqlite-net-static" Version="1.8.116" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.7.0" />
+    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.8.0" />
     <ProjectReference Include="..\..\GnssTracker\GnssTracker.csproj" />
   </ItemGroup>
 </Project>
