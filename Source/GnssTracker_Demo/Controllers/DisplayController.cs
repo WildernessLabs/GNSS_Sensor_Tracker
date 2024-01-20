@@ -1,5 +1,4 @@
 ﻿using Meadow;
-using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
@@ -14,7 +13,6 @@ namespace GnssTracker_Demo.Controllers
         protected Logger Log { get => Resolver.Log; }
         protected DisplayScreen DisplayScreen { get; set; }
 
-        protected AbsoluteLayout SplashLayout { get; set; }
         protected AbsoluteLayout DataLayout { get; set; }
 
         protected Font12x20 LargeFont { get; set; }
@@ -33,18 +31,6 @@ namespace GnssTracker_Demo.Controllers
             SmallFont = new Font4x8();
 
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
-
-            SplashLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height);
-
-            var image = Image.LoadFromResource("GnssTracker_Demo.gnss_tracker.bmp");
-            var displayImage = new Picture(0, 0, 250, 122, image)
-            {
-                BackColor = Color.FromHex("#23ABE3"),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-
-            SplashLayout.Controls.Add(displayImage);
 
             DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height);
 
@@ -116,16 +102,11 @@ namespace GnssTracker_Demo.Controllers
 
             DataLayout.Controls.Add(box, frame, TemperatureLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
 
-            DisplayScreen.Controls.Add(SplashLayout, DataLayout);
-
-            DataLayout.IsVisible = false;
+            DisplayScreen.Controls.Add(DataLayout);
         }
 
         public void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
         {
-            SplashLayout.IsVisible = false;
-            DataLayout.IsVisible = true;
-
             TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n1}°C";
             HumidityLabel.Text = $"Humidity: {conditions.Humidity?.Percent:n1}%";
             PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
