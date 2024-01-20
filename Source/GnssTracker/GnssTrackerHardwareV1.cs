@@ -22,7 +22,6 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <param name="device">The Meadow device</param>
         /// <param name="i2cBus">The I2C bus</param>
         public GnssTrackerHardwareV1(IF7CoreComputeMeadowDevice device, II2cBus i2cBus) : base(device, i2cBus)
-        {
-        }
+        { }
     }
 }
