@@ -4,20 +4,16 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <OutputType>Library</OutputType>
     <AssemblyName>App</AssemblyName>
+	<RootNamespace>GnssTracker_Demo</RootNamespace>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="gnss_tracker.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="gnss_tracker.bmp" />
-  </ItemGroup>
   <ItemGroup>
     <None Update="app.config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.8.0" />
+    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.8.0.1" />
     <ProjectReference Include="..\GnssTracker\GnssTracker.csproj" />
   </ItemGroup>
 </Project>
