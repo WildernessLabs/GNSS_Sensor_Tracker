@@ -11,12 +11,17 @@ namespace GnssTracker_Demo
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        GnssPositionInfo? _positionInfo;
-        protected IGnssTrackerHardware gnssTracker { get; set; }
-
         protected DisplayController DisplayController { get; set; }
 
-        public override async Task Initialize()
+        protected IGnssTrackerHardware gnssTracker { get; set; }
+
+        GnssPositionInfo lastGNSSPosition;
+        DateTime lastGNSSPositionReportTime = DateTime.MinValue;
+        readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromSeconds(15);
+
+        readonly TimeSpan sensorUpdateInterval = TimeSpan.FromSeconds(90);
+
+        public override Task Initialize()
         {
             Resolver.Log.Info("Initialize hardware...");
 
@@ -51,7 +56,6 @@ namespace GnssTracker_Demo
             if (gnssTracker.Display is { } display)
             {
                 DisplayController = new DisplayController(display);
-                await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
             if (gnssTracker.OnboardLed is { } onboardLed)
@@ -60,6 +64,8 @@ namespace GnssTracker_Demo
             }
 
             Resolver.Log.Info("Initialization complete");
+
+            return Task.CompletedTask;
         }
 
         private void Bmi270_Updated(object sender, IChangeResult<(Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature)> e)
@@ -76,15 +82,15 @@ namespace GnssTracker_Demo
         {
             Resolver.Log.Info($"BME688:        {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Pressure?.Millibar:0.#}mbar");
 
-            DisplayController.UpdateDisplay(e.New, _positionInfo);
+            DisplayController.UpdateDisplay(e.New, lastGNSSPosition);
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
         {
             if (e.Valid)
             {
-                Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
-                _positionInfo = e;
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
             }
         }
 
@@ -92,7 +98,8 @@ namespace GnssTracker_Demo
         {
             if (e.Valid)
             {
-                Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
             }
         }
 
@@ -107,22 +114,22 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.AtmosphericSensor is { } bme688)
             {
-                bme688.StartUpdating(TimeSpan.FromSeconds(30));
+                bme688.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.EnvironmentalSensor is { } scd40)
             {
-                scd40.StartUpdating(TimeSpan.FromSeconds(30));
+                scd40.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.MotionSensor is { } bmi270)
             {
-                bmi270.StartUpdating(TimeSpan.FromSeconds(30));
+                bmi270.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)
             {
-                solarVoltage.StartUpdating(TimeSpan.FromSeconds(30));
+                solarVoltage.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -130,7 +137,20 @@ namespace GnssTracker_Demo
                 gnss.StartUpdating();
             }
 
-            return base.Run();
+            return Task.CompletedTask;
+        }
+
+        private void ReportGNSSPosition(GnssPositionInfo e)
+        {
+            if (e.Valid)
+            {
+                if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
+                {
+                    Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
+
+                    lastGNSSPositionReportTime = DateTime.UtcNow;
+                }
+            }
         }
     }
 }

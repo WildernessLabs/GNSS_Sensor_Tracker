@@ -50,6 +50,7 @@ namespace WildernessLabs.Hardware.GnssTracker
 
         /// <inheritdoc/>
         public I2cConnector I2cHeader => (I2cConnector)Connectors[1]!;
+
         /// <inheritdoc/>
         public UartConnector UartHeader => (UartConnector)Connectors[0]!;
 
@@ -90,7 +91,7 @@ namespace WildernessLabs.Hardware.GnssTracker
                     new PinMapping.PinAlias(UartConnector.PinNames.RX, _device.Pins.PI9),
                     new PinMapping.PinAlias(UartConnector.PinNames.TX, _device.Pins.PH13),
                 },
-                _device.PlatformOS.GetSerialPortName("com4"));
+                _device.PlatformOS.GetSerialPortName("com4")!);
         }
 
         internal I2cConnector CreateI2cConnector()
@@ -128,7 +129,8 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <summary>
         /// Create a new GnssTrackerHardware base object
         /// </summary>
-        /// <param name="device"></param>
+        /// <param name="device">The Meadow device</param>
+        /// <param name="i2cBus">The I2C bus</param>
         public GnssTrackerHardwareBase(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
         {
             Log.Debug("Initialize hardware...");
@@ -150,6 +152,19 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
+                Resolver.Log.Debug("Initializing GNSS");
+
+                Gnss = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4")!, device.Pins.D09, device.Pins.D11);
+
+                Resolver.Log.Debug("GNSS initialized");
+            }
+            catch (Exception e)
+            {
+                Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
+            }
+
+            try
+            {
                 Log.Debug("Initializing BME688");
 
                 AtmosphericSensor = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
@@ -159,19 +174,6 @@ namespace WildernessLabs.Hardware.GnssTracker
             catch (Exception e)
             {
                 Log.Error($"Err initializing BME688: {e.Message}");
-            }
-
-            try
-            {
-                Resolver.Log.Debug("Initializing GNSS");
-
-                Gnss = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4"), device.Pins.D09, device.Pins.D11);
-
-                Resolver.Log.Debug("GNSS initialized");
-            }
-            catch (Exception e)
-            {
-                Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
             }
 
             try

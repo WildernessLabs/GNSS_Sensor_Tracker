@@ -121,6 +121,5 @@ public class DisplayConnector : Connector<DisplayConnectorPinDefinitions>
     /// <param name="mapping">The mappings to the host controller</param>
     public DisplayConnector(string name, PinMapping mapping)
         : base(name, new DisplayConnectorPinDefinitions(mapping))
-    {
-    }
+    { }
 }
