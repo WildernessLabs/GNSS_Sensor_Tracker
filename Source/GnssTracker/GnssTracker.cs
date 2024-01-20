@@ -5,6 +5,9 @@ using System;
 
 namespace WildernessLabs.Hardware.GnssTracker
 {
+    /// <summary>
+    /// Represents a Gnss Tracker IoT acclerator
+    /// </summary>
     public class GnssTracker
     {
         private GnssTracker() { }
@@ -60,9 +63,6 @@ namespace WildernessLabs.Hardware.GnssTracker
                     logger?.Info("Instantiating GnssTracker v1 hardware");
                     hardware = new GnssTrackerHardwareV1(ccm, i2cBus);
                 }
-
-
-
             }
             else
             {
