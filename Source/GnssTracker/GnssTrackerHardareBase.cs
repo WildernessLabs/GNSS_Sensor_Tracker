@@ -1,6 +1,5 @@
 ﻿using Meadow;
 using Meadow.Foundation.Displays;
-using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
@@ -8,6 +7,7 @@ using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Logging;
+using Meadow.Peripherals.Displays;
 using Meadow.Units;
 using System;
 
@@ -43,7 +43,7 @@ namespace WildernessLabs.Hardware.GnssTracker
         public abstract Bmi270? MotionSensor { get; protected set; }
 
         /// <inheritdoc/>
-        public IGraphicsDisplay? Display { get; protected set; }
+        public IPixelDisplay? Display { get; protected set; }
 
         /// <inheritdoc/>
         public IAnalogInputPort? SolarVoltageInput { get; protected set; }

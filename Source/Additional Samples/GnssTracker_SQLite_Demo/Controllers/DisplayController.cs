@@ -3,6 +3,7 @@ using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
+using Meadow.Peripherals.Displays;
 
 namespace GnssTracker_SQLite_Demo.Controllers
 {
@@ -25,7 +26,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
         protected Label LongitudeLabel { get; set; }
         protected Label CounterLabel { get; set; }
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             LargeFont = new Font12x20();
             SmallFont = new Font4x8();

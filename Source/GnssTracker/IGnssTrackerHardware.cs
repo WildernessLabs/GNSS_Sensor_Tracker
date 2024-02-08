@@ -1,10 +1,10 @@
-﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
+﻿using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
+using Meadow.Peripherals.Displays;
 
 namespace WildernessLabs.Hardware.GnssTracker
 {
@@ -41,7 +41,7 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <summary>
         /// Gets the e-paper display
         /// </summary>
-        public IGraphicsDisplay? Display { get; }
+        public IPixelDisplay? Display { get; }
 
         /// <summary>
         /// Gets the Solar Voltage Input
