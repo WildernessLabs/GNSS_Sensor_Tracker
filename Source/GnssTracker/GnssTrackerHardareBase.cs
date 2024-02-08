@@ -49,6 +49,9 @@ namespace WildernessLabs.Hardware.GnssTracker
         public IAnalogInputPort? SolarVoltageInput { get; protected set; }
 
         /// <inheritdoc/>
+        public abstract IAnalogInputPort? BatteryVoltageInput { get; protected set; }
+
+        /// <inheritdoc/>
         public I2cConnector I2cHeader => (I2cConnector)Connectors[1]!;
 
         /// <inheritdoc/>
@@ -210,7 +213,7 @@ namespace WildernessLabs.Hardware.GnssTracker
             }
             catch (Exception ex)
             {
-                Resolver.Log.Error($"Unabled to create the Switching Anemometer: {ex.Message}");
+                Resolver.Log.Error($"Unabled to create Solar Voltage Input: {ex.Message}");
             }
         }
     }

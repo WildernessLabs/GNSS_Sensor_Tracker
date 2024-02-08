@@ -16,6 +16,9 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <inheritdoc/>
         public override Bmi270? MotionSensor { get => null; protected set => throw new System.NotImplementedException(); }
 
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput { get => null; protected set => throw new System.NotImplementedException(); }
+
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object
         /// </summary>

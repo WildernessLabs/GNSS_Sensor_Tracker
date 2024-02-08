@@ -17,6 +17,9 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <inheritdoc/>
         public override Bmi270? MotionSensor { get; protected set; }
 
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput { get; protected set; }
+
         /// <summary>
         /// Create a new GnssTrackerHardwareV2 object
         /// </summary>
@@ -44,6 +47,17 @@ namespace WildernessLabs.Hardware.GnssTracker
             catch (Exception ex)
             {
                 Resolver.Log.Error($"Unable to create the SCD40 IMU: {ex.Message}");
+            }
+
+            try
+            {
+                Resolver.Log.Debug("Instantiating Battery Voltage Input");
+                BatteryVoltageInput = device.Pins.A04.CreateAnalogInputPort(5);
+                Resolver.Log.Debug("Battery Voltage Input up");
+            }
+            catch (Exception ex)
+            {
+                Resolver.Log.Error($"Unabled to create Battery Voltage Input: {ex.Message}");
             }
         }
     }

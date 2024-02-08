@@ -48,7 +48,6 @@ namespace WildernessLabs.Hardware.GnssTracker
                 throw;
             }
 
-
             if (device is IF7CoreComputeMeadowDevice { } ccm)
             {
                 try
