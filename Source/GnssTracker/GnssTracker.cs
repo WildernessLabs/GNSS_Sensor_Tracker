@@ -1,9 +1,8 @@
-﻿using Meadow;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
 using Meadow.Logging;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker IoT acclerator

@@ -5,16 +5,17 @@ using Meadow.Peripherals.Sensors.Location.Gnss;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
-using WildernessLabs.Hardware.GnssTracker;
 
 namespace GnssTracker_Demo
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
         GnssPositionInfo lastGNSSPosition;
+        Voltage? BatteryVoltage;
+        Voltage? SolarVoltage;
         DateTime lastGNSSPositionReportTime = DateTime.MinValue;
 
-        protected DisplayController DisplayController { get; set; }
+        protected DisplayController displayController { get; set; }
 
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
@@ -28,19 +29,39 @@ namespace GnssTracker_Demo
 
             gnssTracker = GnssTracker.Create();
 
-            if (gnssTracker.AtmosphericSensor is { } bme688)
+            if (gnssTracker.OnboardLed is { } onboardLed)
             {
-                bme688.Updated += Bme688Updated;
+                onboardLed.IsOn = true;
             }
 
-            if (gnssTracker.EnvironmentalSensor is { } scd40)
+            //if (gnssTracker.Display is { } display)
+            //{
+            //    displayController = new DisplayController(display);
+            //}
+
+            if (gnssTracker.TemperatureSensor is { } temperatureSensor)
             {
-                scd40.Updated += Scd40_Updated;
+                temperatureSensor.Updated += TemperatureSensorUpdated;
             }
 
-            if (gnssTracker.MotionSensor is { } bmi270)
+            if (gnssTracker.HumiditySensor is { } humiditySensor)
             {
-                bmi270.Updated += Bmi270_Updated;
+                humiditySensor.Updated += HumiditySensorUpdated;
+            }
+
+            if (gnssTracker.CO2ConcentrationSensor is { } co2ConcentrationSensor)
+            {
+                co2ConcentrationSensor.Updated += Co2ConcentrationSensorUpdated;
+            }
+
+            if (gnssTracker.BarometricPressureSensor is { } barometricPressureSensor)
+            {
+                barometricPressureSensor.Updated += BarometricPressureSensorUpdated;
+            }
+
+            if (gnssTracker.GasResistanceSensor is { } gasResistanceSensor)
+            {
+                gasResistanceSensor.Updated += GasResistanceSensorUpdated;
             }
 
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)
@@ -53,42 +74,54 @@ namespace GnssTracker_Demo
                 batteryVoltage.Updated += BatteryVoltageUpdated; ;
             }
 
-            if (gnssTracker.Gnss is { } gnss)
+            if (gnssTracker.GnssSensor is { } gnss)
             {
                 gnss.RmcReceived += GnssRmcReceived;
                 gnss.GllReceived += GnssGllReceived;
             }
 
-            if (gnssTracker.Display is { } display)
-            {
-                DisplayController = new DisplayController(display);
-            }
 
-            if (gnssTracker.OnboardLed is { } onboardLed)
-            {
-                onboardLed.IsOn = true;
-            }
 
             Resolver.Log.Info("Initialization complete");
 
             return Task.CompletedTask;
         }
 
-        private void Bmi270_Updated(object sender, IChangeResult<(Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature)> e)
+        private void TemperatureSensorUpdated(object sender, IChangeResult<Temperature> e)
         {
-            Resolver.Log.Info($"BMI270:        X:{e.New.Acceleration3D.Value.X.Gravity:0.0}g, Y:{e.New.Acceleration3D.Value.Y.Gravity:0.0}g, Z:{e.New.Acceleration3D.Value.Z.Gravity:0.0}g");
+            Resolver.Log.Info($"Temperature: {e.New.Celsius:n1} °C");
         }
 
-        private void Scd40_Updated(object sender, IChangeResult<(Concentration? Concentration, Temperature? Temperature, RelativeHumidity? Humidity)> e)
+        private void HumiditySensorUpdated(object sender, IChangeResult<RelativeHumidity> e)
         {
-            Resolver.Log.Info($"SCD40:         {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Concentration?.PartsPerMillion:0.#}ppm");
+            Resolver.Log.Info($"Humidity: {e.New.Percent:n1} %");
         }
 
-        private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
+        private void Co2ConcentrationSensorUpdated(object sender, IChangeResult<Concentration> e)
         {
-            Resolver.Log.Info($"BME688:        {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Pressure?.Millibar:0.#}mbar");
+            Resolver.Log.Info($"CO2 Levels: {e.New.PartsPerMillion:n1} PPM");
+        }
 
-            //DisplayController.UpdateDisplay(e.New, lastGNSSPosition);
+        private void BarometricPressureSensorUpdated(object sender, IChangeResult<Pressure> e)
+        {
+            Resolver.Log.Info($"Humidity: {e.New.StandardAtmosphere:n1} ATM");
+        }
+
+        private void GasResistanceSensorUpdated(object sender, IChangeResult<Resistance> e)
+        {
+            Resolver.Log.Info($"Gas Resistance: {e.New.Milliohms:n1} MOHMS");
+        }
+
+        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
+        {
+            SolarVoltage = e.New;
+            Resolver.Log.Info($"Solar Voltage: {e.New.Volts:0.#} volts");
+        }
+
+        private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
+        {
+            BatteryVoltage = e.New;
+            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:0.#} volts");
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
@@ -109,16 +142,6 @@ namespace GnssTracker_Demo
             }
         }
 
-        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
-        {
-            Resolver.Log.Info($"Solar Voltage: {e.New.Volts:0.#} volts");
-        }
-
-        private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
-        {
-            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:0.#} volts");
-        }
-
         private void ReportGNSSPosition(GnssPositionInfo e)
         {
             if (e.Valid)
@@ -136,35 +159,90 @@ namespace GnssTracker_Demo
         {
             Resolver.Log.Info("Run...");
 
-            if (gnssTracker.AtmosphericSensor is { } bme688)
+            if (gnssTracker.TemperatureSensor is { } temperature)
             {
-                bme688.StartUpdating(sensorUpdateInterval);
+                temperature.StartUpdating(TimeSpan.FromSeconds(5));
+                Resolver.Log.Info("1");
             }
 
-            if (gnssTracker.EnvironmentalSensor is { } scd40)
-            {
-                scd40.StartUpdating(sensorUpdateInterval);
-            }
 
-            if (gnssTracker.MotionSensor is { } bmi270)
-            {
-                bmi270.StartUpdating(sensorUpdateInterval);
-            }
 
-            if (gnssTracker.SolarVoltageInput is { } solarVoltage)
-            {
-                solarVoltage.StartUpdating(sensorUpdateInterval);
-            }
+            //if (gnssTracker.HumiditySensor is { } humidity)
+            //{
+            //    humidity.StartUpdating(sensorUpdateInterval);
+            //}
 
-            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
-            {
-                batteryVoltage.StartUpdating(sensorUpdateInterval);
-            }
+            //Resolver.Log.Info("2");
 
-            if (gnssTracker.Gnss is { } gnss)
-            {
-                gnss.StartUpdating();
-            }
+            //if (gnssTracker.CO2ConcentrationSensor is { } c02Concentration)
+            //{
+            //    c02Concentration.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("3");
+
+            //if (gnssTracker.BarometricPressureSensor is { } barometer)
+            //{
+            //    barometer.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("4");
+
+            //if (gnssTracker.GasResistanceSensor is { } gasResistance)
+            //{
+            //    gasResistance.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("5");
+
+            //if (gnssTracker.Accelerometer is { } accelerometer)
+            //{
+            //    accelerometer.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("6");
+
+            //if (gnssTracker.Gyroscope is { } gyroscope)
+            //{
+            //    gyroscope.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("7");
+
+            //if (gnssTracker.SolarVoltageInput is { } solarVoltage)
+            //{
+            //    solarVoltage.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("8");
+
+            //if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
+            //{
+            //    batteryVoltage.StartUpdating(sensorUpdateInterval);
+            //}
+
+            //Resolver.Log.Info("9");
+
+            //if (gnssTracker.GnssSensor is { } gnssSensor)
+            //{
+            //    gnssSensor.StartUpdating();
+            //}
+
+            //while (true)
+            //{
+            //    Resolver.Log.Info("while");
+
+            //    displayController.UpdateDisplay(
+            //        BatteryVoltage: BatteryVoltage,
+            //        SolarVoltage: SolarVoltage,
+            //        Temperature: gnssTracker.TemperatureSensor.Temperature,
+            //        Humidity: gnssTracker.HumiditySensor.Humidity,
+            //        Pressure: gnssTracker.BarometricPressureSensor.Pressure,
+            //        Concentration: gnssTracker.CO2ConcentrationSensor.CO2Concentration,
+            //        locationInfo: lastGNSSPosition);
+
+            //    await Task.Delay(sensorUpdateInterval);
+            //}
 
             return Task.CompletedTask;
         }

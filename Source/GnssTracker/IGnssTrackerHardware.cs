@@ -1,12 +1,13 @@
-﻿using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Environmental;
-using Meadow.Foundation.Sensors.Gnss;
+﻿using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Peripherals.Displays;
+using Meadow.Peripherals.Leds;
+using Meadow.Peripherals.Sensors;
+using Meadow.Peripherals.Sensors.Atmospheric;
+using Meadow.Peripherals.Sensors.Environmental;
+using Meadow.Peripherals.Sensors.Motion;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a GNSS Tracker Interface
@@ -16,27 +17,47 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <summary>
         /// Gets the PWM LED
         /// </summary>
-        public PwmLed? OnboardLed { get; }
+        public IPwmLed? OnboardLed { get; }
 
         /// <summary>
-        /// Gets the AtmosphericSensor sensor
+        /// Gets the ITemperatureSensor on the Project Lab board.
         /// </summary>
-        public Bme688? AtmosphericSensor { get; }
+        public ITemperatureSensor? TemperatureSensor { get; }
 
         /// <summary>
-        /// The SCD40 environmental sensor on the Clima board
+        /// Gets the IHumiditySensor on the Project Lab board.
         /// </summary>
-        public Scd40? EnvironmentalSensor { get; }
+        public IHumiditySensor? HumiditySensor { get; }
 
         /// <summary>
-        /// The BMI270 motion sensor on the Clima board
+        /// Gets the IBarometricPressureSensor on the Project Lab board.
         /// </summary>
-        public Bmi270? MotionSensor { get; }
+        public IBarometricPressureSensor? BarometricPressureSensor { get; }
 
         /// <summary>
-        /// Gets the Neo GNSS sensor
+        /// Gets the IGasResistanceSensor on the Project Lab board.
         /// </summary>
-        public NeoM8? Gnss { get; }
+        public IGasResistanceSensor? GasResistanceSensor { get; }
+
+        /// <summary>
+        /// Gets the ICO2ConcentrationSensor on the Project Lab board
+        /// </summary>
+        public ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
+
+        /// <summary>
+        /// Gets the IGyroscope on the Project Lab board
+        /// </summary>
+        public IGyroscope? Gyroscope { get; }
+
+        /// <summary>
+        /// Gets the IAccelerometer on the Project Lab board
+        /// </summary>
+        public IAccelerometer? Accelerometer { get; }
+
+        /// <summary>
+        /// Gets the GNSS sensor
+        /// </summary>
+        public NeoM8? GnssSensor { get; }
 
         /// <summary>
         /// Gets the e-paper display
