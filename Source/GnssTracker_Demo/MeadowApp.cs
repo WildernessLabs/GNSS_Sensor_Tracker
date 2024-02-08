@@ -11,12 +11,13 @@ namespace GnssTracker_Demo
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
+        GnssPositionInfo lastGNSSPosition;
+        DateTime lastGNSSPositionReportTime = DateTime.MinValue;
+
         protected DisplayController DisplayController { get; set; }
 
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
-        GnssPositionInfo lastGNSSPosition;
-        DateTime lastGNSSPositionReportTime = DateTime.MinValue;
         readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromSeconds(15);
 
         readonly TimeSpan sensorUpdateInterval = TimeSpan.FromSeconds(90);
@@ -45,6 +46,11 @@ namespace GnssTracker_Demo
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)
             {
                 solarVoltage.Updated += SolarVoltageUpdated;
+            }
+
+            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
+            {
+                batteryVoltage.Updated += BatteryVoltageUpdated; ;
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -82,7 +88,7 @@ namespace GnssTracker_Demo
         {
             Resolver.Log.Info($"BME688:        {(int)e.New.Temperature?.Celsius:0.0}C, {(int)e.New.Humidity?.Percent:0.#}%, {(int)e.New.Pressure?.Millibar:0.#}mbar");
 
-            DisplayController.UpdateDisplay(e.New, lastGNSSPosition);
+            //DisplayController.UpdateDisplay(e.New, lastGNSSPosition);
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
@@ -106,6 +112,24 @@ namespace GnssTracker_Demo
         private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
             Resolver.Log.Info($"Solar Voltage: {e.New.Volts:0.#} volts");
+        }
+
+        private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
+        {
+            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:0.#} volts");
+        }
+
+        private void ReportGNSSPosition(GnssPositionInfo e)
+        {
+            if (e.Valid)
+            {
+                if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
+                {
+                    Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
+
+                    lastGNSSPositionReportTime = DateTime.UtcNow;
+                }
+            }
         }
 
         public override Task Run()
@@ -132,25 +156,17 @@ namespace GnssTracker_Demo
                 solarVoltage.StartUpdating(sensorUpdateInterval);
             }
 
+            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
+            {
+                batteryVoltage.StartUpdating(sensorUpdateInterval);
+            }
+
             if (gnssTracker.Gnss is { } gnss)
             {
                 gnss.StartUpdating();
             }
 
             return Task.CompletedTask;
-        }
-
-        private void ReportGNSSPosition(GnssPositionInfo e)
-        {
-            if (e.Valid)
-            {
-                if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
-                {
-                    Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
-
-                    lastGNSSPositionReportTime = DateTime.UtcNow;
-                }
-            }
         }
     }
 }

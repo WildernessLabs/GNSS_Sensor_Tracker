@@ -10,14 +10,17 @@ namespace GnssTracker_Demo.Controllers
 {
     public class DisplayController
     {
+        int margin_x = 8;
+        int offset_y = 6;
+
         protected int counter = 0;
         protected Logger Log { get => Resolver.Log; }
         protected DisplayScreen DisplayScreen { get; set; }
 
         protected AbsoluteLayout DataLayout { get; set; }
 
-        protected Font12x20 LargeFont { get; set; }
-        protected Font4x8 SmallFont { get; set; }
+        protected Font8x12 LargeFont { get; set; } = new Font8x12();
+        protected Font6x8 SmallFont { get; set; } = new Font6x8();
 
         protected Label TemperatureLabel { get; set; }
         protected Label HumidityLabel { get; set; }
@@ -28,82 +31,152 @@ namespace GnssTracker_Demo.Controllers
 
         public DisplayController(IPixelDisplay display)
         {
-            LargeFont = new Font12x20();
-            SmallFont = new Font4x8();
+            DisplayScreen = new DisplayScreen(display, RotationType._90Degrees);
 
-            DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
+            DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height)
+            {
+                BackgroundColor = Color.White
+            };
 
-            DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height);
+            DataLayout.Controls.Add(new Box(0, 0 + offset_y, DisplayScreen.Width, 15)
+            {
+                ForeColor = Color.Red,
+                IsFilled = true
+            });
 
-            var box = new Box(0, 0, DisplayScreen.Width, DisplayScreen.Height)
+            DataLayout.Controls.Add(new Label(margin_x, 3 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"09:28 AM | 07/02/2024",
+                TextColor = Color.White,
+                Font = LargeFont
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 18 + offset_y, DisplayScreen.Width / 2, LargeFont.Height)
+            {
+                Text = $"TEMPERATURE:",
+                TextColor = Color.Black,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 18 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"23.2  °C",
+                TextColor = Color.Black,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 33 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"HUMIDITY:",
+                TextColor = Color.Black,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 33 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"78.5   %",
+                TextColor = Color.Black,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 48 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"PRESSURE:",
+                TextColor = Color.Black,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 48 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"1.2 ATM",
+                TextColor = Color.Black,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 63 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"CO2 LEVELS:",
+                TextColor = Color.Black,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 63 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"10.4 PPM",
+                TextColor = Color.Black,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 78 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"ACCEL 3D:",
+                TextColor = Color.Black,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 78 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"(0,0,0) G",
+                TextColor = Color.Black,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Box(0, 90 + offset_y, DisplayScreen.Width, 32)
+            {
+                ForeColor = Color.Red,
+                IsFilled = true
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 94 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"LATITUDE:",
+                TextColor = Color.White,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 94 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"19 42'39.2\"",
+                TextColor = Color.White,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DataLayout.Controls.Add(new Label(margin_x, 109 + offset_y, DisplayScreen.Width, LargeFont.Height)
+            {
+                Text = $"LONGITUDE:",
+                TextColor = Color.White,
+                Font = LargeFont
+            });
+            DataLayout.Controls.Add(new Label(0, 109 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
+            {
+                Text = $"173 45'47.9\"",
+                TextColor = Color.White,
+                Font = LargeFont,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            });
+
+            DrawBatteryIndicator();
+
+            DisplayScreen.Controls.Add(DataLayout);
+        }
+
+        void DrawBatteryIndicator()
+        {
+            DataLayout.Controls.Add(new Box(226, 2 + offset_y, 14, 11)
+            {
+                ForeColor = Color.White,
+                IsFilled = false
+            });
+            DataLayout.Controls.Add(new Box(240, 4 + offset_y, 1, 7)
             {
                 ForeColor = Color.White,
                 IsFilled = true
-            };
-            var frame = new Box(5, 5, 240, 112)
+            });
+            DataLayout.Controls.Add(new Box(228, 4 + offset_y, 10, 7)
             {
-                ForeColor = Color.Black,
-                IsFilled = false
-            };
-            TemperatureLabel = new Label(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
-            {
-                Text = $"Temp:     0.00°C",
-                TextColor = Color.Black,
-                BackColor = Color.White,
-                Font = LargeFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            HumidityLabel = new Label(10, 30, DisplayScreen.Width - 20, LargeFont.Height)
-            {
-                Text = $"Humidity: 0.00%",
-                TextColor = Color.Black,
-                BackColor = Color.White,
-                Font = LargeFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            PressureLabel = new Label(10, 50, DisplayScreen.Width - 20, LargeFont.Height)
-            {
-                Text = $"Pressure: 0.00atm",
-                TextColor = Color.Black,
-                BackColor = Color.White,
-                Font = LargeFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            LatitudeLabel = new Label(10, 72, DisplayScreen.Width - 20, LargeFont.Height)
-            {
-                Text = $"Lat: 0°0'0.0\"",
-                TextColor = Color.White,
-                BackColor = Color.Red,
-                Font = LargeFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            LongitudeLabel = new Label(10, 92, DisplayScreen.Width - 20, LargeFont.Height)
-            {
-                Text = $"Lon: 0°0'0.0\"",
-                TextColor = Color.White,
-                BackColor = Color.Red,
-                Font = LargeFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            counter++;
-            CounterLabel = new Label(222, 113, 20, 8)
-            {
-                Text = $"{counter:D4}",
-                TextColor = Color.Black,
-                BackColor = Color.White,
-                Font = SmallFont,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-
-            DataLayout.Controls.Add(box, frame, TemperatureLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
-
-            DisplayScreen.Controls.Add(DataLayout);
+                ForeColor = Color.White,
+                IsFilled = true
+            });
         }
 
         public void UpdateDisplay((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) conditions, GnssPositionInfo locationInfo)
