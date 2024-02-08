@@ -2,6 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Logging;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using Meadow.Units;
 
@@ -25,7 +26,7 @@ namespace GnssTracker_Demo.Controllers
         protected Label LongitudeLabel { get; set; }
         protected Label CounterLabel { get; set; }
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             LargeFont = new Font12x20();
             SmallFont = new Font4x8();
