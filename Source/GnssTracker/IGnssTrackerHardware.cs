@@ -1,10 +1,11 @@
-﻿using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Environmental;
-using Meadow.Foundation.Sensors.Gnss;
+﻿using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Peripherals.Displays;
+using Meadow.Peripherals.Leds;
+using Meadow.Peripherals.Sensors;
+using Meadow.Peripherals.Sensors.Atmospheric;
+using Meadow.Peripherals.Sensors.Environmental;
+using Meadow.Peripherals.Sensors.Motion;
 
 namespace WildernessLabs.Hardware.GnssTracker
 {
@@ -16,22 +17,42 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <summary>
         /// Gets the PWM LED
         /// </summary>
-        public PwmLed? OnboardLed { get; }
+        public IPwmLed? OnboardLed { get; }
 
         /// <summary>
-        /// Gets the AtmosphericSensor sensor
+        /// Gets the ITemperatureSensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Bme688? AtmosphericSensor { get; }
+        public ITemperatureSensor? TemperatureSensor { get; }
 
         /// <summary>
-        /// The SCD40 environmental sensor on the Clima board
+        /// Gets the IHumiditySensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Scd40? EnvironmentalSensor { get; }
+        public IHumiditySensor? HumiditySensor { get; }
 
         /// <summary>
-        /// The BMI270 motion sensor on the Clima board
+        /// Gets the IBarometricPressureSensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Bmi270? MotionSensor { get; }
+        public IBarometricPressureSensor? BarometricPressureSensor { get; }
+
+        /// <summary>
+        /// Gets the IGasResistanceSensor on the GNSS Sensor Tracker board.
+        /// </summary>
+        public IGasResistanceSensor? GasResistanceSensor { get; }
+
+        /// <summary>
+        /// Gets the ICO2ConcentrationSensor on the Clima board
+        /// </summary>
+        public ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
+
+        /// <summary>
+        /// Gets the IGyroscope on the GNSS Sensor Tracker board
+        /// </summary>
+        public IGyroscope? Gyroscope { get; }
+
+        /// <summary>
+        /// Gets the IAccelerometer on the GNSS Sensor Tracker board
+        /// </summary>
+        public IAccelerometer? Accelerometer { get; }
 
         /// <summary>
         /// Gets the Neo GNSS sensor
