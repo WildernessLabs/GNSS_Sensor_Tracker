@@ -1,31 +1,25 @@
-﻿using Meadow.Foundation.Displays;
+﻿using Meadow;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Logging;
 using Meadow.Peripherals.Displays;
-using Meadow.Peripherals.Leds;
-using Meadow.Peripherals.Sensors;
-using Meadow.Peripherals.Sensors.Atmospheric;
-using Meadow.Peripherals.Sensors.Environmental;
-using Meadow.Peripherals.Sensors.Motion;
 using Meadow.Units;
 using System;
 
-namespace Meadow.Devices
+namespace WildernessLabs.Hardware.GnssTracker
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware base class
     /// </summary>
     public abstract class GnssTrackerHardwareBase : IGnssTrackerHardware
     {
-        private IPixelDisplay? _display;
-
-
-
-
         /// <inheritdoc/>
-        protected Logger? Logger = Resolver.Log;
+        protected Logger Log = Resolver.Log;
 
         /// <inheritdoc/>
         public II2cBus? I2cBus { get; protected set; }
@@ -34,16 +28,28 @@ namespace Meadow.Devices
         public ISpiBus? SpiBus { get; protected set; }
 
         /// <inheritdoc/>
-        public IPwmLed? OnboardLed { get; protected set; }
+        public PwmLed? OnboardLed { get; protected set; }
 
         /// <inheritdoc/>
-        public NeoM8? GnssSensor { get; protected set; }
+        public Bme688? AtmosphericSensor { get; protected set; }
+
+        /// <inheritdoc/>
+        public NeoM8? Gnss { get; protected set; }
+
+        /// <inheritdoc/>
+        public abstract Scd40? EnvironmentalSensor { get; protected set; }
+
+        /// <inheritdoc/>
+        public abstract Bmi270? MotionSensor { get; protected set; }
 
         /// <inheritdoc/>
         public IPixelDisplay? Display { get; protected set; }
 
         /// <inheritdoc/>
         public IAnalogInputPort? SolarVoltageInput { get; protected set; }
+
+        /// <inheritdoc/>
+        public abstract IAnalogInputPort? BatteryVoltageInput { get; protected set; }
 
         /// <inheritdoc/>
         public I2cConnector I2cHeader => (I2cConnector)Connectors[1]!;
@@ -53,30 +59,6 @@ namespace Meadow.Devices
 
         /// <inheritdoc/>
         public DisplayConnector DisplayHeader => (DisplayConnector)Connectors[2]!;
-
-        /// <inheritdoc/>
-        public abstract IAnalogInputPort? BatteryVoltageInput { get; }
-
-        /// <inheritdoc/>
-        public abstract ITemperatureSensor? TemperatureSensor { get; }
-
-        /// <inheritdoc/>
-        public abstract IHumiditySensor? HumiditySensor { get; }
-
-        /// <inheritdoc/>
-        public abstract IBarometricPressureSensor? BarometricPressureSensor { get; }
-
-        /// <inheritdoc/>
-        public abstract IGasResistanceSensor? GasResistanceSensor { get; }
-
-        /// <inheritdoc/>
-        public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
-
-        /// <inheritdoc/>
-        public abstract IGyroscope? Gyroscope { get; }
-
-        /// <inheritdoc/>
-        public abstract IAccelerometer? Accelerometer { get; }
 
         /// <summary>
         /// Collection of connectors on the GNSS Tracker
@@ -96,13 +78,14 @@ namespace Meadow.Devices
                 return _connectors;
             }
         }
+
         private IConnector?[]? _connectors;
 
         private readonly IF7CoreComputeMeadowDevice _device;
 
         internal UartConnector CreateUartConnector()
         {
-            Logger?.Trace("Creating Uart connector");
+            Log?.Trace("Creating Uart connector");
 
             return new UartConnector(
                "Uart",
@@ -116,7 +99,7 @@ namespace Meadow.Devices
 
         internal I2cConnector CreateI2cConnector()
         {
-            Logger?.Trace("Creating I2C connector");
+            Log?.Trace("Creating I2C connector");
 
             return new I2cConnector(
             "I2C",
@@ -130,7 +113,7 @@ namespace Meadow.Devices
 
         internal DisplayConnector CreateDisplayConnector()
         {
-            Logger?.Trace("Creating display connector");
+            Log?.Trace("Creating display connector");
 
             return new DisplayConnector(
                "Display",
@@ -153,39 +136,52 @@ namespace Meadow.Devices
         /// <param name="i2cBus">The I2C bus</param>
         public GnssTrackerHardwareBase(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
         {
-            Logger?.Debug("Initialize hardware...");
+            Log.Debug("Initialize hardware...");
             _device = device;
             I2cBus = i2cBus;
 
             try
             {
-                Logger?.Debug("Initializing Onboard LED");
+                Log.Debug("Initializing Onboard LED");
 
                 OnboardLed = new PwmLed(device.Pins.D20, TypicalForwardVoltage.Green);
 
-                Logger?.Debug("Onboard LED initialized");
+                Log.Debug("Onboard LED initialized");
             }
             catch (Exception e)
             {
-                Logger?.Error($"Err initializing onboard LED: {e.Message}");
+                Log.Error($"Err initializing onboard LED: {e.Message}");
             }
 
             try
             {
-                Logger?.Debug("Initializing GNSS");
+                Resolver.Log.Debug("Initializing GNSS");
 
-                GnssSensor = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4")!, device.Pins.D09, device.Pins.D11);
+                Gnss = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4")!, device.Pins.D09, device.Pins.D11);
 
-                Logger?.Debug("GNSS initialized");
+                Resolver.Log.Debug("GNSS initialized");
             }
             catch (Exception e)
             {
-                Logger?.Error($"Err initializing GNSS: {e.Message}");
+                Resolver.Log.Error($"Err initializing GNSS: {e.Message}");
             }
 
             try
             {
-                Logger?.Debug("Initializing ePaper Display");
+                Log.Debug("Initializing BME688");
+
+                AtmosphericSensor = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
+
+                Log.Debug("BME688 initialized");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Err initializing BME688: {e.Message}");
+            }
+
+            try
+            {
+                Resolver.Log.Debug("Initializing ePaper Display");
 
                 var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
                 SpiBus = device.CreateSpiBus(
@@ -201,24 +197,23 @@ namespace Meadow.Devices
                     busyPin: device.Pins.D05,
                     width: 122,
                     height: 250);
-                _display = Display;
 
-                Logger?.Debug("ePaper Display initialized");
+                Resolver.Log.Debug("ePaper Display initialized");
             }
             catch (Exception e)
             {
-                Logger?.Error($"Err initializing ePaper Display: {e.Message}");
+                Resolver.Log.Error($"Err initializing ePaper Display: {e.Message}");
             }
 
             try
             {
-                Logger?.Debug("initializing Solar Voltage Input");
+                Resolver.Log.Debug("Instantiating Solar Voltage Input");
                 SolarVoltageInput = device.Pins.A00.CreateAnalogInputPort(5);
-                Logger?.Debug("Solar Voltage Input initialized");
+                Resolver.Log.Debug("Solar Voltage Input up");
             }
             catch (Exception ex)
             {
-                Logger?.Error($"Unabled to create Solar Voltage Input: {ex.Message}");
+                Resolver.Log.Error($"Unabled to create Solar Voltage Input: {ex.Message}");
             }
         }
     }
