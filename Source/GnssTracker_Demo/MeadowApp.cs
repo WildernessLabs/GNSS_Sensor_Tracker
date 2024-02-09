@@ -12,15 +12,17 @@ namespace GnssTracker_Demo
     public class MeadowApp : App<F7CoreComputeV2>
     {
         GnssPositionInfo lastGNSSPosition;
+        Voltage? solarVoltage = new Voltage(0);
+        Voltage? batteryVoltage = new Voltage(0);
         DateTime lastGNSSPositionReportTime = DateTime.MinValue;
 
-        protected DisplayController DisplayController { get; set; }
+        protected DisplayController displayController { get; set; }
 
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
         readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromSeconds(15);
 
-        readonly TimeSpan sensorUpdateInterval = TimeSpan.FromSeconds(5);
+        readonly TimeSpan sensorUpdateInterval = TimeSpan.FromSeconds(90);
 
         public override Task Initialize()
         {
@@ -70,7 +72,7 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
             {
-                batteryVoltage.Updated += BatteryVoltageUpdated; ;
+                batteryVoltage.Updated += BatteryVoltageUpdated;
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -81,7 +83,7 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.Display is { } display)
             {
-                DisplayController = new DisplayController(display);
+                displayController = new DisplayController(display);
             }
 
             if (gnssTracker.OnboardLed is { } onboardLed)
@@ -149,12 +151,14 @@ namespace GnssTracker_Demo
 
         private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"Solar Voltage:   {e.New.Volts:0.#} volts");
+            Resolver.Log.Info($"Solar Voltage:   {e.New.Volts:N2} volts");
+            solarVoltage = e.New;
         }
 
         private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:0.#} volts");
+            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:N2} volts");
+            batteryVoltage = e.New;
         }
 
         private void ReportGNSSPosition(GnssPositionInfo e)
@@ -170,7 +174,7 @@ namespace GnssTracker_Demo
             }
         }
 
-        public override Task Run()
+        public override async Task Run()
         {
             Resolver.Log.Info("Run...");
 
@@ -209,14 +213,14 @@ namespace GnssTracker_Demo
                 accelerometer.StartUpdating(sensorUpdateInterval);
             }
 
-            if (gnssTracker.SolarVoltageInput is { } solarVoltage)
+            if (gnssTracker.SolarVoltageInput is { } solarVoltageInput)
             {
-                solarVoltage.StartUpdating(sensorUpdateInterval);
+                solarVoltageInput.StartUpdating(sensorUpdateInterval);
             }
 
-            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
+            if (gnssTracker.BatteryVoltageInput is { } batteryVoltageInput)
             {
-                batteryVoltage.StartUpdating(sensorUpdateInterval);
+                batteryVoltageInput.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -224,7 +228,19 @@ namespace GnssTracker_Demo
                 gnss.StartUpdating();
             }
 
-            return Task.CompletedTask;
+            while (true)
+            {
+                displayController.UpdateDisplay(
+                    batteryVoltage,
+                    solarVoltage,
+                    gnssTracker.TemperatureSensor.Temperature,
+                    gnssTracker.HumiditySensor.Humidity,
+                    gnssTracker.BarometricPressureSensor.Pressure,
+                    gnssTracker.CO2ConcentrationSensor.CO2Concentration,
+                    lastGNSSPosition);
+
+                await Task.Delay(sensorUpdateInterval);
+            }
         }
     }
 }
