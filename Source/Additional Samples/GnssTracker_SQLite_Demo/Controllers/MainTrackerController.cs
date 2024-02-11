@@ -1,10 +1,10 @@
 ﻿using GnssTracker_SQLite_Demo.Models.Logical;
 using Meadow;
+using Meadow.Devices;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
 using System.Threading.Tasks;
-using WildernessLabs.Hardware.GnssTracker;
 
 namespace GnssTracker_SQLite_Demo.Controllers
 {
@@ -41,10 +41,11 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
+            GnssController.Initialize(gnssTracker.Gnss);
             GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
         }
 
-        public void Start()
+        public void Run()
         {
             if (GnssTracker.AtmosphericSensor is { } bme)
             {

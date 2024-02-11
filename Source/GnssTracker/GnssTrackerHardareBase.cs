@@ -1,5 +1,4 @@
-﻿using Meadow;
-using Meadow.Foundation.Displays;
+﻿using Meadow.Foundation.Displays;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Gnss;
@@ -14,7 +13,7 @@ using Meadow.Peripherals.Sensors.Motion;
 using Meadow.Units;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware base class
@@ -32,6 +31,9 @@ namespace WildernessLabs.Hardware.GnssTracker
 
         /// <inheritdoc/>
         public IPwmLed? OnboardLed { get; protected set; }
+
+        /// <inheritdoc/>
+        public Bme688? AtmosphericSensor { get; protected set; }
 
         /// <inheritdoc/>
         public ITemperatureSensor? TemperatureSensor { get; protected set; }
@@ -186,6 +188,7 @@ namespace WildernessLabs.Hardware.GnssTracker
                 Logger?.Debug("BME688 Initializing...");
 
                 var bme = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
+                AtmosphericSensor = bme;
                 TemperatureSensor = bme;
                 HumiditySensor = bme;
                 BarometricPressureSensor = bme;
@@ -200,7 +203,7 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
-                Logger?.Debug("Initializing ePaper Display");
+                Logger?.Debug("ePaper Display Initializing...");
 
                 var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
                 SpiBus = device.CreateSpiBus(
@@ -226,9 +229,9 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
-                Logger?.Debug("Instantiating Solar Voltage Input");
+                Logger?.Debug("Solar Voltage Input Initializing...");
                 SolarVoltageInput = device.Pins.A00.CreateAnalogInputPort(5);
-                Logger?.Debug("Solar Voltage Input up");
+                Logger?.Debug("Solar Voltage initialized");
             }
             catch (Exception ex)
             {

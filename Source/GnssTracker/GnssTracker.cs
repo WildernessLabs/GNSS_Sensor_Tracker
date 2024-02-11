@@ -1,9 +1,8 @@
-﻿using Meadow;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
 using Meadow.Logging;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker IoT acclerator
@@ -36,11 +35,11 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
-                logger?.Debug("Initializing I2CBus");
+                logger?.Debug("I2CBus Initializing...");
 
                 i2cBus = Resolver.Device.CreateI2cBus();
 
-                logger?.Debug("Initializing I2CBus initialized");
+                logger?.Debug("I2CBus initialized");
             }
             catch (Exception e)
             {

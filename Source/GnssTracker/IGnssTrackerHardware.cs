@@ -1,4 +1,5 @@
-﻿using Meadow.Foundation.Sensors.Gnss;
+﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
@@ -7,7 +8,7 @@ using Meadow.Peripherals.Sensors.Atmospheric;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a GNSS Tracker Interface
@@ -18,6 +19,11 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// Gets the PWM LED
         /// </summary>
         public IPwmLed? OnboardLed { get; }
+
+        /// <summary>
+        /// Gets the Atmospheric sensor on the GNSS Sensor Tracker board.
+        /// </summary>
+        public Bme688? AtmosphericSensor { get; }
 
         /// <summary>
         /// Gets the ITemperatureSensor on the GNSS Sensor Tracker board.

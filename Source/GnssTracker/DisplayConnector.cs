@@ -1,7 +1,8 @@
-﻿using System;
-using static Meadow.Hardware.DisplayConnector;
+﻿using Meadow.Hardware;
+using System;
+using static Meadow.Devices.DisplayConnector;
 
-namespace Meadow.Hardware;
+namespace Meadow.Devices;
 
 /// <summary>
 /// Represents the display connector on GNSS Tracker

@@ -185,27 +185,27 @@ namespace GnssTracker_Demo.Controllers
             Concentration? Concentration,
             GnssPositionInfo locationInfo)
         {
-            BatteryVoltageLabel.Text =     $"{BatteryVoltage?.Volts:N2}   V";
-            SolarVoltageLabel.Text =         $"{SolarVoltage?.Volts:N2}   V";
-            TemperatureLabel.Text =         $"{Temperature?.Celsius:N2}   C";
-            HumidityLabel.Text =               $"{Humidity?.Percent:N2}   %";
-            PressureLabel.Text =    $"{Pressure?.StandardAtmosphere:N2} ATM";
+            BatteryVoltageLabel.Text = $"{BatteryVoltage?.Volts:N2}   V";
+            SolarVoltageLabel.Text = $"{SolarVoltage?.Volts:N2}   V";
+            TemperatureLabel.Text = $"{Temperature?.Celsius:N2}   C";
+            HumidityLabel.Text = $"{Humidity?.Percent:N2}   %";
+            PressureLabel.Text = $"{Pressure?.StandardAtmosphere:N2} ATM";
             CO2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N2} PPM";
 
             string lat = locationInfo == null
                 ? $"19 42' 39.0\""
                 : $"" +
-                $"{locationInfo?.Position?.Latitude?.Degrees}°".PadLeft(4) +
+                $"{locationInfo?.Position?.Latitude?.Degrees:N2} " +
                 $"{locationInfo?.Position?.Latitude?.Minutes:N2}'" +
-                $"{locationInfo?.Position?.Latitude?.Seconds}\"";
+                $"{locationInfo?.Position?.Latitude?.Seconds:N2}\"";
             LatitudeLabel.Text = lat;
 
             string lon = locationInfo == null
                 ? $"173 45' 47.9\""
                 : $"" +
-                $"{locationInfo?.Position?.Longitude?.Degrees}°".PadLeft(4) +
+                $"{locationInfo?.Position?.Longitude?.Degrees:N2} " +
                 $"{locationInfo?.Position?.Longitude?.Minutes:N2}'" +
-                $"{locationInfo?.Position?.Longitude?.Seconds}\"";
+                $"{locationInfo?.Position?.Longitude?.Seconds:N2}\"";
             LongitudeLabel.Text = lon;
         }
     }

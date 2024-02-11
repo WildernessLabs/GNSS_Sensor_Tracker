@@ -5,7 +5,6 @@ using Meadow.Peripherals.Sensors.Location.Gnss;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
-using WildernessLabs.Hardware.GnssTracker;
 
 namespace GnssTracker_Demo
 {

@@ -1,9 +1,8 @@
-﻿using Meadow;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware V1

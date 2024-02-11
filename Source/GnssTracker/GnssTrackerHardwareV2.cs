@@ -1,12 +1,11 @@
-﻿using Meadow;
-using Meadow.Foundation.Sensors.Accelerometers;
+﻿using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Hardware;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware V2
@@ -36,8 +35,6 @@ namespace WildernessLabs.Hardware.GnssTracker
             {
                 Logger?.Trace("SCD40 Initializing...");
                 var scd = new Scd40(i2cBus);
-                //TemperatureSensor = scd;
-                //HumiditySensor = scd;
                 CO2ConcentrationSensor = scd;
                 Resolver.SensorService.RegisterSensor(scd);
                 Logger?.Trace("SCD40 Initialized");
