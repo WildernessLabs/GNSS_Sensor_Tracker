@@ -66,35 +66,32 @@ public class MeadowApp : App<F7CoreComputeV2>
 
 ## Hardware Specifications
 
-<img src="Design/gnss-tracker-specs.jpg" style="margin-top:10px;margin-bottom:10px" />
+<img src="Design/gnss-tracker-v2-specs.jpg" style="margin-top:10px;margin-bottom:10px" />
 
 <table>
     <tr>
-        <th>Onboard Peripherals</th>
+        <td><strong>3.7V LiPo Rechargeable Battery</strong></td>
+        <td><strong>BMI270 Inertial Measurement Unit / Accelerometer</strong></td>
     </tr>
     <tr>
-        <td><strong>6V Solar Input</strong></td>
+        <td><strong>SCD40 CO2, Humidity and Temperature sensor</strong></td>
+        <td><strong>Off/On Switch</strong></td>
     </tr>
     <tr>
         <td><strong>SSD1680 122x250 Adafruit E-Paper Display</strong></td>
-    </tr>
-    <tr>
-        <td><strong>NEO-M8 GNSS/GPS</strong></td>
-    </tr>
-    <tr>
-        <td><strong>GNSS/GPS Antenna</strong></td>
-    </tr>
-    <tr>
-        <td><strong>Solar Power/Battery Charging Add-on Module</strong></td>
-    </tr>
-    <tr>
-        <td><strong>Meadow F7 Core-Compute Module (CCM)</strong></td>
-    </tr>
-    <tr>
         <td><strong>USB-C, Boot, Reset Add-on Module</strong></td>
     </tr>
     <tr>
-        <td><strong>3.7V Lipo Rechargeable Battery</strong></td>
+        <td><strong>Meadow F7 Core-Compute Module (CCM)</strong></td>
+        <td><strong>Solar Power/Battery Charging Add-on Module</strong></td>
+    </tr>
+    <tr>
+        <td><strong>6V Solar Input Connector</strong></td>
+        <td><strong>BME688 Temp, Pressure and Humidity sensor</strong></td>
+    </tr>
+    <tr>
+        <td><strong>GNSS/GPS Antenna</strong></td>
+        <td><strong>NEO-M8 GNSS/GPS</strong></td>
     </tr>
 </table>
 
