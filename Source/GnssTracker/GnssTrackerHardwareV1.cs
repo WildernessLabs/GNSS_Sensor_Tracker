@@ -1,9 +1,8 @@
-﻿using Meadow;
-using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Foundation.Sensors.Environmental;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
+using Meadow.Peripherals.Sensors.Environmental;
+using Meadow.Peripherals.Sensors.Motion;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware V1
@@ -11,10 +10,16 @@ namespace WildernessLabs.Hardware.GnssTracker
     public class GnssTrackerHardwareV1 : GnssTrackerHardwareBase
     {
         /// <inheritdoc/>
-        public override Scd40? EnvironmentalSensor { get => null; protected set => throw new System.NotImplementedException(); }
+        public override ICO2ConcentrationSensor? CO2ConcentrationSensor { get => null; protected set => throw new System.NotImplementedException(); }
 
         /// <inheritdoc/>
-        public override Bmi270? MotionSensor { get => null; protected set => throw new System.NotImplementedException(); }
+        public override IGyroscope? Gyroscope { get => null; protected set => throw new System.NotImplementedException(); }
+
+        /// <inheritdoc/>
+        public override IAccelerometer? Accelerometer { get => null; protected set => throw new System.NotImplementedException(); }
+
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput { get => null; protected set => throw new System.NotImplementedException(); }
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object

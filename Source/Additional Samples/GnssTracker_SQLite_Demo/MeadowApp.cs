@@ -3,7 +3,6 @@ using Meadow;
 using Meadow.Devices;
 using System;
 using System.Threading.Tasks;
-using WildernessLabs.Hardware.GnssTracker;
 
 namespace GnssTracker_SQLite_Demo
 {
@@ -26,10 +25,6 @@ namespace GnssTracker_SQLite_Demo
                 Resolver.Log.Info($"Err bringing up database: {e.Message}");
             }
 
-            //await Task.Delay(TimeSpan.FromSeconds(10));
-
-            GnssController.Initialize(gnssTracker.Gnss);
-
             MainController = new MainTrackerController();
             await MainController.Initialize(gnssTracker);
         }
@@ -38,7 +33,7 @@ namespace GnssTracker_SQLite_Demo
         {
             Resolver.Log.Info("Running");
 
-            MainController.Start();
+            MainController.Run();
 
             return base.Run();
         }

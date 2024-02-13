@@ -1,10 +1,11 @@
-﻿using Meadow;
-using Meadow.Foundation.Sensors.Accelerometers;
+﻿using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Hardware;
+using Meadow.Peripherals.Sensors.Environmental;
+using Meadow.Peripherals.Sensors.Motion;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker Hardware V2
@@ -12,10 +13,16 @@ namespace WildernessLabs.Hardware.GnssTracker
     public class GnssTrackerHardwareV2 : GnssTrackerHardwareBase
     {
         /// <inheritdoc/>
-        public override Scd40? EnvironmentalSensor { get; protected set; }
+        public override ICO2ConcentrationSensor? CO2ConcentrationSensor { get; protected set; }
 
         /// <inheritdoc/>
-        public override Bmi270? MotionSensor { get; protected set; }
+        public override IGyroscope? Gyroscope { get; protected set; }
+
+        /// <inheritdoc/>
+        public override IAccelerometer? Accelerometer { get; protected set; }
+
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput { get; protected set; }
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV2 object
@@ -26,24 +33,40 @@ namespace WildernessLabs.Hardware.GnssTracker
         {
             try
             {
-                Log?.Trace("Initializing BMI270");
-                MotionSensor = new Bmi270(i2cBus);
-                Log?.Trace("BMI270 Initialized");
+                Logger?.Trace("SCD40 Initializing...");
+                var scd = new Scd40(i2cBus);
+                CO2ConcentrationSensor = scd;
+                Resolver.SensorService.RegisterSensor(scd);
+                Logger?.Trace("SCD40 Initialized");
             }
             catch (Exception ex)
             {
-                Resolver.Log.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+                Logger?.Error($"Unable to create the SCD40 IMU: {ex.Message}");
             }
 
             try
             {
-                Log?.Trace("Initializing SCD40");
-                EnvironmentalSensor = new Scd40(i2cBus);
-                Log?.Trace("SCD40 Initialized");
+                Logger?.Trace("BMI270 Initializing...");
+                var bmi = new Bmi270(i2cBus);
+                Gyroscope = bmi;
+                Accelerometer = bmi;
+                Resolver.SensorService.RegisterSensor(bmi);
+                Logger?.Trace("BMI270 Initialized");
             }
             catch (Exception ex)
             {
-                Resolver.Log.Error($"Unable to create the SCD40 IMU: {ex.Message}");
+                Logger?.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+            }
+
+            try
+            {
+                Logger?.Debug("Battery Voltage Input Instantiating...");
+                BatteryVoltageInput = device.Pins.A04.CreateAnalogInputPort(5);
+                Logger?.Debug("Battery Voltage Input up");
+            }
+            catch (Exception ex)
+            {
+                Logger?.Error($"Unable to create Battery Voltage Input: {ex.Message}");
             }
         }
     }
