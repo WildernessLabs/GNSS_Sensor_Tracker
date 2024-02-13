@@ -95,41 +95,6 @@ namespace GnssTracker_Demo
             return Task.CompletedTask;
         }
 
-        private void TemperatureSensorUpdated(object sender, IChangeResult<Temperature> e)
-        {
-            Resolver.Log.Info($"TEMPERATURE:     {e.New.Celsius:N1}C");
-        }
-
-        private void HumiditySensorUpdated(object sender, IChangeResult<RelativeHumidity> e)
-        {
-            Resolver.Log.Info($"HUMIDITY:        {e.New.Percent:N1}%");
-        }
-
-        private void BarometerUpdated(object sender, IChangeResult<Pressure> e)
-        {
-            Resolver.Log.Info($"PRESSURE:        {e.New.Millibar:N1}mbar");
-        }
-
-        private void GasResistanceSensorUpdated(object sender, IChangeResult<Resistance> e)
-        {
-            Resolver.Log.Info($"RESISTANCE:      {e.New.Megaohms:N1}MΩ");
-        }
-
-        private void CO2ConcentrationSensorUpdated(object sender, IChangeResult<Concentration> e)
-        {
-            Resolver.Log.Info($"CO2 LEVELS:      {e.New.PartsPerMillion:N1}ppm");
-        }
-
-        private void GyroscopeUpdated(object sender, IChangeResult<AngularVelocity3D> e)
-        {
-            Resolver.Log.Info($"GYROSCOPE:       X:{e.New.X.DegreesPerSecond:N1}°/s, Y:{e.New.Y.DegreesPerSecond:N1}°/s, Z:{e.New.Z.DegreesPerSecond:N1}°/s");
-        }
-
-        private void AccelerometerUpdated(object sender, IChangeResult<Acceleration3D> e)
-        {
-            Resolver.Log.Info($"ACCELEROMETER:   X:{e.New.X.Gravity:N1}g, Y:{e.New.Y.Gravity:N1}g, Z:{e.New.Z.Gravity:N1}g");
-        }
-
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
         {
             if (e.Valid)
@@ -148,15 +113,50 @@ namespace GnssTracker_Demo
             }
         }
 
+        private void TemperatureSensorUpdated(object sender, IChangeResult<Temperature> e)
+        {
+            Resolver.Log.Info($"TEMPERATURE:       {e.New.Celsius:N1}C");
+        }
+
+        private void HumiditySensorUpdated(object sender, IChangeResult<RelativeHumidity> e)
+        {
+            Resolver.Log.Info($"HUMIDITY:          {e.New.Percent:N1}%");
+        }
+
+        private void BarometerUpdated(object sender, IChangeResult<Pressure> e)
+        {
+            Resolver.Log.Info($"PRESSURE:          {e.New.Millibar:N1}mbar");
+        }
+
+        private void GasResistanceSensorUpdated(object sender, IChangeResult<Resistance> e)
+        {
+            Resolver.Log.Info($"RESISTANCE:        {e.New.Megaohms:N1}MΩ");
+        }
+
+        private void CO2ConcentrationSensorUpdated(object sender, IChangeResult<Concentration> e)
+        {
+            Resolver.Log.Info($"CO2 CONCENTRATION: {e.New.PartsPerMillion:N1}ppm");
+        }
+
+        private void GyroscopeUpdated(object sender, IChangeResult<AngularVelocity3D> e)
+        {
+            Resolver.Log.Info($"GYROSCOPE:         X:{e.New.X.DegreesPerSecond:N1}°/s, Y:{e.New.Y.DegreesPerSecond:N1}°/s, Z:{e.New.Z.DegreesPerSecond:N1}°/s");
+        }
+
+        private void AccelerometerUpdated(object sender, IChangeResult<Acceleration3D> e)
+        {
+            Resolver.Log.Info($"ACCELEROMETER:     X:{e.New.X.Gravity:N1}g, Y:{e.New.Y.Gravity:N1}g, Z:{e.New.Z.Gravity:N1}g");
+        }
+
         private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"Solar Voltage:   {e.New.Volts:N2} volts");
+            Resolver.Log.Info($"SOLAR VOLTAGE:     {e.New.Volts:N2} volts");
             solarVoltage = e.New;
         }
 
         private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"Battery Voltage: {e.New.Volts:N2} volts");
+            Resolver.Log.Info($"BATTERY VOLTAGE:   {e.New.Volts:N2} volts");
             batteryVoltage = e.New;
         }
 
