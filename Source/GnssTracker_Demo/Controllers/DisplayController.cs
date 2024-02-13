@@ -193,7 +193,7 @@ namespace GnssTracker_Demo.Controllers
             CO2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N2} PPM";
 
             string lat = locationInfo == null
-                ? $"19 42' 39.0\""
+                ? $"00 00' 0.00\""
                 : $"" +
                 $"{locationInfo?.Position?.Latitude?.Degrees:N2} " +
                 $"{locationInfo?.Position?.Latitude?.Minutes:N2}'" +
@@ -201,7 +201,7 @@ namespace GnssTracker_Demo.Controllers
             LatitudeLabel.Text = lat;
 
             string lon = locationInfo == null
-                ? $"173 45' 47.9\""
+                ? $"00 00' 0.00\""
                 : $"" +
                 $"{locationInfo?.Position?.Longitude?.Degrees:N2} " +
                 $"{locationInfo?.Position?.Longitude?.Minutes:N2}'" +
