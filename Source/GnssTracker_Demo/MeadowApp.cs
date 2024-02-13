@@ -166,7 +166,7 @@ namespace GnssTracker_Demo
             {
                 if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
                 {
-                    Resolver.Log.Info($"GNSS Position: lat: [{e.Position.Latitude}], long: [{e.Position.Longitude}]");
+                    Resolver.Log.Info($"GNSS POSITION: LAT: [{e.Position.Latitude}], LONG: [{e.Position.Longitude}]");
 
                     lastGNSSPositionReportTime = DateTime.UtcNow;
                 }
