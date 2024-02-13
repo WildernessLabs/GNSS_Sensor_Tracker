@@ -151,7 +151,7 @@ namespace GnssTracker_Demo.Controllers
             });
             LatitudeLabel = new Label(0, 94 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"19 42' 39.0\"",
+                Text = $"00 00' 0.00\"",
                 TextColor = Color.White,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -166,7 +166,7 @@ namespace GnssTracker_Demo.Controllers
             });
             LongitudeLabel = new Label(0, 109 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"173 45' 47.9\"",
+                Text = $"00 00' 0.00\"",
                 TextColor = Color.White,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
