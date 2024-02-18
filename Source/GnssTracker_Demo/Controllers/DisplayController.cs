@@ -55,7 +55,7 @@ namespace GnssTracker_Demo.Controllers
             });
             BatteryVoltageLabel = new Label(0, 3 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00   V",
+                Text = $"0.00  V",
                 TextColor = Color.White,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right
@@ -70,7 +70,7 @@ namespace GnssTracker_Demo.Controllers
             });
             SolarVoltageLabel = new Label(0, 18 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00   V",
+                Text = $"0.00  V",
                 TextColor = Color.Black,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -85,7 +85,7 @@ namespace GnssTracker_Demo.Controllers
             });
             TemperatureLabel = new Label(0, 33 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00   C",
+                Text = $"0.0   C",
                 TextColor = Color.Black,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -100,7 +100,7 @@ namespace GnssTracker_Demo.Controllers
             });
             HumidityLabel = new Label(0, 48 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00   %",
+                Text = $"0.0   %",
                 TextColor = Color.Black,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -115,7 +115,7 @@ namespace GnssTracker_Demo.Controllers
             });
             PressureLabel = new Label(0, 63 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00 ATM",
+                Text = $"0.0 ATM",
                 TextColor = Color.Black,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -130,7 +130,7 @@ namespace GnssTracker_Demo.Controllers
             });
             CO2LevelsLabel = new Label(0, 78 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"0.00 PPM",
+                Text = $"0.0 PPM",
                 TextColor = Color.Black,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -151,7 +151,7 @@ namespace GnssTracker_Demo.Controllers
             });
             LatitudeLabel = new Label(0, 94 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"00 00' 0.00\"",
+                Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -166,7 +166,7 @@ namespace GnssTracker_Demo.Controllers
             });
             LongitudeLabel = new Label(0, 109 + offset_y, DisplayScreen.Width - margin_x, LargeFont.Height)
             {
-                Text = $"00 00' 0.00\"",
+                Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
                 Font = LargeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -187,10 +187,10 @@ namespace GnssTracker_Demo.Controllers
         {
             BatteryVoltageLabel.Text = $"{BatteryVoltage?.Volts:N2}   V";
             SolarVoltageLabel.Text = $"{SolarVoltage?.Volts:N2}   V";
-            TemperatureLabel.Text = $"{Temperature?.Celsius:N2}   C";
-            HumidityLabel.Text = $"{Humidity?.Percent:N2}   %";
-            PressureLabel.Text = $"{Pressure?.StandardAtmosphere:N2} ATM";
-            CO2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N2} PPM";
+            TemperatureLabel.Text = $"{Temperature?.Celsius:N1}   C";
+            HumidityLabel.Text = $"{Humidity?.Percent:N1}   %";
+            PressureLabel.Text = $"{Pressure?.StandardAtmosphere:N1} ATM";
+            CO2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N1} PPM";
 
             string lat = locationInfo == null
                 ? $"00 00' 0.00\""
