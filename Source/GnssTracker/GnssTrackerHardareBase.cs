@@ -1,6 +1,5 @@
-﻿using Meadow.Foundation.Displays;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Atmospheric;
+﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Logging;
@@ -10,7 +9,6 @@ using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Atmospheric;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
-using Meadow.Units;
 using System;
 
 namespace Meadow.Devices
@@ -20,32 +18,42 @@ namespace Meadow.Devices
     /// </summary>
     public abstract class GnssTrackerHardwareBase : IGnssTrackerHardware
     {
+        private IF7CoreComputeMeadowDevice _device;
+
+        private Bme688? _atmosphericSensor;
+        private ITemperatureSensor? _temperatureSensor;
+        private IHumiditySensor? _humiditySensor;
+        private IBarometricPressureSensor? _barometricPressureSensor;
+        private IGasResistanceSensor? _gasResistanceSensor;
+
+        private IConnector?[]? _connectors;
+
         /// <inheritdoc/>
         protected Logger? Logger = Resolver.Log;
 
         /// <inheritdoc/>
-        public II2cBus? I2cBus { get; protected set; }
+        public abstract II2cBus I2cBus { get; }
 
         /// <inheritdoc/>
-        public ISpiBus? SpiBus { get; protected set; }
+        public ISpiBus? SpiBus { get; }
 
         /// <inheritdoc/>
-        public IPwmLed? OnboardLed { get; protected set; }
+        public IPwmLed? OnboardLed { get; }
 
         /// <inheritdoc/>
-        public Bme688? AtmosphericSensor { get; protected set; }
+        public Bme688? AtmosphericSensor => GetAtmosphericSensor();
 
         /// <inheritdoc/>
-        public ITemperatureSensor? TemperatureSensor { get; protected set; }
+        public ITemperatureSensor? TemperatureSensor => GetTemperatureSensor();
 
         /// <inheritdoc/>
-        public IHumiditySensor? HumiditySensor { get; protected set; }
+        public IHumiditySensor? HumiditySensor => GetHumiditySensor();
 
         /// <inheritdoc/>
-        public IBarometricPressureSensor? BarometricPressureSensor { get; protected set; }
+        public IBarometricPressureSensor? BarometricPressureSensor => GetBarometricPressureSensor();
 
         /// <inheritdoc/>
-        public IGasResistanceSensor? GasResistanceSensor { get; protected set; }
+        public IGasResistanceSensor? GasResistanceSensor => GetGasResistanceSensor();
 
         /// <inheritdoc/>
         public NeoM8? Gnss { get; protected set; }
@@ -63,7 +71,10 @@ namespace Meadow.Devices
         public abstract IAccelerometer? Accelerometer { get; protected set; }
 
         /// <inheritdoc/>
-        public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; protected set; }
+        public abstract Scd40? Scd40 { get; }
+
+        /// <inheritdoc/>
+        public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
 
         /// <inheritdoc/>
         public abstract IAnalogInputPort? BatteryVoltageInput { get; protected set; }
@@ -95,10 +106,6 @@ namespace Meadow.Devices
                 return _connectors;
             }
         }
-
-        private IConnector?[]? _connectors;
-
-        private readonly IF7CoreComputeMeadowDevice _device;
 
         internal UartConnector CreateUartConnector()
         {
@@ -146,96 +153,75 @@ namespace Meadow.Devices
                 });
         }
 
-        /// <summary>
-        /// Create a new GnssTrackerHardware base object
-        /// </summary>
-        /// <param name="device">The Meadow device</param>
-        /// <param name="i2cBus">The I2C bus</param>
-        public GnssTrackerHardwareBase(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
+        private Bme688? GetAtmosphericSensor()
         {
-            Logger?.Debug("Initialize hardware...");
-            _device = device;
-            I2cBus = i2cBus;
+            if (_atmosphericSensor == null)
+            {
+                InitializeBme688();
+            }
 
+            return _atmosphericSensor;
+        }
+
+        private ITemperatureSensor? GetTemperatureSensor()
+        {
+            if (_temperatureSensor == null)
+            {
+                InitializeBme688();
+            }
+
+            return _temperatureSensor;
+        }
+
+        private IHumiditySensor? GetHumiditySensor()
+        {
+            if (_humiditySensor == null)
+            {
+                InitializeBme688();
+            }
+
+            return _humiditySensor;
+        }
+
+        private IBarometricPressureSensor? GetBarometricPressureSensor()
+        {
+            if (_barometricPressureSensor == null)
+            {
+                InitializeBme688();
+            }
+
+            return _barometricPressureSensor;
+        }
+
+        private IGasResistanceSensor? GetGasResistanceSensor()
+        {
+            if (_gasResistanceSensor == null)
+            {
+                InitializeBme688();
+            }
+
+            return _gasResistanceSensor;
+        }
+
+        private void InitializeBme688()
+        {
             try
             {
-                Logger?.Debug("Onboard LED Initializing...");
-
-                OnboardLed = new PwmLed(device.Pins.D20, TypicalForwardVoltage.Green);
-
-                Logger?.Debug("Onboard LED initialized");
-            }
-            catch (Exception e)
-            {
-                Logger?.Error($"Err initializing onboard LED: {e.Message}");
-            }
-
-            try
-            {
-                Logger?.Debug("GNSS Initializing...");
-
-                Gnss = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4")!, device.Pins.D09, device.Pins.D11);
-
-                Logger?.Debug("GNSS initialized");
-            }
-            catch (Exception e)
-            {
-                Logger?.Error($"Err initializing GNSS: {e.Message}");
-            }
-
-            try
-            {
-                Logger?.Debug("BME688 Initializing...");
+                Logger?.Trace("BME688 Initializing...");
 
                 var bme = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
-                AtmosphericSensor = bme;
-                TemperatureSensor = bme;
-                HumiditySensor = bme;
-                BarometricPressureSensor = bme;
-                GasResistanceSensor = bme;
+                _atmosphericSensor = bme;
+                _temperatureSensor = bme;
+                _humiditySensor = bme;
+                _barometricPressureSensor = bme;
+                _gasResistanceSensor = bme;
                 Resolver.SensorService.RegisterSensor(bme);
-                Logger?.Debug("BME688 initialized");
-            }
-            catch (Exception e)
-            {
-                Logger?.Error($"Err initializing BME688: {e.Message}");
-            }
 
-            try
-            {
-                Logger?.Debug("ePaper Display Initializing...");
-
-                var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
-                SpiBus = device.CreateSpiBus(
-                    device.Pins.SCK,
-                    device.Pins.COPI,
-                    device.Pins.CIPO,
-                    config);
-                Display = new Ssd1680(
-                    spiBus: SpiBus,
-                    chipSelectPin: device.Pins.D02,
-                    dcPin: device.Pins.D03,
-                    resetPin: device.Pins.D04,
-                    busyPin: device.Pins.D05,
-                    width: 122,
-                    height: 250);
-
-                Logger?.Debug("ePaper Display initialized");
-            }
-            catch (Exception e)
-            {
-                Logger?.Error($"Err initializing ePaper Display: {e.Message}");
-            }
-
-            try
-            {
-                Logger?.Debug("Solar Voltage Input Initializing...");
-                SolarVoltageInput = device.Pins.A00.CreateAnalogInputPort(5);
-                Logger?.Debug("Solar Voltage initialized");
+                Logger?.Trace("BME688 Initialized");
             }
             catch (Exception ex)
             {
-                Logger?.Error($"Unabled to create Solar Voltage Input: {ex.Message}");
+                Logger?.Error($"Unable to create the BME688 atmospheric sensor: {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Peripherals.Displays;
@@ -46,7 +47,12 @@ namespace Meadow.Devices
         public IGasResistanceSensor? GasResistanceSensor { get; }
 
         /// <summary>
-        /// Gets the ICO2ConcentrationSensor on the Clima board
+        /// Gets the Scd40 on the GNSS Sensor Tracker board
+        /// </summary>
+        public Scd40? Scd40 { get; }
+
+        /// <summary>
+        /// Gets the ICO2ConcentrationSensor on the GNSS Sensor Tracker board
         /// </summary>
         public ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
 

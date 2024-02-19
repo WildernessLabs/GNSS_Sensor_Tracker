@@ -49,51 +49,58 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.Updated += GasResistanceSensorUpdated;
             }
 
+            if (gnssTracker.Scd40 is { } scd40)
+            {
+                scd40.Updated += Scd40Updated;
+            }
+
             if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
             {
-                cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated; ;
+                cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated;
             }
 
-            if (gnssTracker.Gyroscope is { } gyroscope)
-            {
-                gyroscope.Updated += GyroscopeUpdated;
-            }
+            //if (gnssTracker.Gyroscope is { } gyroscope)
+            //{
+            //    gyroscope.Updated += GyroscopeUpdated;
+            //}
 
-            if (gnssTracker.Accelerometer is { } accelerometer)
-            {
-                accelerometer.Updated += AccelerometerUpdated; ;
-            }
+            //if (gnssTracker.Accelerometer is { } accelerometer)
+            //{
+            //    accelerometer.Updated += AccelerometerUpdated; ;
+            //}
 
-            if (gnssTracker.SolarVoltageInput is { } solarVoltage)
-            {
-                solarVoltage.Updated += SolarVoltageUpdated;
-            }
+            //if (gnssTracker.SolarVoltageInput is { } solarVoltage)
+            //{
+            //    solarVoltage.Updated += SolarVoltageUpdated;
+            //}
 
-            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
-            {
-                batteryVoltage.Updated += BatteryVoltageUpdated;
-            }
+            //if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
+            //{
+            //    batteryVoltage.Updated += BatteryVoltageUpdated;
+            //}
 
-            if (gnssTracker.Gnss is { } gnss)
-            {
-                gnss.RmcReceived += GnssRmcReceived;
-                gnss.GllReceived += GnssGllReceived;
-            }
+            //if (gnssTracker.Gnss is { } gnss)
+            //{
+            //    gnss.RmcReceived += GnssRmcReceived;
+            //    gnss.GllReceived += GnssGllReceived;
+            //}
 
-            if (gnssTracker.Display is { } display)
-            {
-                displayController = new DisplayController(display);
-            }
+            //if (gnssTracker.Display is { } display)
+            //{
+            //    displayController = new DisplayController(display);
+            //}
 
-            if (gnssTracker.OnboardLed is { } onboardLed)
-            {
-                onboardLed.IsOn = true;
-            }
+            //if (gnssTracker.OnboardLed is { } onboardLed)
+            //{
+            //    onboardLed.IsOn = true;
+            //}
 
             Resolver.Log.Info("Initialization complete");
 
             return Task.CompletedTask;
         }
+
+
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
         {
@@ -113,6 +120,8 @@ namespace GnssTracker_Demo
             }
         }
 
+
+
         private void TemperatureSensorUpdated(object sender, IChangeResult<Temperature> e)
         {
             Resolver.Log.Info($"TEMPERATURE:       {e.New.Celsius:N1}C");
@@ -131,6 +140,11 @@ namespace GnssTracker_Demo
         private void GasResistanceSensorUpdated(object sender, IChangeResult<Resistance> e)
         {
             Resolver.Log.Info($"RESISTANCE:        {e.New.Megaohms:N1}MΩ");
+        }
+
+        private void Scd40Updated(object sender, IChangeResult<(Concentration? Concentration, Temperature? Temperature, RelativeHumidity? Humidity)> e)
+        {
+            Resolver.Log.Info($"CO2 CONCENTRATION:");
         }
 
         private void CO2ConcentrationSensorUpdated(object sender, IChangeResult<Concentration> e)
@@ -197,47 +211,53 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.StartUpdating(sensorUpdateInterval);
             }
 
+            if (gnssTracker.Scd40 is { } scd40)
+            {
+                scd40.StartUpdating(sensorUpdateInterval);
+            }
+
             if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
             {
                 cO2ConcentrationSensor.StartUpdating(sensorUpdateInterval);
             }
 
-            if (gnssTracker.Gyroscope is { } gyroscope)
-            {
-                gyroscope.StartUpdating(sensorUpdateInterval);
-            }
+            //if (gnssTracker.Gyroscope is { } gyroscope)
+            //{
+            //    gyroscope.StartUpdating(sensorUpdateInterval);
+            //}
 
-            if (gnssTracker.Accelerometer is { } accelerometer)
-            {
-                accelerometer.StartUpdating(sensorUpdateInterval);
-            }
+            //if (gnssTracker.Accelerometer is { } accelerometer)
+            //{
+            //    accelerometer.StartUpdating(sensorUpdateInterval);
+            //}
 
-            if (gnssTracker.SolarVoltageInput is { } solarVoltageInput)
-            {
-                solarVoltageInput.StartUpdating(sensorUpdateInterval);
-            }
+            //if (gnssTracker.SolarVoltageInput is { } solarVoltageInput)
+            //{
+            //    solarVoltageInput.StartUpdating(sensorUpdateInterval);
+            //}
 
-            if (gnssTracker.BatteryVoltageInput is { } batteryVoltageInput)
-            {
-                batteryVoltageInput.StartUpdating(sensorUpdateInterval);
-            }
+            //if (gnssTracker.BatteryVoltageInput is { } batteryVoltageInput)
+            //{
+            //    batteryVoltageInput.StartUpdating(sensorUpdateInterval);
+            //}
 
-            if (gnssTracker.Gnss is { } gnss)
-            {
-                gnss.StartUpdating();
-            }
+            //if (gnssTracker.Gnss is { } gnss)
+            //{
+            //    gnss.StartUpdating();
+            //}
 
             while (true)
             {
-                displayController.UpdateDisplay(
-                    batteryVoltage,
-                    solarVoltage,
-                    gnssTracker.TemperatureSensor.Temperature,
-                    gnssTracker.HumiditySensor.Humidity,
-                    gnssTracker.BarometricPressureSensor.Pressure,
-                    gnssTracker.CO2ConcentrationSensor.CO2Concentration,
-                    lastGNSSPosition);
+                Resolver.Log.Info("==================================================");
 
+                //    displayController.UpdateDisplay(
+                //        batteryVoltage,
+                //        solarVoltage,
+                //        gnssTracker.TemperatureSensor.Temperature,
+                //        gnssTracker.HumiditySensor.Humidity,
+                //        gnssTracker.BarometricPressureSensor.Pressure,
+                //        gnssTracker.CO2ConcentrationSensor.CO2Concentration,
+                //        lastGNSSPosition);
                 await Task.Delay(sensorUpdateInterval);
             }
         }
