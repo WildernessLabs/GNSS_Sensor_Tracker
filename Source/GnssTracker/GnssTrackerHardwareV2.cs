@@ -115,7 +115,11 @@ namespace Meadow.Devices
             {
                 Logger?.Trace("SCD40 Initializing...");
 
-                var scd = new Scd40(I2cBus);
+                //try to write a byte to the address of the SCD40 sensor
+                I2cBus.Write(0x62, new byte[] { 0 });
+                var scd = new Scd40(I2cBus, (byte)Scd40.Addresses.Default);
+                var serialNum = scd.GetSerialNumber();
+                Resolver.Log.Info($"Serial: {BitConverter.ToString(serialNum)}");
                 _scd40 = scd;
                 _cO2ConcentrationSensor = scd;
                 Resolver.SensorService.RegisterSensor(scd);

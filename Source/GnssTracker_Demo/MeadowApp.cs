@@ -49,15 +49,15 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.Updated += GasResistanceSensorUpdated;
             }
 
-            //if (gnssTracker.Scd40 is { } scd40)
-            //{
-            //    scd40.Updated += Scd40Updated;
-            //}
+            if (gnssTracker.Scd40 is { } scd40)
+            {
+                scd40.Updated += Scd40Updated;
+            }
 
-            //if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
-            //{
-            //    cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated;
-            //}
+            if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
+            {
+                cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated;
+            }
 
             if (gnssTracker.Gyroscope is { } gyroscope)
             {
@@ -207,15 +207,15 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.StartUpdating(sensorUpdateInterval);
             }
 
-            //if (gnssTracker.Scd40 is { } scd40)
-            //{
-            //    scd40.StartUpdating(sensorUpdateInterval);
-            //}
+            if (gnssTracker.Scd40 is { } scd40)
+            {
+                scd40.StartUpdating(sensorUpdateInterval);
+            }
 
-            //if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
-            //{
-            //    cO2ConcentrationSensor.StartUpdating(sensorUpdateInterval);
-            //}
+            if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
+            {
+                cO2ConcentrationSensor.StartUpdating(sensorUpdateInterval);
+            }
 
             if (gnssTracker.Gyroscope is { } gyroscope)
             {
