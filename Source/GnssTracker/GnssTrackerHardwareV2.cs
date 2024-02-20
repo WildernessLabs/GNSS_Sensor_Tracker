@@ -1,6 +1,8 @@
-﻿using Meadow.Foundation.Sensors.Accelerometers;
+﻿using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
 using System;
@@ -12,13 +14,21 @@ namespace Meadow.Devices
     /// </summary>
     public class GnssTrackerHardwareV2 : GnssTrackerHardwareBase
     {
-        private readonly IF7CoreComputeMeadowDevice _device;
+        private IRgbPwmLed? _onboardRgbLed;
 
         private Scd40? _scd40;
         private ICO2ConcentrationSensor? _cO2ConcentrationSensor;
 
+        private Bmi270? _bmi270;
+        private IGyroscope? _gyroscope;
+        private IAccelerometer? _accelerometer;
+        private IAnalogInputPort? _batteryVoltageInput;
+
         /// <inheritdoc/>
         public sealed override II2cBus I2cBus { get; }
+
+        /// <inheritdoc/>
+        public override IRgbPwmLed? OnboardRgbLed => GetOnboardRgbLed();
 
         /// <inheritdoc/>
         public override Scd40? Scd40 => GetScd40Sensor();
@@ -27,13 +37,16 @@ namespace Meadow.Devices
         public override ICO2ConcentrationSensor? CO2ConcentrationSensor => GetCO2ConcentrationSensor();
 
         /// <inheritdoc/>
-        public override IGyroscope? Gyroscope { get; protected set; }
+        public override Bmi270? Bmi270 => GetBmi270Sensor();
 
         /// <inheritdoc/>
-        public override IAccelerometer? Accelerometer { get; protected set; }
+        public override IGyroscope? Gyroscope => GetGyroscope();
 
         /// <inheritdoc/>
-        public override IAnalogInputPort? BatteryVoltageInput { get; protected set; }
+        public override IAccelerometer? Accelerometer => GetAccelerometer();
+
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput => GetBatteryVoltage();
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV2 object
@@ -45,30 +58,34 @@ namespace Meadow.Devices
             _device = device;
 
             I2cBus = i2cBus;
+        }
 
-            try
+        private IRgbPwmLed? GetOnboardRgbLed()
+        {
+            if (_onboardRgbLed == null)
             {
-                Logger?.Trace("BMI270 Initializing...");
-                var bmi = new Bmi270(I2cBus);
-                Gyroscope = bmi;
-                Accelerometer = bmi;
-                Resolver.SensorService.RegisterSensor(bmi);
-                Logger?.Trace("BMI270 Initialized");
-            }
-            catch (Exception ex)
-            {
-                Logger?.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+                InitializeOnboardRgbLed();
             }
 
+            return _onboardRgbLed;
+        }
+
+        private void InitializeOnboardRgbLed()
+        {
             try
             {
-                Logger?.Debug("Battery Voltage Input Instantiating...");
-                BatteryVoltageInput = device.Pins.A04.CreateAnalogInputPort(5);
-                Logger?.Debug("Battery Voltage Input up");
+                Logger?.Debug("Onboard LED Initializing...");
+
+                _onboardRgbLed = new RgbPwmLed(
+                    redPwmPin: _device.Pins.D09,
+                    greenPwmPin: _device.Pins.D10,
+                    bluePwmPin: _device.Pins.D11);
+
+                Logger?.Debug("Onboard LED initialized");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger?.Error($"Unable to create Battery Voltage Input: {ex.Message}");
+                Logger?.Error($"Err initializing onboard LED: {e.Message}");
             }
         }
 
@@ -108,6 +125,80 @@ namespace Meadow.Devices
             catch (Exception ex)
             {
                 Logger?.Error($"Unable to create the SCD40 IMU: {ex.Message}");
+            }
+        }
+
+        private Bmi270? GetBmi270Sensor()
+        {
+            if (_bmi270 == null)
+            {
+                InitializeBmi270();
+            }
+
+            return _bmi270;
+        }
+
+        private IGyroscope? GetGyroscope()
+        {
+            if (_gyroscope == null)
+            {
+                InitializeBmi270();
+            }
+
+            return _gyroscope;
+        }
+
+        private IAccelerometer? GetAccelerometer()
+        {
+            if (_accelerometer == null)
+            {
+                InitializeBmi270();
+            }
+
+            return _accelerometer;
+        }
+
+        private void InitializeBmi270()
+        {
+            try
+            {
+                Logger?.Trace("BMI270 Initializing...");
+
+                var bmi = new Bmi270(I2cBus);
+                _bmi270 = bmi;
+                _gyroscope = bmi;
+                _accelerometer = bmi;
+                Resolver.SensorService.RegisterSensor(bmi);
+
+                Logger?.Trace("BMI270 Initialized");
+            }
+            catch (Exception ex)
+            {
+                Logger?.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+            }
+        }
+
+        private IAnalogInputPort? GetBatteryVoltage()
+        {
+            if (_batteryVoltageInput == null)
+            {
+                InitializeBatteryVoltage();
+            }
+
+            return _batteryVoltageInput;
+        }
+
+        private void InitializeBatteryVoltage()
+        {
+            try
+            {
+                Logger?.Debug("Battery Voltage Input Instantiating...");
+                _batteryVoltageInput = _device.Pins.A04.CreateAnalogInputPort(5);
+                Logger?.Debug("Battery Voltage Input up");
+            }
+            catch (Exception ex)
+            {
+                Logger?.Error($"Unable to create Battery Voltage Input: {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Meadow.Foundation.Sensors.Atmospheric;
+﻿using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
@@ -17,9 +18,9 @@ namespace Meadow.Devices
     public interface IGnssTrackerHardware
     {
         /// <summary>
-        /// Gets the PWM LED
+        /// Gets the RGB PWM LED
         /// </summary>
-        public IPwmLed? OnboardLed { get; }
+        public IRgbPwmLed? OnboardRgbLed { get; }
 
         /// <summary>
         /// Gets the Atmospheric sensor on the GNSS Sensor Tracker board.
@@ -55,6 +56,11 @@ namespace Meadow.Devices
         /// Gets the ICO2ConcentrationSensor on the GNSS Sensor Tracker board
         /// </summary>
         public ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
+
+        /// <summary>
+        /// Gets the Bmi270 on the GNSS Sensor Tracker board
+        /// </summary>
+        public Bmi270? Bmi270 { get; }
 
         /// <summary>
         /// Gets the IGyroscope on the GNSS Sensor Tracker board

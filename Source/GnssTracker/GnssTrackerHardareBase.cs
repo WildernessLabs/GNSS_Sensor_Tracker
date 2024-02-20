@@ -1,4 +1,6 @@
-﻿using Meadow.Foundation.Sensors.Atmospheric;
+﻿using Meadow.Foundation.Displays;
+using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
@@ -9,6 +11,7 @@ using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Atmospheric;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
+using Meadow.Units;
 using System;
 
 namespace Meadow.Devices
@@ -18,13 +21,21 @@ namespace Meadow.Devices
     /// </summary>
     public abstract class GnssTrackerHardwareBase : IGnssTrackerHardware
     {
-        private IF7CoreComputeMeadowDevice _device;
+        protected IF7CoreComputeMeadowDevice _device;
 
         private Bme688? _atmosphericSensor;
         private ITemperatureSensor? _temperatureSensor;
         private IHumiditySensor? _humiditySensor;
         private IBarometricPressureSensor? _barometricPressureSensor;
         private IGasResistanceSensor? _gasResistanceSensor;
+
+        private NeoM8? _gnss;
+
+        private IPixelDisplay? _display;
+
+        private IAnalogInputPort? _solarVoltageInput;
+
+        private IPwmLed? _onboardLed;
 
         private IConnector?[]? _connectors;
 
@@ -35,10 +46,7 @@ namespace Meadow.Devices
         public abstract II2cBus I2cBus { get; }
 
         /// <inheritdoc/>
-        public ISpiBus? SpiBus { get; }
-
-        /// <inheritdoc/>
-        public IPwmLed? OnboardLed { get; }
+        public ISpiBus? SpiBus { get; protected set; }
 
         /// <inheritdoc/>
         public Bme688? AtmosphericSensor => GetAtmosphericSensor();
@@ -56,19 +64,22 @@ namespace Meadow.Devices
         public IGasResistanceSensor? GasResistanceSensor => GetGasResistanceSensor();
 
         /// <inheritdoc/>
-        public NeoM8? Gnss { get; protected set; }
+        public NeoM8? Gnss => GetGnss();
 
         /// <inheritdoc/>
-        public IPixelDisplay? Display { get; protected set; }
+        public IPixelDisplay? Display => GetEPaperDisplay();
 
         /// <inheritdoc/>
-        public IAnalogInputPort? SolarVoltageInput { get; protected set; }
+        public abstract IRgbPwmLed? OnboardRgbLed { get; }
 
         /// <inheritdoc/>
-        public abstract IGyroscope? Gyroscope { get; protected set; }
+        public abstract Bmi270? Bmi270 { get; }
 
         /// <inheritdoc/>
-        public abstract IAccelerometer? Accelerometer { get; protected set; }
+        public abstract IGyroscope? Gyroscope { get; }
+
+        /// <inheritdoc/>
+        public abstract IAccelerometer? Accelerometer { get; }
 
         /// <inheritdoc/>
         public abstract Scd40? Scd40 { get; }
@@ -77,7 +88,10 @@ namespace Meadow.Devices
         public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
 
         /// <inheritdoc/>
-        public abstract IAnalogInputPort? BatteryVoltageInput { get; protected set; }
+        public abstract IAnalogInputPort? BatteryVoltageInput { get; }
+
+        /// <inheritdoc/>
+        public IAnalogInputPort? SolarVoltageInput => GetSolarVoltageInput();
 
         /// <inheritdoc/>
         public I2cConnector I2cHeader => (I2cConnector)Connectors[1]!;
@@ -222,6 +236,94 @@ namespace Meadow.Devices
             catch (Exception ex)
             {
                 Logger?.Error($"Unable to create the BME688 atmospheric sensor: {ex.Message}");
+            }
+        }
+
+        private IAnalogInputPort? GetSolarVoltageInput()
+        {
+            if (_solarVoltageInput == null)
+            {
+                InitializeSolarVoltageInput();
+            }
+
+            return _solarVoltageInput;
+        }
+
+        private void InitializeSolarVoltageInput()
+        {
+            try
+            {
+                Logger?.Debug("Solar Voltage Input Initializing...");
+                _solarVoltageInput = _device.Pins.A00.CreateAnalogInputPort(5);
+                Logger?.Debug("Solar Voltage initialized");
+            }
+            catch (Exception ex)
+            {
+                Logger?.Error($"Unabled to create Solar Voltage Input: {ex.Message}");
+            }
+        }
+
+        private IPixelDisplay? GetEPaperDisplay()
+        {
+            if (_display == null)
+            {
+                InitializeSsd1680Display();
+            }
+
+            return _display;
+        }
+
+        private void InitializeSsd1680Display()
+        {
+            try
+            {
+                Logger?.Debug("ePaper Display Initializing...");
+
+                var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
+                SpiBus = _device.CreateSpiBus(
+                    _device.Pins.SCK,
+                    _device.Pins.COPI,
+                    _device.Pins.CIPO,
+                    config);
+                _display = new Ssd1680(
+                spiBus: SpiBus,
+                chipSelectPin: _device.Pins.D02,
+                dcPin: _device.Pins.D03,
+                    resetPin: _device.Pins.D04,
+                    busyPin: _device.Pins.D05,
+                    width: 122,
+                    height: 250);
+
+                Logger?.Debug("ePaper Display initialized");
+            }
+            catch (Exception e)
+            {
+                Logger?.Error($"Err initializing ePaper Display: {e.Message}");
+            }
+        }
+
+        private NeoM8? GetGnss()
+        {
+            if (_gnss == null)
+            {
+                InitializeGnss();
+            }
+
+            return _gnss;
+        }
+
+        private void InitializeGnss()
+        {
+            try
+            {
+                Logger?.Debug("GNSS Initializing...");
+                _gnss = new NeoM8(_device, _device.PlatformOS.GetSerialPortName("COM4")!, _device.Pins.D18);
+
+                Logger?.Debug("GNSS initialized");
+            }
+            catch (Exception e)
+            {
+                Logger?.Error($"Err initializing GNSS: {e.Message}");
             }
         }
     }
