@@ -1,6 +1,4 @@
-﻿using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Foundation.Sensors.Environmental;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
@@ -19,13 +17,7 @@ namespace Meadow.Devices
         public override IRgbPwmLed? OnboardRgbLed => throw new System.NotImplementedException();
 
         /// <inheritdoc/>
-        public override Scd40? Scd40 => throw new System.NotImplementedException();
-
-        /// <inheritdoc/>
         public override ICO2ConcentrationSensor? CO2ConcentrationSensor => throw new System.NotImplementedException();
-
-        /// <inheritdoc/>
-        public override Bmi270? Bmi270 => throw new System.NotImplementedException();
 
         /// <inheritdoc/>
         public override IGyroscope? Gyroscope => throw new System.NotImplementedException();

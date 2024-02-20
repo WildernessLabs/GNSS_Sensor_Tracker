@@ -49,11 +49,6 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.Updated += GasResistanceSensorUpdated;
             }
 
-            if (gnssTracker.Scd40 is { } scd40)
-            {
-                scd40.Updated += Scd40Updated;
-            }
-
             if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
             {
                 cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated;
@@ -85,10 +80,10 @@ namespace GnssTracker_Demo
                 gnss.GllReceived += GnssGllReceived;
             }
 
-            //if (gnssTracker.Display is { } display)
-            //{
-            //    displayController = new DisplayController(display);
-            //}
+            if (gnssTracker.Display is { } display)
+            {
+                displayController = new DisplayController(display);
+            }
 
             if (gnssTracker.OnboardRgbLed is { } onboardRgbLed)
             {
@@ -136,11 +131,6 @@ namespace GnssTracker_Demo
         private void GasResistanceSensorUpdated(object sender, IChangeResult<Resistance> e)
         {
             Resolver.Log.Info($"RESISTANCE:        {e.New.Megaohms:N1}MΩ");
-        }
-
-        private void Scd40Updated(object sender, IChangeResult<(Concentration? Concentration, Temperature? Temperature, RelativeHumidity? Humidity)> e)
-        {
-            Resolver.Log.Info($"CO2 CONCENTRATION:");
         }
 
         private void CO2ConcentrationSensorUpdated(object sender, IChangeResult<Concentration> e)
@@ -207,11 +197,6 @@ namespace GnssTracker_Demo
                 gasResistanceSensor.StartUpdating(sensorUpdateInterval);
             }
 
-            if (gnssTracker.Scd40 is { } scd40)
-            {
-                scd40.StartUpdating(sensorUpdateInterval);
-            }
-
             if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
             {
                 cO2ConcentrationSensor.StartUpdating(sensorUpdateInterval);
@@ -246,14 +231,14 @@ namespace GnssTracker_Demo
             {
                 Resolver.Log.Info("==================================================");
 
-                //    displayController.UpdateDisplay(
-                //        batteryVoltage,
-                //        solarVoltage,
-                //        gnssTracker.TemperatureSensor.Temperature,
-                //        gnssTracker.HumiditySensor.Humidity,
-                //        gnssTracker.BarometricPressureSensor.Pressure,
-                //        gnssTracker.CO2ConcentrationSensor.CO2Concentration,
-                //        lastGNSSPosition);
+                displayController.UpdateDisplay(
+                    batteryVoltage,
+                    solarVoltage,
+                    gnssTracker.TemperatureSensor.Temperature,
+                    gnssTracker.HumiditySensor.Humidity,
+                    gnssTracker.BarometricPressureSensor.Pressure,
+                    gnssTracker.CO2ConcentrationSensor.CO2Concentration,
+                    lastGNSSPosition);
                 await Task.Delay(sensorUpdateInterval);
             }
         }

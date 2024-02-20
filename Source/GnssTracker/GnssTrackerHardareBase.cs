@@ -1,7 +1,5 @@
 ﻿using Meadow.Foundation.Displays;
-using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Environmental;
 using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
 using Meadow.Logging;
@@ -73,16 +71,10 @@ namespace Meadow.Devices
         public abstract IRgbPwmLed? OnboardRgbLed { get; }
 
         /// <inheritdoc/>
-        public abstract Bmi270? Bmi270 { get; }
-
-        /// <inheritdoc/>
         public abstract IGyroscope? Gyroscope { get; }
 
         /// <inheritdoc/>
         public abstract IAccelerometer? Accelerometer { get; }
-
-        /// <inheritdoc/>
-        public abstract Scd40? Scd40 { get; }
 
         /// <inheritdoc/>
         public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }

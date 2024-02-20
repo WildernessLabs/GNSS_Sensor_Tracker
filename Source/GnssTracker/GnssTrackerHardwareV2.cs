@@ -31,13 +31,13 @@ namespace Meadow.Devices
         public override IRgbPwmLed? OnboardRgbLed => GetOnboardRgbLed();
 
         /// <inheritdoc/>
-        public override Scd40? Scd40 => GetScd40Sensor();
+        public Scd40? Scd40 => GetScd40Sensor();
 
         /// <inheritdoc/>
         public override ICO2ConcentrationSensor? CO2ConcentrationSensor => GetCO2ConcentrationSensor();
 
         /// <inheritdoc/>
-        public override Bmi270? Bmi270 => GetBmi270Sensor();
+        public Bmi270? Bmi270 => GetBmi270Sensor();
 
         /// <inheritdoc/>
         public override IGyroscope? Gyroscope => GetGyroscope();
