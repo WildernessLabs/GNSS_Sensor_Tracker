@@ -58,6 +58,9 @@ namespace Meadow.Devices
             base.device = device;
 
             I2cBus = i2cBus;
+
+            // TODO: Workaround for https://github.com/WildernessLabs/Meadow_Issues/issues/293
+            InitializeOnboardRgbLed();
         }
 
         private IRgbPwmLed? GetOnboardRgbLed()
