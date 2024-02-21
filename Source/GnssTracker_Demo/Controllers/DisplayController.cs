@@ -12,7 +12,7 @@ namespace GnssTracker_Demo.Controllers
         private int margin_x = 8;
         private int offset_y = 5;
 
-        private Font8x12 LargeFont = new Font8x12();
+        private Font8x12 largeFont = new Font8x12();
         private Font6x8 SmallFont = new Font6x8();
 
         private DisplayScreen displayScreen;
@@ -42,92 +42,92 @@ namespace GnssTracker_Demo.Controllers
                 IsFilled = true
             });
 
-            dataLayout.Controls.Add(new Label(margin_x, 3 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 3 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"BATTERY VOLTAGE:",
                 TextColor = Color.White,
-                Font = LargeFont
+                Font = largeFont
             });
-            batteryVoltageLabel = new Label(0, 3 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            batteryVoltageLabel = new Label(0, 3 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.00  V",
                 TextColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right
             };
             dataLayout.Controls.Add(batteryVoltageLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 18 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 18 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"SOLAR VOLTAGE:",
                 TextColor = Color.Black,
-                Font = LargeFont
+                Font = largeFont
             });
-            solarVoltageLabel = new Label(0, 18 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            solarVoltageLabel = new Label(0, 18 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.00  V",
                 TextColor = Color.Black,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(solarVoltageLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 33 + offset_y, displayScreen.Width / 2, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 33 + offset_y, displayScreen.Width / 2, largeFont.Height)
             {
                 Text = $"TEMPERATURE:",
                 TextColor = Color.Black,
-                Font = LargeFont
+                Font = largeFont
             });
-            temperatureLabel = new Label(0, 33 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            temperatureLabel = new Label(0, 33 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.0   C",
                 TextColor = Color.Black,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(temperatureLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 48 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 48 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"HUMIDITY:",
                 TextColor = Color.Black,
-                Font = LargeFont
+                Font = largeFont
             });
-            humidityLabel = new Label(0, 48 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            humidityLabel = new Label(0, 48 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.0   %",
                 TextColor = Color.Black,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(humidityLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 63 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 63 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"PRESSURE:",
                 TextColor = Color.Black,
-                Font = LargeFont
+                Font = largeFont
             });
-            pressureLabel = new Label(0, 63 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            pressureLabel = new Label(0, 63 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.0 ATM",
                 TextColor = Color.Black,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(pressureLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 78 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 78 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"CO2 LEVELS:",
                 TextColor = Color.Black,
-                Font = LargeFont
+                Font = largeFont
             });
-            co2LevelsLabel = new Label(0, 78 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            co2LevelsLabel = new Label(0, 78 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"0.0 PPM",
                 TextColor = Color.Black,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(co2LevelsLabel);
@@ -138,32 +138,32 @@ namespace GnssTracker_Demo.Controllers
                 IsFilled = true
             });
 
-            dataLayout.Controls.Add(new Label(margin_x, 94 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 94 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"LATITUDE:",
                 TextColor = Color.White,
-                Font = LargeFont
+                Font = largeFont
             });
-            latitudeLabel = new Label(0, 94 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            latitudeLabel = new Label(0, 94 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(latitudeLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 109 + offset_y, displayScreen.Width, LargeFont.Height)
+            dataLayout.Controls.Add(new Label(margin_x, 109 + offset_y, displayScreen.Width, largeFont.Height)
             {
                 Text = $"LONGITUDE:",
                 TextColor = Color.White,
-                Font = LargeFont
+                Font = largeFont
             });
-            longitudeLabel = new Label(0, 109 + offset_y, displayScreen.Width - margin_x, LargeFont.Height)
+            longitudeLabel = new Label(0, 109 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
             {
                 Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             dataLayout.Controls.Add(longitudeLabel);

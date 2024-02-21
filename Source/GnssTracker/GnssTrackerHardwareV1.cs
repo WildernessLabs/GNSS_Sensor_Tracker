@@ -35,7 +35,7 @@ namespace Meadow.Devices
         /// <param name="i2cBus">The I2C bus</param>
         public GnssTrackerHardwareV1(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
         {
-            _device = device;
+            base.device = device;
 
             I2cBus = i2cBus;
         }

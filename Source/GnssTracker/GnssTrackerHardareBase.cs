@@ -19,23 +19,21 @@ namespace Meadow.Devices
     /// </summary>
     public abstract class GnssTrackerHardwareBase : IGnssTrackerHardware
     {
-        protected IF7CoreComputeMeadowDevice _device;
+        protected IF7CoreComputeMeadowDevice device;
 
-        private Bme688? _atmosphericSensor;
-        private ITemperatureSensor? _temperatureSensor;
-        private IHumiditySensor? _humiditySensor;
-        private IBarometricPressureSensor? _barometricPressureSensor;
-        private IGasResistanceSensor? _gasResistanceSensor;
+        private Bme688? atmosphericSensor;
+        private ITemperatureSensor? temperatureSensor;
+        private IHumiditySensor? humiditySensor;
+        private IBarometricPressureSensor? barometricPressureSensor;
+        private IGasResistanceSensor? gasResistanceSensor;
 
-        private NeoM8? _gnss;
+        private NeoM8? gnss;
 
-        private IPixelDisplay? _display;
+        private IPixelDisplay? display;
 
-        private IAnalogInputPort? _solarVoltageInput;
+        private IAnalogInputPort? solarVoltageInput;
 
-        private IPwmLed? _onboardLed;
-
-        private IConnector?[]? _connectors;
+        private IConnector?[]? connectors;
 
         /// <inheritdoc/>
         protected Logger? Logger = Resolver.Log;
@@ -101,15 +99,15 @@ namespace Meadow.Devices
         {
             get
             {
-                if (_connectors == null)
+                if (connectors == null)
                 {
-                    _connectors = new IConnector[3];
-                    _connectors[0] = CreateUartConnector();
-                    _connectors[1] = CreateI2cConnector();
-                    _connectors[2] = CreateDisplayConnector();
+                    connectors = new IConnector[3];
+                    connectors[0] = CreateUartConnector();
+                    connectors[1] = CreateI2cConnector();
+                    connectors[2] = CreateDisplayConnector();
                 }
 
-                return _connectors;
+                return connectors;
             }
         }
 
@@ -121,10 +119,10 @@ namespace Meadow.Devices
                "Uart",
                 new PinMapping
                 {
-                    new PinMapping.PinAlias(UartConnector.PinNames.RX, _device.Pins.PI9),
-                    new PinMapping.PinAlias(UartConnector.PinNames.TX, _device.Pins.PH13),
+                    new PinMapping.PinAlias(UartConnector.PinNames.RX, device.Pins.PI9),
+                    new PinMapping.PinAlias(UartConnector.PinNames.TX, device.Pins.PH13),
                 },
-                _device.PlatformOS.GetSerialPortName("com4")!);
+                device.PlatformOS.GetSerialPortName("com4")!);
         }
 
         internal I2cConnector CreateI2cConnector()
@@ -135,10 +133,10 @@ namespace Meadow.Devices
             "I2C",
             new PinMapping
             {
-                new PinMapping.PinAlias(I2cConnector.PinNames.SCL, _device.Pins.PB6),
-                new PinMapping.PinAlias(I2cConnector.PinNames.SDA, _device.Pins.PB7),
+                new PinMapping.PinAlias(I2cConnector.PinNames.SCL, device.Pins.PB6),
+                new PinMapping.PinAlias(I2cConnector.PinNames.SDA, device.Pins.PB7),
             },
-            new I2cBusMapping(_device, 1));
+            new I2cBusMapping(device, 1));
         }
 
         internal DisplayConnector CreateDisplayConnector()
@@ -149,64 +147,64 @@ namespace Meadow.Devices
                "Display",
                 new PinMapping
                 {
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.CS, _device.Pins.PH10),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.RST, _device.Pins.PB9),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.DC, _device.Pins.PB8),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.BUSY, _device.Pins.PB4),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.CLK, _device.Pins.SCK),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.COPI, _device.Pins.COPI),
-                    new PinMapping.PinAlias(DisplayConnector.PinNames.CIPO, _device.Pins.CIPO),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.CS, device.Pins.PH10),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.RST, device.Pins.PB9),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.DC, device.Pins.PB8),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.BUSY, device.Pins.PB4),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.CLK, device.Pins.SCK),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.COPI, device.Pins.COPI),
+                    new PinMapping.PinAlias(DisplayConnector.PinNames.CIPO, device.Pins.CIPO),
                 });
         }
 
         private Bme688? GetAtmosphericSensor()
         {
-            if (_atmosphericSensor == null)
+            if (atmosphericSensor == null)
             {
                 InitializeBme688();
             }
 
-            return _atmosphericSensor;
+            return atmosphericSensor;
         }
 
         private ITemperatureSensor? GetTemperatureSensor()
         {
-            if (_temperatureSensor == null)
+            if (temperatureSensor == null)
             {
                 InitializeBme688();
             }
 
-            return _temperatureSensor;
+            return temperatureSensor;
         }
 
         private IHumiditySensor? GetHumiditySensor()
         {
-            if (_humiditySensor == null)
+            if (humiditySensor == null)
             {
                 InitializeBme688();
             }
 
-            return _humiditySensor;
+            return humiditySensor;
         }
 
         private IBarometricPressureSensor? GetBarometricPressureSensor()
         {
-            if (_barometricPressureSensor == null)
+            if (barometricPressureSensor == null)
             {
                 InitializeBme688();
             }
 
-            return _barometricPressureSensor;
+            return barometricPressureSensor;
         }
 
         private IGasResistanceSensor? GetGasResistanceSensor()
         {
-            if (_gasResistanceSensor == null)
+            if (gasResistanceSensor == null)
             {
                 InitializeBme688();
             }
 
-            return _gasResistanceSensor;
+            return gasResistanceSensor;
         }
 
         private void InitializeBme688()
@@ -216,11 +214,11 @@ namespace Meadow.Devices
                 Logger?.Trace("BME688 Initializing...");
 
                 var bme = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
-                _atmosphericSensor = bme;
-                _temperatureSensor = bme;
-                _humiditySensor = bme;
-                _barometricPressureSensor = bme;
-                _gasResistanceSensor = bme;
+                atmosphericSensor = bme;
+                temperatureSensor = bme;
+                humiditySensor = bme;
+                barometricPressureSensor = bme;
+                gasResistanceSensor = bme;
                 Resolver.SensorService.RegisterSensor(bme);
 
                 Logger?.Trace("BME688 Initialized");
@@ -233,12 +231,12 @@ namespace Meadow.Devices
 
         private IAnalogInputPort? GetSolarVoltageInput()
         {
-            if (_solarVoltageInput == null)
+            if (solarVoltageInput == null)
             {
                 InitializeSolarVoltageInput();
             }
 
-            return _solarVoltageInput;
+            return solarVoltageInput;
         }
 
         private void InitializeSolarVoltageInput()
@@ -246,7 +244,7 @@ namespace Meadow.Devices
             try
             {
                 Logger?.Debug("Solar Voltage Input Initializing...");
-                _solarVoltageInput = _device.Pins.A00.CreateAnalogInputPort(5);
+                solarVoltageInput = device.Pins.A00.CreateAnalogInputPort(5);
                 Logger?.Debug("Solar Voltage initialized");
             }
             catch (Exception ex)
@@ -257,12 +255,12 @@ namespace Meadow.Devices
 
         private IPixelDisplay? GetEPaperDisplay()
         {
-            if (_display == null)
+            if (display == null)
             {
                 InitializeSsd1680Display();
             }
 
-            return _display;
+            return display;
         }
 
         private void InitializeSsd1680Display()
@@ -272,17 +270,17 @@ namespace Meadow.Devices
                 Logger?.Debug("ePaper Display Initializing...");
 
                 var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode0);
-                SpiBus = _device.CreateSpiBus(
-                    _device.Pins.SCK,
-                    _device.Pins.COPI,
-                    _device.Pins.CIPO,
+                SpiBus = device.CreateSpiBus(
+                    device.Pins.SCK,
+                    device.Pins.COPI,
+                    device.Pins.CIPO,
                     config);
-                _display = new Ssd1680(
+                display = new Ssd1680(
                 spiBus: SpiBus,
-                chipSelectPin: _device.Pins.D02,
-                dcPin: _device.Pins.D03,
-                    resetPin: _device.Pins.D04,
-                    busyPin: _device.Pins.D05,
+                chipSelectPin: device.Pins.D02,
+                dcPin: device.Pins.D03,
+                    resetPin: device.Pins.D04,
+                    busyPin: device.Pins.D05,
                     width: 122,
                     height: 250);
 
@@ -296,12 +294,12 @@ namespace Meadow.Devices
 
         private NeoM8? GetGnss()
         {
-            if (_gnss == null)
+            if (gnss == null)
             {
                 InitializeGnss();
             }
 
-            return _gnss;
+            return gnss;
         }
 
         private void InitializeGnss()
@@ -309,7 +307,7 @@ namespace Meadow.Devices
             try
             {
                 Logger?.Debug("GNSS Initializing...");
-                _gnss = new NeoM8(_device, _device.PlatformOS.GetSerialPortName("COM4")!, _device.Pins.D18);
+                gnss = new NeoM8(device, device.PlatformOS.GetSerialPortName("COM4")!, device.Pins.D18);
 
                 Logger?.Debug("GNSS initialized");
             }

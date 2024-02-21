@@ -16,13 +16,13 @@ namespace Meadow.Devices
     {
         private IRgbPwmLed? _onboardRgbLed;
 
-        private Scd40? _scd40;
-        private ICO2ConcentrationSensor? _cO2ConcentrationSensor;
+        private Scd40? scd40;
+        private ICO2ConcentrationSensor? cO2ConcentrationSensor;
 
-        private Bmi270? _bmi270;
-        private IGyroscope? _gyroscope;
-        private IAccelerometer? _accelerometer;
-        private IAnalogInputPort? _batteryVoltageInput;
+        private Bmi270? bmi270;
+        private IGyroscope? gyroscope;
+        private IAccelerometer? accelerometer;
+        private IAnalogInputPort? batteryVoltageInput;
 
         /// <inheritdoc/>
         public sealed override II2cBus I2cBus { get; }
@@ -55,7 +55,7 @@ namespace Meadow.Devices
         /// <param name="i2cBus">The I2C bus</param>
         public GnssTrackerHardwareV2(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
         {
-            _device = device;
+            base.device = device;
 
             I2cBus = i2cBus;
         }
@@ -77,9 +77,9 @@ namespace Meadow.Devices
                 Logger?.Debug("Onboard LED Initializing...");
 
                 _onboardRgbLed = new RgbPwmLed(
-                    redPwmPin: _device.Pins.D09,
-                    greenPwmPin: _device.Pins.D10,
-                    bluePwmPin: _device.Pins.D11);
+                    redPwmPin: device.Pins.D09,
+                    greenPwmPin: device.Pins.D10,
+                    bluePwmPin: device.Pins.D11);
 
                 Logger?.Debug("Onboard LED initialized");
             }
@@ -91,22 +91,22 @@ namespace Meadow.Devices
 
         private Scd40? GetScd40Sensor()
         {
-            if (_scd40 == null)
+            if (scd40 == null)
             {
                 InitializeScd40();
             }
 
-            return _scd40;
+            return scd40;
         }
 
         private ICO2ConcentrationSensor? GetCO2ConcentrationSensor()
         {
-            if (_cO2ConcentrationSensor == null)
+            if (cO2ConcentrationSensor == null)
             {
                 InitializeScd40();
             }
 
-            return _cO2ConcentrationSensor;
+            return cO2ConcentrationSensor;
         }
 
         private void InitializeScd40()
@@ -120,8 +120,8 @@ namespace Meadow.Devices
                 var scd = new Scd40(I2cBus, (byte)Scd40.Addresses.Default);
                 var serialNum = scd.GetSerialNumber();
                 Resolver.Log.Info($"Serial: {BitConverter.ToString(serialNum)}");
-                _scd40 = scd;
-                _cO2ConcentrationSensor = scd;
+                scd40 = scd;
+                cO2ConcentrationSensor = scd;
                 Resolver.SensorService.RegisterSensor(scd);
 
                 Logger?.Trace("SCD40 Initialized");
@@ -134,32 +134,32 @@ namespace Meadow.Devices
 
         private Bmi270? GetBmi270Sensor()
         {
-            if (_bmi270 == null)
+            if (bmi270 == null)
             {
                 InitializeBmi270();
             }
 
-            return _bmi270;
+            return bmi270;
         }
 
         private IGyroscope? GetGyroscope()
         {
-            if (_gyroscope == null)
+            if (gyroscope == null)
             {
                 InitializeBmi270();
             }
 
-            return _gyroscope;
+            return gyroscope;
         }
 
         private IAccelerometer? GetAccelerometer()
         {
-            if (_accelerometer == null)
+            if (accelerometer == null)
             {
                 InitializeBmi270();
             }
 
-            return _accelerometer;
+            return accelerometer;
         }
 
         private void InitializeBmi270()
@@ -169,9 +169,9 @@ namespace Meadow.Devices
                 Logger?.Trace("BMI270 Initializing...");
 
                 var bmi = new Bmi270(I2cBus);
-                _bmi270 = bmi;
-                _gyroscope = bmi;
-                _accelerometer = bmi;
+                bmi270 = bmi;
+                gyroscope = bmi;
+                accelerometer = bmi;
                 Resolver.SensorService.RegisterSensor(bmi);
 
                 Logger?.Trace("BMI270 Initialized");
@@ -184,12 +184,12 @@ namespace Meadow.Devices
 
         private IAnalogInputPort? GetBatteryVoltage()
         {
-            if (_batteryVoltageInput == null)
+            if (batteryVoltageInput == null)
             {
                 InitializeBatteryVoltage();
             }
 
-            return _batteryVoltageInput;
+            return batteryVoltageInput;
         }
 
         private void InitializeBatteryVoltage()
@@ -197,7 +197,7 @@ namespace Meadow.Devices
             try
             {
                 Logger?.Debug("Battery Voltage Input Instantiating...");
-                _batteryVoltageInput = _device.Pins.A04.CreateAnalogInputPort(5);
+                batteryVoltageInput = device.Pins.A04.CreateAnalogInputPort(5);
                 Logger?.Debug("Battery Voltage Input up");
             }
             catch (Exception ex)
