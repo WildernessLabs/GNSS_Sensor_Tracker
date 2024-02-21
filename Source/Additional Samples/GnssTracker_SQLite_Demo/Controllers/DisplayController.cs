@@ -2,38 +2,37 @@
 using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
-using Meadow.Logging;
 using Meadow.Peripherals.Displays;
 
 namespace GnssTracker_SQLite_Demo.Controllers
 {
     public class DisplayController
     {
-        protected int counter = 0;
-        protected Logger Log { get => Resolver.Log; }
-        protected DisplayScreen DisplayScreen { get; set; }
+        private int counter = 0;
 
-        protected AbsoluteLayout SplashLayout { get; set; }
-        protected AbsoluteLayout DataLayout { get; set; }
+        private DisplayScreen displayScreen;
 
-        protected Font12x20 LargeFont { get; set; }
-        protected Font4x8 SmallFont { get; set; }
+        private AbsoluteLayout splashLayout;
+        private AbsoluteLayout dataLayout;
 
-        protected Label TemperatureLabel { get; set; }
-        protected Label HumidityLabel { get; set; }
-        protected Label PressureLabel { get; set; }
-        protected Label LatitudeLabel { get; set; }
-        protected Label LongitudeLabel { get; set; }
-        protected Label CounterLabel { get; set; }
+        private Font12x20 largeFont;
+        private Font4x8 smallFont;
+
+        private Label temperatureLabel;
+        private Label humidityLabel;
+        private Label pressureLabel;
+        private Label latitudeLabel;
+        private Label longitudeLabel;
+        private Label counterLabel;
 
         public DisplayController(IPixelDisplay display)
         {
-            LargeFont = new Font12x20();
-            SmallFont = new Font4x8();
+            largeFont = new Font12x20();
+            smallFont = new Font4x8();
 
-            DisplayScreen = new DisplayScreen(display, RotationType._270Degrees);
+            displayScreen = new DisplayScreen(display, RotationType._270Degrees);
 
-            SplashLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height);
+            splashLayout = new AbsoluteLayout(displayScreen, 0, 0, displayScreen.Width, displayScreen.Height);
 
             var image = Image.LoadFromResource("GnssTracker_SQLite_Demo.gnss_tracker.bmp");
             var displayImage = new Picture(0, 0, 250, 122, image)
@@ -43,11 +42,11 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 VerticalAlignment = VerticalAlignment.Center,
             };
 
-            SplashLayout.Controls.Add(displayImage);
+            splashLayout.Controls.Add(displayImage);
 
-            DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height);
+            dataLayout = new AbsoluteLayout(displayScreen, 0, 0, displayScreen.Width, displayScreen.Height);
 
-            var box = new Box(0, 0, DisplayScreen.Width, DisplayScreen.Height)
+            var box = new Box(0, 0, displayScreen.Width, displayScreen.Height)
             {
                 ForeColor = Color.White,
                 IsFilled = true
@@ -57,77 +56,77 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 ForeColor = Color.Black,
                 IsFilled = false
             };
-            TemperatureLabel = new Label(10, 10, DisplayScreen.Width - 20, LargeFont.Height)
+            temperatureLabel = new Label(10, 10, displayScreen.Width - 20, largeFont.Height)
             {
                 Text = $"Temp:     0.00°C",
                 TextColor = Color.Black,
                 BackColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            HumidityLabel = new Label(10, 30, DisplayScreen.Width - 20, LargeFont.Height)
+            humidityLabel = new Label(10, 30, displayScreen.Width - 20, largeFont.Height)
             {
                 Text = $"Humidity: 0.00%",
                 TextColor = Color.Black,
                 BackColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            PressureLabel = new Label(10, 50, DisplayScreen.Width - 20, LargeFont.Height)
+            pressureLabel = new Label(10, 50, displayScreen.Width - 20, largeFont.Height)
             {
                 Text = $"Pressure: 0.00atm",
                 TextColor = Color.Black,
                 BackColor = Color.White,
-                Font = LargeFont,
+                Font = largeFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            LatitudeLabel = new Label(10, 72, DisplayScreen.Width - 20, LargeFont.Height)
+            latitudeLabel = new Label(10, 72, displayScreen.Width - 20, largeFont.Height)
             {
                 Text = $"Lat: 0°0'0.0\"",
                 TextColor = Color.White,
                 BackColor = Color.Red,
-                Font = LargeFont,
+                Font = largeFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            LongitudeLabel = new Label(10, 92, DisplayScreen.Width - 20, LargeFont.Height)
+            longitudeLabel = new Label(10, 92, displayScreen.Width - 20, largeFont.Height)
             {
                 Text = $"Lon: 0°0'0.0\"",
                 TextColor = Color.White,
                 BackColor = Color.Red,
-                Font = LargeFont,
+                Font = largeFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
             counter++;
-            CounterLabel = new Label(222, 113, 20, 8)
+            counterLabel = new Label(222, 113, 20, 8)
             {
                 Text = $"{counter.ToString("D4")}",
                 TextColor = Color.Black,
                 BackColor = Color.White,
-                Font = SmallFont,
+                Font = smallFont,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
 
-            DataLayout.Controls.Add(box, frame, TemperatureLabel, HumidityLabel, PressureLabel, LatitudeLabel, LongitudeLabel, CounterLabel);
+            dataLayout.Controls.Add(box, frame, temperatureLabel, humidityLabel, pressureLabel, latitudeLabel, longitudeLabel, counterLabel);
 
-            DisplayScreen.Controls.Add(SplashLayout, DataLayout);
+            displayScreen.Controls.Add(splashLayout, dataLayout);
 
-            DataLayout.IsVisible = false;
+            dataLayout.IsVisible = false;
         }
 
         public void UpdateDisplay(AtmosphericModel conditions, LocationModel locationInfo)
         {
-            SplashLayout.IsVisible = false;
-            DataLayout.IsVisible = true;
+            splashLayout.IsVisible = false;
+            dataLayout.IsVisible = true;
 
-            TemperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
-            HumidityLabel.Text = $"Humidity: {conditions.RelativeHumidity?.Percent:n2}%";
-            PressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
+            temperatureLabel.Text = $"Temp:     {conditions.Temperature?.Celsius:n2}°C";
+            humidityLabel.Text = $"Humidity: {conditions.RelativeHumidity?.Percent:n2}%";
+            pressureLabel.Text = $"Pressure: {conditions.Pressure?.StandardAtmosphere:n2}atm";
 
             string lat = locationInfo.PositionInformation == null
                 ? $"Lat: 0°0'0.0\""
@@ -135,7 +134,7 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 $"{locationInfo.PositionInformation?.Position?.Latitude?.Degrees}°" +
                 $"{locationInfo.PositionInformation?.Position?.Latitude?.Minutes:n2}'" +
                 $"{locationInfo.PositionInformation?.Position?.Latitude?.Seconds}\"";
-            LatitudeLabel.Text = lat;
+            latitudeLabel.Text = lat;
 
             string lon = locationInfo.PositionInformation == null
                 ? $"Lon: 0°0'0.0\""
@@ -143,10 +142,10 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 $"{locationInfo.PositionInformation?.Position?.Longitude?.Degrees}°" +
                 $"{locationInfo.PositionInformation?.Position?.Longitude?.Minutes:n2}'" +
                 $"{locationInfo.PositionInformation?.Position?.Longitude?.Seconds}\"";
-            LongitudeLabel.Text = lon;
+            longitudeLabel.Text = lon;
 
             counter++;
-            CounterLabel.Text = $"{counter.ToString("D4")}";
+            counterLabel.Text = $"{counter.ToString("D4")}";
         }
     }
 }
