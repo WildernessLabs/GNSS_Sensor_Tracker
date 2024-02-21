@@ -31,6 +31,8 @@ namespace GnssTracker_Demo.Controllers
         {
             displayScreen = new DisplayScreen(display, RotationType._90Degrees);
 
+            displayScreen.BeginUpdate();
+
             dataLayout = new AbsoluteLayout(displayScreen, 0, 0, displayScreen.Width, displayScreen.Height)
             {
                 BackgroundColor = Color.White
@@ -169,6 +171,8 @@ namespace GnssTracker_Demo.Controllers
             dataLayout.Controls.Add(longitudeLabel);
 
             displayScreen.Controls.Add(dataLayout);
+
+            displayScreen.EndUpdate();
         }
 
         public void UpdateDisplay(
@@ -180,6 +184,8 @@ namespace GnssTracker_Demo.Controllers
             Concentration? Concentration,
             GnssPositionInfo locationInfo)
         {
+            displayScreen.BeginUpdate();
+
             batteryVoltageLabel.Text = $"{BatteryVoltage?.Volts:N2}   V";
             solarVoltageLabel.Text = $"{SolarVoltage?.Volts:N2}   V";
             temperatureLabel.Text = $"{Temperature?.Celsius:N1}   C";
@@ -202,6 +208,8 @@ namespace GnssTracker_Demo.Controllers
                 $"{locationInfo?.Position?.Longitude?.Minutes:N2}'" +
                 $"{locationInfo?.Position?.Longitude?.Seconds:N2}\"";
             longitudeLabel.Text = lon;
+
+            displayScreen.EndUpdate();
         }
     }
 }

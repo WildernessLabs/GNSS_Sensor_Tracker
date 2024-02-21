@@ -132,14 +132,17 @@ namespace GnssTracker_Demo
 
         private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"BATTERY VOLTAGE:   {e.New.Volts:N2} volts");
-            batteryVoltage = e.New;
+            // Note: Battery Voltage input has a voltage divider, check schematics to learn more
+            batteryVoltage = e.New * 1.60;
+            Resolver.Log.Info($"BATTERY VOLTAGE:   {batteryVoltage:N2} volts");
         }
 
         private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"SOLAR VOLTAGE:     {e.New.Volts:N2} volts");
-            solarVoltage = e.New;
+            // Note: Solar Voltage input has a voltage divider, check schematics to learn more
+            solarVoltage = e.New * 1.40;
+            Resolver.Log.Info($"SOLAR VOLTAGE:     {solarVoltage:N2} volts");
+
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
