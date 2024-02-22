@@ -235,7 +235,7 @@ namespace GnssTracker_Demo
                     gnssTracker.TemperatureSensor.Temperature,
                     gnssTracker.HumiditySensor.Humidity,
                     gnssTracker.BarometricPressureSensor.Pressure,
-                    gnssTracker.CO2ConcentrationSensor.CO2Concentration,
+                    gnssTracker.CO2ConcentrationSensor?.CO2Concentration ?? null,
                     lastGNSSPosition);
 
                 await Task.Delay(sensorUpdateInterval);
