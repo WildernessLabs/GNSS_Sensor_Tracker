@@ -1,4 +1,5 @@
 ﻿using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Environmental;
 using Meadow.Peripherals.Sensors.Motion;
 
@@ -10,23 +11,33 @@ namespace Meadow.Devices
     public class GnssTrackerHardwareV1 : GnssTrackerHardwareBase
     {
         /// <inheritdoc/>
-        public override ICO2ConcentrationSensor? CO2ConcentrationSensor { get => null; protected set => throw new System.NotImplementedException(); }
+        public sealed override II2cBus I2cBus { get; }
 
         /// <inheritdoc/>
-        public override IGyroscope? Gyroscope { get => null; protected set => throw new System.NotImplementedException(); }
+        public override IRgbPwmLed? OnboardRgbLed => throw new System.NotImplementedException();
 
         /// <inheritdoc/>
-        public override IAccelerometer? Accelerometer { get => null; protected set => throw new System.NotImplementedException(); }
+        public override ICO2ConcentrationSensor? CO2ConcentrationSensor => throw new System.NotImplementedException();
 
         /// <inheritdoc/>
-        public override IAnalogInputPort? BatteryVoltageInput { get => null; protected set => throw new System.NotImplementedException(); }
+        public override IGyroscope? Gyroscope => throw new System.NotImplementedException();
+
+        /// <inheritdoc/>
+        public override IAccelerometer? Accelerometer => throw new System.NotImplementedException();
+
+        /// <inheritdoc/>
+        public override IAnalogInputPort? BatteryVoltageInput => throw new System.NotImplementedException();
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object
         /// </summary>
         /// <param name="device">The Meadow device</param>
         /// <param name="i2cBus">The I2C bus</param>
-        public GnssTrackerHardwareV1(IF7CoreComputeMeadowDevice device, II2cBus i2cBus) : base(device, i2cBus)
-        { }
+        public GnssTrackerHardwareV1(IF7CoreComputeMeadowDevice device, II2cBus i2cBus)
+        {
+            base.device = device;
+
+            I2cBus = i2cBus;
+        }
     }
 }

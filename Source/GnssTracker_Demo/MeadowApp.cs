@@ -51,7 +51,7 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.CO2ConcentrationSensor is { } cO2ConcentrationSensor)
             {
-                cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated; ;
+                cO2ConcentrationSensor.Updated += CO2ConcentrationSensorUpdated;
             }
 
             if (gnssTracker.Gyroscope is { } gyroscope)
@@ -64,14 +64,14 @@ namespace GnssTracker_Demo
                 accelerometer.Updated += AccelerometerUpdated; ;
             }
 
+            if (gnssTracker.BatteryVoltageInput is { } batteryvoltage)
+            {
+                batteryvoltage.Updated += BatteryVoltageUpdated;
+            }
+
             if (gnssTracker.SolarVoltageInput is { } solarVoltage)
             {
                 solarVoltage.Updated += SolarVoltageUpdated;
-            }
-
-            if (gnssTracker.BatteryVoltageInput is { } batteryVoltage)
-            {
-                batteryVoltage.Updated += BatteryVoltageUpdated;
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -85,32 +85,14 @@ namespace GnssTracker_Demo
                 displayController = new DisplayController(display);
             }
 
-            if (gnssTracker.OnboardLed is { } onboardLed)
+            if (gnssTracker.OnboardRgbLed is { } onboardRgbLed)
             {
-                onboardLed.IsOn = true;
+                onboardRgbLed.StartPulse(Color.Magenta);
             }
 
             Resolver.Log.Info("Initialization complete");
 
             return Task.CompletedTask;
-        }
-
-        private void GnssRmcReceived(object sender, GnssPositionInfo e)
-        {
-            if (e.Valid)
-            {
-                ReportGNSSPosition(e);
-                lastGNSSPosition = e;
-            }
-        }
-
-        private void GnssGllReceived(object sender, GnssPositionInfo e)
-        {
-            if (e.Valid)
-            {
-                ReportGNSSPosition(e);
-                lastGNSSPosition = e;
-            }
         }
 
         private void TemperatureSensorUpdated(object sender, IChangeResult<Temperature> e)
@@ -148,16 +130,37 @@ namespace GnssTracker_Demo
             Resolver.Log.Info($"ACCELEROMETER:     X:{e.New.X.Gravity:N1}g, Y:{e.New.Y.Gravity:N1}g, Z:{e.New.Z.Gravity:N1}g");
         }
 
-        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
-        {
-            Resolver.Log.Info($"SOLAR VOLTAGE:     {e.New.Volts:N2} volts");
-            solarVoltage = e.New;
-        }
-
         private void BatteryVoltageUpdated(object sender, IChangeResult<Voltage> e)
         {
-            Resolver.Log.Info($"BATTERY VOLTAGE:   {e.New.Volts:N2} volts");
-            batteryVoltage = e.New;
+            // Note: Battery Voltage input has a voltage divider, check schematics to learn more
+            batteryVoltage = e.New * 1.60;
+            Resolver.Log.Info($"BATTERY VOLTAGE:   {batteryVoltage:N2} volts");
+        }
+
+        private void SolarVoltageUpdated(object sender, IChangeResult<Voltage> e)
+        {
+            // Note: Solar Voltage input has a voltage divider, check schematics to learn more
+            solarVoltage = e.New * 1.40;
+            Resolver.Log.Info($"SOLAR VOLTAGE:     {solarVoltage:N2} volts");
+
+        }
+
+        private void GnssRmcReceived(object sender, GnssPositionInfo e)
+        {
+            if (e.Valid)
+            {
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
+            }
+        }
+
+        private void GnssGllReceived(object sender, GnssPositionInfo e)
+        {
+            if (e.Valid)
+            {
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
+            }
         }
 
         private void ReportGNSSPosition(GnssPositionInfo e)
@@ -212,14 +215,14 @@ namespace GnssTracker_Demo
                 accelerometer.StartUpdating(sensorUpdateInterval);
             }
 
-            if (gnssTracker.SolarVoltageInput is { } solarVoltageInput)
-            {
-                solarVoltageInput.StartUpdating(sensorUpdateInterval);
-            }
-
             if (gnssTracker.BatteryVoltageInput is { } batteryVoltageInput)
             {
                 batteryVoltageInput.StartUpdating(sensorUpdateInterval);
+            }
+
+            if (gnssTracker.SolarVoltageInput is { } solarVoltageInput)
+            {
+                solarVoltageInput.StartUpdating(sensorUpdateInterval);
             }
 
             if (gnssTracker.Gnss is { } gnss)
@@ -229,6 +232,8 @@ namespace GnssTracker_Demo
 
             while (true)
             {
+                Resolver.Log.Info("==================================================");
+
                 displayController.UpdateDisplay(
                     batteryVoltage,
                     solarVoltage,
@@ -237,7 +242,6 @@ namespace GnssTracker_Demo
                     gnssTracker.BarometricPressureSensor.Pressure,
                     gnssTracker.CO2ConcentrationSensor.CO2Concentration,
                     lastGNSSPosition);
-
                 await Task.Delay(sensorUpdateInterval);
             }
         }
