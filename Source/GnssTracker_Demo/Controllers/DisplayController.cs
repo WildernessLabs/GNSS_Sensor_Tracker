@@ -9,23 +9,22 @@ namespace GnssTracker_Demo.Controllers
 {
     public class DisplayController
     {
-        private int margin_x = 8;
-        private int offset_y = 5;
+        private readonly int marginX = 8;
+        private readonly int offsetY = 5;
 
-        private Font8x12 largeFont = new Font8x12();
-        private Font6x8 SmallFont = new Font6x8();
+        private readonly Font8x12 largeFont = new Font8x12();
 
-        private DisplayScreen displayScreen;
-        private AbsoluteLayout dataLayout;
+        private readonly DisplayScreen displayScreen;
+        private readonly AbsoluteLayout dataLayout;
 
-        private Label batteryVoltageLabel;
-        private Label solarVoltageLabel;
-        private Label temperatureLabel;
-        private Label humidityLabel;
-        private Label pressureLabel;
-        private Label co2LevelsLabel;
-        private Label latitudeLabel;
-        private Label longitudeLabel;
+        private readonly Label solarVoltageLabel;
+        private readonly Label temperatureLabel;
+        private readonly Label humidityLabel;
+        private readonly Label pressureLabel;
+        private readonly Label co2LevelsLabel;
+        private readonly Label latitudeLabel;
+        private readonly Label longitudeLabel;
+        private readonly Label batteryVoltageLabel;
 
         public DisplayController(IPixelDisplay display)
         {
@@ -38,19 +37,19 @@ namespace GnssTracker_Demo.Controllers
                 BackgroundColor = Color.White
             };
 
-            dataLayout.Controls.Add(new Box(0, 0 + offset_y, displayScreen.Width, 15)
+            dataLayout.Controls.Add(new Box(0, 0 + offsetY, displayScreen.Width, 15)
             {
                 ForeColor = Color.Red,
                 IsFilled = true
             });
 
-            dataLayout.Controls.Add(new Label(margin_x, 3 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 3 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"BATTERY VOLTAGE:",
                 TextColor = Color.White,
                 Font = largeFont
             });
-            batteryVoltageLabel = new Label(0, 3 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            batteryVoltageLabel = new Label(0, 3 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.00  V",
                 TextColor = Color.White,
@@ -59,13 +58,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(batteryVoltageLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 18 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 18 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"SOLAR VOLTAGE:",
                 TextColor = Color.Black,
                 Font = largeFont
             });
-            solarVoltageLabel = new Label(0, 18 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            solarVoltageLabel = new Label(0, 18 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.00  V",
                 TextColor = Color.Black,
@@ -74,13 +73,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(solarVoltageLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 33 + offset_y, displayScreen.Width / 2, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 33 + offsetY, displayScreen.Width / 2, largeFont.Height)
             {
                 Text = $"TEMPERATURE:",
                 TextColor = Color.Black,
                 Font = largeFont
             });
-            temperatureLabel = new Label(0, 33 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            temperatureLabel = new Label(0, 33 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.0   C",
                 TextColor = Color.Black,
@@ -89,13 +88,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(temperatureLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 48 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 48 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"HUMIDITY:",
                 TextColor = Color.Black,
                 Font = largeFont
             });
-            humidityLabel = new Label(0, 48 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            humidityLabel = new Label(0, 48 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.0   %",
                 TextColor = Color.Black,
@@ -104,13 +103,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(humidityLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 63 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 63 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"PRESSURE:",
                 TextColor = Color.Black,
                 Font = largeFont
             });
-            pressureLabel = new Label(0, 63 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            pressureLabel = new Label(0, 63 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.0 ATM",
                 TextColor = Color.Black,
@@ -119,13 +118,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(pressureLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 78 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 78 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"CO2 LEVELS:",
                 TextColor = Color.Black,
                 Font = largeFont
             });
-            co2LevelsLabel = new Label(0, 78 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            co2LevelsLabel = new Label(0, 78 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"0.0 PPM",
                 TextColor = Color.Black,
@@ -134,19 +133,19 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(co2LevelsLabel);
 
-            dataLayout.Controls.Add(new Box(0, 90 + offset_y, displayScreen.Width, 32)
+            dataLayout.Controls.Add(new Box(0, 90 + offsetY, displayScreen.Width, 32)
             {
                 ForeColor = Color.Red,
                 IsFilled = true
             });
 
-            dataLayout.Controls.Add(new Label(margin_x, 94 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 94 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"LATITUDE:",
                 TextColor = Color.White,
                 Font = largeFont
             });
-            latitudeLabel = new Label(0, 94 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            latitudeLabel = new Label(0, 94 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
@@ -155,13 +154,13 @@ namespace GnssTracker_Demo.Controllers
             };
             dataLayout.Controls.Add(latitudeLabel);
 
-            dataLayout.Controls.Add(new Label(margin_x, 109 + offset_y, displayScreen.Width, largeFont.Height)
+            dataLayout.Controls.Add(new Label(marginX, 109 + offsetY, displayScreen.Width, largeFont.Height)
             {
                 Text = $"LONGITUDE:",
                 TextColor = Color.White,
                 Font = largeFont
             });
-            longitudeLabel = new Label(0, 109 + offset_y, displayScreen.Width - margin_x, largeFont.Height)
+            longitudeLabel = new Label(0, 109 + offsetY, displayScreen.Width - marginX, largeFont.Height)
             {
                 Text = $"00 00' 0.0\"",
                 TextColor = Color.White,
@@ -191,7 +190,11 @@ namespace GnssTracker_Demo.Controllers
             temperatureLabel.Text = $"{Temperature?.Celsius:N1}   C";
             humidityLabel.Text = $"{Humidity?.Percent:N1}   %";
             pressureLabel.Text = $"{Pressure?.StandardAtmosphere:N1} ATM";
-            co2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N1} PPM";
+
+            if (Concentration != null)
+            {
+                co2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N1} PPM";
+            }
 
             string lat = locationInfo == null
                 ? $"00 00' 0.00\""
