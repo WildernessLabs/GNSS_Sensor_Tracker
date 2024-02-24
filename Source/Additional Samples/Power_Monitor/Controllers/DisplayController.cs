@@ -10,8 +10,8 @@ namespace Power_Monitor.Controllers
     {
         private readonly int offsetY = 6;
 
-        List<double> batteryReadings;
-        List<double> solarReadings;
+        List<double> batteryVoltages;
+        List<double> solarInputVoltages;
 
         private Color backgroundColor = Color.White;
         private Color foregroundColor = Color.Black;
@@ -21,33 +21,13 @@ namespace Power_Monitor.Controllers
 
         private DisplayScreen displayScreen;
         private LineChartSeries batteryChartSeries;
-        private LineChartSeries solarChartSeries;
+        private LineChartSeries solarInputChartSeries;
 
         public DisplayController(IPixelDisplay display)
         {
-            batteryReadings =
-            [
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-            ];
+            batteryVoltages = new List<double>();
 
-            solarReadings =
-            [
-                7,
-                6,
-                5,
-                6,
-                3,
-                2,
-                1,
-                0,
-            ];
+            solarInputVoltages = new List<double>();
 
             displayScreen = new DisplayScreen(display, RotationType._90Degrees)
             {
@@ -100,7 +80,7 @@ namespace Power_Monitor.Controllers
                 ShowPoints = true,
             };
             lineChart.Series.Add(batteryChartSeries);
-            solarChartSeries = new LineChartSeries()
+            solarInputChartSeries = new LineChartSeries()
             {
                 LineColor = foregroundColor,
                 PointColor = foregroundColor,
@@ -109,22 +89,30 @@ namespace Power_Monitor.Controllers
                 ShowLines = true,
                 ShowPoints = true,
             };
-            lineChart.Series.Add(solarChartSeries);
+            lineChart.Series.Add(solarInputChartSeries);
             displayScreen.Controls.Add(lineChart);
-
-            UpdateGraph(batteryReadings, solarReadings);
         }
 
-        public void UpdateGraph(List<double> batteryVoltage, List<double> solarVoltage)
+        public void UpdateGraph(double batteryVoltage, double solarVoltageInput)
         {
+            if (batteryVoltages.Count == 10)
+            {
+                batteryVoltages.RemoveAt(0);
+                solarInputVoltages.RemoveAt(0);
+            }
+
+            batteryVoltages.Add(batteryVoltage);
+            solarInputVoltages.Add(solarVoltageInput);
+
             displayScreen.BeginUpdate();
 
             batteryChartSeries.Points.Clear();
+            solarInputChartSeries.Points.Clear();
 
-            for (var p = 0; p < batteryVoltage.Count; p++)
+            for (var p = 0; p < batteryVoltages.Count; p++)
             {
-                batteryChartSeries.Points.Add(p * 2, batteryVoltage[p]);
-                solarChartSeries.Points.Add(p * 2, solarVoltage[p]);
+                batteryChartSeries.Points.Add(p * 2, batteryVoltages[p]);
+                solarInputChartSeries.Points.Add(p * 2, solarInputVoltages[p]);
             }
 
             displayScreen.EndUpdate();

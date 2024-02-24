@@ -142,7 +142,6 @@ namespace GnssTracker_Demo
             // Note: Solar Voltage input has a voltage divider, check schematics to learn more
             solarVoltage = e.New * 1.40;
             Resolver.Log.Info($"SOLAR VOLTAGE:     {solarVoltage:N2} volts");
-
         }
 
         private void GnssRmcReceived(object sender, GnssPositionInfo e)
