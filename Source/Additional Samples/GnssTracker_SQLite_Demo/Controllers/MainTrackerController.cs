@@ -1,10 +1,10 @@
 ﻿using GnssTracker_SQLite_Demo.Models.Logical;
 using Meadow;
+using Meadow.Devices;
 using Meadow.Logging;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using System;
 using System.Threading.Tasks;
-using WildernessLabs.Hardware.GnssTracker;
 
 namespace GnssTracker_SQLite_Demo.Controllers
 {
@@ -14,6 +14,10 @@ namespace GnssTracker_SQLite_Demo.Controllers
     /// </summary>
     public class MainTrackerController
     {
+        GnssPositionInfo lastGNSSPosition;
+        DateTime lastGNSSPositionReportTime = DateTime.MinValue;
+        readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromSeconds(15);
+
         private TimeSpan UPDATE_INTERVAL = TimeSpan.FromMinutes(1);
 
         protected IGnssTrackerHardware GnssTracker { get; set; }
@@ -41,69 +45,91 @@ namespace GnssTracker_SQLite_Demo.Controllers
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
-            GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
+            if (gnssTracker.Gnss is { } gnss)
+            {
+                gnss.RmcReceived += GnssRmcReceived;
+                gnss.GllReceived += GnssGllReceived;
+            }
         }
 
-        public void Start()
+        private void GnssRmcReceived(object sender, GnssPositionInfo e)
         {
-            if (GnssTracker.AtmosphericSensor is { } bme)
+            if (e.Valid)
             {
-                bme.Updated += AtmosphericSensorUpdated;
-                bme.StartUpdating(UPDATE_INTERVAL);
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
             }
-
-            GnssController.StartUpdating();
         }
 
-        private void GnssPositionInfoUpdated(object sender, GnssPositionInfo result)
+        private void GnssGllReceived(object sender, GnssPositionInfo e)
         {
-            LastLocationInfo.PositionInformation = result;
-
-            if (result.Position is { } pos)
+            if (e.Valid)
             {
-                if (pos.Latitude is { } lat && pos.Longitude is { } lon)
-                {
-                    Log.Debug($"RM: lat: [{pos.Latitude}], long: [{pos.Longitude}]");
-                }
-                else
-                {
-                    Log.Debug("RM Position lat/long empty.");
-                }
+                ReportGNSSPosition(e);
+                lastGNSSPosition = e;
             }
-            else
-            {
-                Log.Debug("RM Position not yet found.");
-            }
+        }
 
-            if (result.TimeOfReading is { } timeOfReading)
+        private void ReportGNSSPosition(GnssPositionInfo e)
+        {
+            if (e.Valid)
             {
-                //Log.Info($"UTC DateTime from GPS: {timeOfReading.ToShortDateString()} :: {timeOfReading.ToShortTimeString()}");
-                //Log.Info($"Device DateTime: {DateTime.Now.ToShortDateString()} :: {DateTime.Now.ToShortTimeString()}");
-
-                if (timeOfReading.Date != DateTime.Now.Date)
+                if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
                 {
-                    Resolver.Device.PlatformOS.SetClock(timeOfReading);
+                    Resolver.Log.Info($"GNSS POSITION: LAT: [{e.Position.Latitude}], LONG: [{e.Position.Longitude}]");
+
+                    lastGNSSPositionReportTime = DateTime.UtcNow;
                 }
             }
         }
 
-        private void AtmosphericSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> result)
+        private void AtmosphericSensorUpdated()
         {
-            Log.Info($"BME688 - Temperature: {result.New.Temperature?.Celsius:N2}C,");
-            Log.Info($"BME688 - Humidity:    {result.New.Humidity:N2}%, ");
-            Log.Info($"BME688 - Pressure:    {result.New.Pressure?.Millibar:N2}mbar ({result.New.Pressure?.StandardAtmosphere:N2}atm)");
+            Log.Info($"BME688 - Temperature: {GnssTracker.TemperatureSensor.Temperature.Value.Celsius:N2}C,");
+            Log.Info($"BME688 - Humidity:    {GnssTracker.HumiditySensor.Humidity.Value.Percent:N2}%, ");
+            Log.Info($"BME688 - Pressure:    {GnssTracker.BarometricPressureSensor.Pressure.Value.Millibar:N2}mbar ({GnssTracker.BarometricPressureSensor.Pressure.Value.StandardAtmosphere:N2}atm)");
 
             var newConditions = new AtmosphericModel
             {
-                Temperature = result.New.Temperature,
-                RelativeHumidity = result.New.Humidity,
-                Pressure = result.New.Pressure,
+                Temperature = GnssTracker.TemperatureSensor.Temperature,
+                RelativeHumidity = GnssTracker.HumiditySensor.Humidity,
+                Pressure = GnssTracker.BarometricPressureSensor.Pressure,
                 Timestamp = DateTime.Now
             };
             LastAtmosphericConditions.Update(newConditions);
 
             DatabaseController.SaveAtmosphericLocations(LastAtmosphericConditions, LastLocationInfo);
             DisplayController.UpdateDisplay(LastAtmosphericConditions, LastLocationInfo);
+        }
+
+        public async void Run()
+        {
+            if (GnssTracker.TemperatureSensor is { } temperatureSensor)
+            {
+                temperatureSensor.StartUpdating(UPDATE_INTERVAL);
+            }
+
+            if (GnssTracker.BarometricPressureSensor is { } barometer)
+            {
+                barometer.StartUpdating(UPDATE_INTERVAL);
+            }
+
+            if (GnssTracker.HumiditySensor is { } humiditySensor)
+            {
+                humiditySensor.StartUpdating(UPDATE_INTERVAL);
+            }
+
+            if (GnssTracker.Gnss is { } gnss)
+            {
+                gnss.StartUpdating();
+            }
+
+            while (true)
+            {
+                AtmosphericSensorUpdated();
+
+                await Task.Delay(UPDATE_INTERVAL);
+            }
         }
     }
 }
