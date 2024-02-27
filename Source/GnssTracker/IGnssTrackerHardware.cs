@@ -1,12 +1,13 @@
-﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Environmental;
-using Meadow.Foundation.Sensors.Gnss;
+﻿using Meadow.Foundation.Sensors.Gnss;
 using Meadow.Hardware;
+using Meadow.Peripherals.Displays;
+using Meadow.Peripherals.Leds;
+using Meadow.Peripherals.Sensors;
+using Meadow.Peripherals.Sensors.Atmospheric;
+using Meadow.Peripherals.Sensors.Environmental;
+using Meadow.Peripherals.Sensors.Motion;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a GNSS Tracker Interface
@@ -14,24 +15,44 @@ namespace WildernessLabs.Hardware.GnssTracker
     public interface IGnssTrackerHardware
     {
         /// <summary>
-        /// Gets the PWM LED
+        /// Gets the RGB PWM LED
         /// </summary>
-        public PwmLed? OnboardLed { get; }
+        public IRgbPwmLed? OnboardRgbLed { get; }
 
         /// <summary>
-        /// Gets the AtmosphericSensor sensor
+        /// Gets the ITemperatureSensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Bme688? AtmosphericSensor { get; }
+        public ITemperatureSensor? TemperatureSensor { get; }
 
         /// <summary>
-        /// The SCD40 environmental sensor on the Clima board
+        /// Gets the IHumiditySensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Scd40? EnvironmentalSensor { get; }
+        public IHumiditySensor? HumiditySensor { get; }
 
         /// <summary>
-        /// The BMI270 motion sensor on the Clima board
+        /// Gets the IBarometricPressureSensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public Bmi270? MotionSensor { get; }
+        public IBarometricPressureSensor? BarometricPressureSensor { get; }
+
+        /// <summary>
+        /// Gets the IGasResistanceSensor on the GNSS Sensor Tracker board.
+        /// </summary>
+        public IGasResistanceSensor? GasResistanceSensor { get; }
+
+        /// <summary>
+        /// Gets the ICO2ConcentrationSensor on the GNSS Sensor Tracker board
+        /// </summary>
+        public ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
+
+        /// <summary>
+        /// Gets the IGyroscope on the GNSS Sensor Tracker board
+        /// </summary>
+        public IGyroscope? Gyroscope { get; }
+
+        /// <summary>
+        /// Gets the IAccelerometer on the GNSS Sensor Tracker board
+        /// </summary>
+        public IAccelerometer? Accelerometer { get; }
 
         /// <summary>
         /// Gets the Neo GNSS sensor
@@ -41,12 +62,17 @@ namespace WildernessLabs.Hardware.GnssTracker
         /// <summary>
         /// Gets the e-paper display
         /// </summary>
-        public IGraphicsDisplay? Display { get; }
+        public IPixelDisplay? Display { get; }
 
         /// <summary>
         /// Gets the Solar Voltage Input
         /// </summary>
         public IAnalogInputPort? SolarVoltageInput { get; }
+
+        /// <summary>
+        /// Gets the Battery Voltage Input
+        /// </summary>
+        public IAnalogInputPort? BatteryVoltageInput { get; }
 
         /// <summary>
         /// Gets the I2C header connector

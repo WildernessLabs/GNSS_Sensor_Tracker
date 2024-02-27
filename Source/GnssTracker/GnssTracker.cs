@@ -1,9 +1,8 @@
-﻿using Meadow;
-using Meadow.Hardware;
+﻿using Meadow.Hardware;
 using Meadow.Logging;
 using System;
 
-namespace WildernessLabs.Hardware.GnssTracker
+namespace Meadow.Devices
 {
     /// <summary>
     /// Represents a Gnss Tracker IoT acclerator
@@ -27,7 +26,7 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             var device = Resolver.Device;
 
-            if (Resolver.Device == null)
+            if (device == null)
             {
                 var msg = "GnssTracker instance must be created no earlier than App.Initialize()";
                 logger?.Error(msg);
@@ -36,11 +35,11 @@ namespace WildernessLabs.Hardware.GnssTracker
 
             try
             {
-                logger?.Debug("Initializing I2CBus");
+                logger?.Debug("I2CBus Initializing...");
 
-                i2cBus = Resolver.Device.CreateI2cBus();
+                i2cBus = device.CreateI2cBus();
 
-                logger?.Debug("Initializing I2CBus initialized");
+                logger?.Debug("I2CBus initialized");
             }
             catch (Exception e)
             {
@@ -48,13 +47,11 @@ namespace WildernessLabs.Hardware.GnssTracker
                 throw;
             }
 
-
             if (device is IF7CoreComputeMeadowDevice { } ccm)
             {
                 try
                 {
-                    //try to write a byte to the address of the SCD40 sensor
-                    i2cBus.Write(0x62, new byte[] { 0 });
+
                     logger?.Info("Instantiating GnssTracker v2 hardware");
                     hardware = new GnssTrackerHardwareV2(ccm, i2cBus);
                 }
