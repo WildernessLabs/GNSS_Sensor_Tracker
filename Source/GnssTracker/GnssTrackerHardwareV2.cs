@@ -1,6 +1,6 @@
 ﻿using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Environmental;
+using Meadow.Foundation.Sensors.Motion;
 using Meadow.Hardware;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Environmental;
