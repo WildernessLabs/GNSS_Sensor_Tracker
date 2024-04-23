@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Motion.Bmi270", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Environmental.Scd4x", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Environmental.Scd4x\Driver\Sensors.Environmental.Scd4x.csproj", "{CA9A2726-EB1F-401A-9BB8-CEAE39C0531E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CO2_Bug", "Additional Samples\CO2_Bug\CO2_Bug.csproj", "{C8898C29-9C5A-4382-83E3-7DFCF7AE9ECA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{CA9A2726-EB1F-401A-9BB8-CEAE39C0531E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA9A2726-EB1F-401A-9BB8-CEAE39C0531E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA9A2726-EB1F-401A-9BB8-CEAE39C0531E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C8898C29-9C5A-4382-83E3-7DFCF7AE9ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8898C29-9C5A-4382-83E3-7DFCF7AE9ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8898C29-9C5A-4382-83E3-7DFCF7AE9ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8898C29-9C5A-4382-83E3-7DFCF7AE9ECA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
