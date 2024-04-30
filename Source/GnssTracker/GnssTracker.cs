@@ -51,7 +51,6 @@ namespace Meadow.Devices
             {
                 try
                 {
-
                     logger?.Info("Instantiating GnssTracker v2 hardware");
                     hardware = new GnssTrackerHardwareV2(ccm, i2cBus);
                 }
