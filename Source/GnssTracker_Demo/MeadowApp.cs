@@ -19,9 +19,9 @@ namespace GnssTracker_Demo
 
         protected IGnssTrackerHardware gnssTracker { get; set; }
 
-        readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromSeconds(15);
+        readonly TimeSpan GNSSPositionReportInterval = TimeSpan.FromMinutes(5);
 
-        readonly TimeSpan sensorUpdateInterval = TimeSpan.FromSeconds(90);
+        readonly TimeSpan sensorUpdateInterval = TimeSpan.FromMinutes(5);
 
         public override Task Initialize()
         {
@@ -227,6 +227,7 @@ namespace GnssTracker_Demo
 
             if (gnssTracker.Gnss is { } gnss)
             {
+                //TODO: This should be set with an interval, no?
                 gnss.StartUpdating();
             }
 
