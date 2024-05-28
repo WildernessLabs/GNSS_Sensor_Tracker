@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnssTracker_Demo", "GnssTra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnssTracker", "GnssTracker\GnssTracker.csproj", "{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdditionalSamples", "AdditionalSamples", "{ACC86F2A-3B1A-4E21-A156-0CE930148B91}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnssTracker_SQLite_Demo", "Additional Samples\GnssTracker_SQLite_Demo\GnssTracker_SQLite_Demo.csproj", "{0106A830-D574-4231-9537-44A564A67FB0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,18 +21,11 @@ Global
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A4FBC32-409E-4D72-AB1F-E79DD3B397FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0106A830-D574-4231-9537-44A564A67FB0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0106A830-D574-4231-9537-44A564A67FB0} = {ACC86F2A-3B1A-4E21-A156-0CE930148B91}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F0B7DD0-BD16-4CB0-B369-5649BDD66664}

@@ -349,5 +349,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-## Mac Bullshit
+## Mac stuff
 **/.DS_Store
+
+## Rider Stuff
+**/.idea
