@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging", "..\..\Mea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Contracts", "..\..\Meadow.Contracts\Source\Meadow.Contracts\Meadow.Contracts.csproj", "{A71163E3-5A6A-4A8D-B148-F30E8F536846}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{1D5F80C0-5E03-4857-8D20-F94648B268CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\Meadow.Core\Source\Meadow.Core\Meadow.Core.csproj", "{1D5F80C0-5E03-4857-8D20-F94648B268CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet", "..\..\MQTTnet\Source\MQTTnet\MQTTnet.csproj", "{C4269E10-1798-4E3A-BE0D-2F6A21589248}"
 EndProject
