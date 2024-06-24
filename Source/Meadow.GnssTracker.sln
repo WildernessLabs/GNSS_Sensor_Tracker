@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Atmospheric.Bme68x"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Gnss.NeoM8", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Gnss.NeoM8\Driver\Sensors.Gnss.NeoM8.csproj", "{3D12AF44-9056-44BD-B36C-3F3C20C73090}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\Meadow.Core\source\implementations\f7\Meadow.F7\Meadow.F7.csproj", "{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\Meadow.Core\Source\implementations\f7\Meadow.F7\Meadow.F7.csproj", "{6AF8C781-B7BE-4B54-A85A-3184C563E6EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.ePaper", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.ePaper\Driver\Displays.ePaper.csproj", "{5AC3C120-131E-4762-AEB6-2F2CD0F23FC1}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging", "..\..\Mea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Contracts", "..\..\Meadow.Contracts\Source\Meadow.Contracts\Meadow.Contracts.csproj", "{A71163E3-5A6A-4A8D-B148-F30E8F536846}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{1D5F80C0-5E03-4857-8D20-F94648B268CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\Meadow.Core\Source\Meadow.Core\Meadow.Core.csproj", "{1D5F80C0-5E03-4857-8D20-F94648B268CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet", "..\..\MQTTnet\Source\MQTTnet\MQTTnet.csproj", "{C4269E10-1798-4E3A-BE0D-2F6A21589248}"
 EndProject
