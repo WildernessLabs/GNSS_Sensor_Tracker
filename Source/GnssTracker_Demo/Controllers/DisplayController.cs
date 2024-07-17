@@ -4,6 +4,7 @@ using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Sensors.Location.Gnss;
 using Meadow.Units;
+using System;
 
 namespace GnssTracker_Demo.Controllers;
 
@@ -196,22 +197,32 @@ public class DisplayController
             co2LevelsLabel.Text = $"{Concentration?.PartsPerMillion:N1} PPM";
         }
 
-        string lat = locationInfo == null
-            ? $"00 00' 0.00\""
-            : $"" +
-            $"{locationInfo?.Position?.Latitude?.Degrees:N2} " +
-            $"{locationInfo?.Position?.Latitude?.Minutes:N2}'" +
-            $"{locationInfo?.Position?.Latitude?.Seconds:N2}\"";
+        var geo = new GeoLocation(locationInfo?.Position?.Latitude ?? 0, locationInfo?.Position?.Longitude ?? 0);
+
+        string lat = ConvertToDMS(geo.Latitude);
         latitudeLabel.Text = lat;
 
-        string lon = locationInfo == null
-            ? $"00 00' 0.00\""
-            : $"" +
-            $"{locationInfo?.Position?.Longitude?.Degrees:N2} " +
-            $"{locationInfo?.Position?.Longitude?.Minutes:N2}'" +
-            $"{locationInfo?.Position?.Longitude?.Seconds:N2}\"";
+        string lon = ConvertToDMS(geo.Longitude);
         longitudeLabel.Text = lon;
 
         displayScreen.EndUpdate();
+    }
+
+    public string ConvertToDMS(double decimalDegrees)
+    {
+        bool isNegative = decimalDegrees < 0;
+        decimalDegrees = Math.Abs(decimalDegrees);
+
+        int degrees = (int)decimalDegrees;
+
+        double fractionalPart = decimalDegrees - degrees;
+        double totalMinutes = fractionalPart * 60;
+        int minutes = (int)totalMinutes;
+
+        double seconds = (totalMinutes - minutes) * 60;
+
+        string dms = $"{degrees}° {minutes}' {seconds:F2}\"";
+
+        return isNegative ? "-" + dms : dms;
     }
 }

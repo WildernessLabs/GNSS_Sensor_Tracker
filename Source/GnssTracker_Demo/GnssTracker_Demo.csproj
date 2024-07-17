@@ -13,7 +13,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.12.0" />
+    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="1.12.8.1-beta" />
     <ProjectReference Include="..\GnssTracker\GnssTracker.csproj" />
   </ItemGroup>
 </Project>

@@ -147,7 +147,7 @@ public class MeadowApp : App<F7CoreComputeV2>
 
     private void GnssRmcReceived(object sender, GnssPositionInfo e)
     {
-        if (e.Valid)
+        if (e.IsValid)
         {
             ReportGNSSPosition(e);
             lastGNSSPosition = e;
@@ -156,7 +156,7 @@ public class MeadowApp : App<F7CoreComputeV2>
 
     private void GnssGllReceived(object sender, GnssPositionInfo e)
     {
-        if (e.Valid)
+        if (e.IsValid)
         {
             ReportGNSSPosition(e);
             lastGNSSPosition = e;
@@ -165,7 +165,7 @@ public class MeadowApp : App<F7CoreComputeV2>
 
     private void ReportGNSSPosition(GnssPositionInfo e)
     {
-        if (e.Valid)
+        if (e.IsValid)
         {
             if (DateTime.UtcNow - lastGNSSPositionReportTime >= GNSSPositionReportInterval)
             {
