@@ -31,7 +31,7 @@ namespace Meadow.Devices
 
         private IPixelDisplay? display;
 
-        private IAnalogInputPort? solarVoltageInput;
+        private IObservableAnalogInputPort? solarVoltageInput;
 
         private IConnector?[]? connectors;
 
@@ -78,10 +78,10 @@ namespace Meadow.Devices
         public abstract ICO2ConcentrationSensor? CO2ConcentrationSensor { get; }
 
         /// <inheritdoc/>
-        public abstract IAnalogInputPort? BatteryVoltageInput { get; }
+        public abstract IObservableAnalogInputPort? BatteryVoltageInput { get; }
 
         /// <inheritdoc/>
-        public IAnalogInputPort? SolarVoltageInput => GetSolarVoltageInput();
+        public IObservableAnalogInputPort? SolarVoltageInput => GetSolarVoltageInput();
 
         /// <inheritdoc/>
         public I2cConnector I2cHeader => (I2cConnector)Connectors[1]!;
@@ -229,7 +229,7 @@ namespace Meadow.Devices
             }
         }
 
-        private IAnalogInputPort? GetSolarVoltageInput()
+        private IObservableAnalogInputPort? GetSolarVoltageInput()
         {
             if (solarVoltageInput == null)
             {

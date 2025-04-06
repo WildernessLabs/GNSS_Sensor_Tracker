@@ -26,7 +26,7 @@ namespace Meadow.Devices
         public override IAccelerometer? Accelerometer => throw new System.NotImplementedException();
 
         /// <inheritdoc/>
-        public override IAnalogInputPort? BatteryVoltageInput => throw new System.NotImplementedException();
+        public override IObservableAnalogInputPort? BatteryVoltageInput => throw new System.NotImplementedException();
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object

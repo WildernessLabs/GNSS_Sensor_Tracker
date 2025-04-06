@@ -22,7 +22,7 @@ namespace Meadow.Devices
         private Bmi270? bmi270;
         private IGyroscope? gyroscope;
         private IAccelerometer? accelerometer;
-        private IAnalogInputPort? batteryVoltageInput;
+        private IObservableAnalogInputPort? batteryVoltageInput;
 
         /// <inheritdoc/>
         public sealed override II2cBus I2cBus { get; }
@@ -46,7 +46,7 @@ namespace Meadow.Devices
         public override IAccelerometer? Accelerometer => GetAccelerometer();
 
         /// <inheritdoc/>
-        public override IAnalogInputPort? BatteryVoltageInput => GetBatteryVoltage();
+        public override IObservableAnalogInputPort? BatteryVoltageInput => GetBatteryVoltage();
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV2 object
@@ -180,7 +180,7 @@ namespace Meadow.Devices
             }
         }
 
-        private IAnalogInputPort? GetBatteryVoltage()
+        private IObservableAnalogInputPort? GetBatteryVoltage()
         {
             if (batteryVoltageInput == null)
             {

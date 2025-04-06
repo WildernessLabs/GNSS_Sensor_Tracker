@@ -67,12 +67,12 @@ namespace Meadow.Devices
         /// <summary>
         /// Gets the Solar Voltage Input
         /// </summary>
-        public IAnalogInputPort? SolarVoltageInput { get; }
+        public IObservableAnalogInputPort? SolarVoltageInput { get; }
 
         /// <summary>
         /// Gets the Battery Voltage Input
         /// </summary>
-        public IAnalogInputPort? BatteryVoltageInput { get; }
+        public IObservableAnalogInputPort? BatteryVoltageInput { get; }
 
         /// <summary>
         /// Gets the I2C header connector

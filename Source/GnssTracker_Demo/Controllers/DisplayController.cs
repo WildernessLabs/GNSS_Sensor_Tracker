@@ -40,7 +40,7 @@ public class DisplayController
 
         dataLayout.Controls.Add(new Box(0, 0 + offsetY, displayScreen.Width, 15)
         {
-            ForeColor = Color.Red,
+            ForegroundColor = Color.Red,
             IsFilled = true
         });
 
@@ -136,7 +136,7 @@ public class DisplayController
 
         dataLayout.Controls.Add(new Box(0, 90 + offsetY, displayScreen.Width, 32)
         {
-            ForeColor = Color.Red,
+            ForegroundColor = Color.Red,
             IsFilled = true
         });
 
