@@ -22,7 +22,7 @@ namespace Meadow.Devices
         /// <summary>
         /// Gets the ITemperatureSensor on the GNSS Sensor Tracker board.
         /// </summary>
-        public ITemperatureSensor? TemperatureSensor { get; }
+        public ISamplingTemperatureSensor? TemperatureSensor { get; }
 
         /// <summary>
         /// Gets the IHumiditySensor on the GNSS Sensor Tracker board.
