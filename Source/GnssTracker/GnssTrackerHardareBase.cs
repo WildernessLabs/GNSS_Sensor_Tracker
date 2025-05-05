@@ -22,7 +22,7 @@ namespace Meadow.Devices
         protected IF7CoreComputeMeadowDevice device;
 
         private Bme688? atmosphericSensor;
-        private ITemperatureSensor? temperatureSensor;
+        private ISamplingTemperatureSensor? temperatureSensor;
         private IHumiditySensor? humiditySensor;
         private IBarometricPressureSensor? barometricPressureSensor;
         private IGasResistanceSensor? gasResistanceSensor;
@@ -48,7 +48,7 @@ namespace Meadow.Devices
         public Bme688? AtmosphericSensor => GetAtmosphericSensor();
 
         /// <inheritdoc/>
-        public ITemperatureSensor? TemperatureSensor => GetTemperatureSensor();
+        public ISamplingTemperatureSensor? TemperatureSensor => GetTemperatureSensor();
 
         /// <inheritdoc/>
         public IHumiditySensor? HumiditySensor => GetHumiditySensor();
@@ -167,7 +167,7 @@ namespace Meadow.Devices
             return atmosphericSensor;
         }
 
-        private ITemperatureSensor? GetTemperatureSensor()
+        private ISamplingTemperatureSensor? GetTemperatureSensor()
         {
             if (temperatureSensor == null)
             {
