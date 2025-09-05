@@ -226,7 +226,6 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         if (gnssTracker.Gnss is { } gnss)
         {
-            //TODO: This should be set with an interval, no?
             gnss.StartUpdating();
         }
 
