@@ -14,19 +14,19 @@ namespace Meadow.Devices
         public sealed override II2cBus I2cBus { get; }
 
         /// <inheritdoc/>
-        public override IRgbPwmLed? OnboardRgbLed => throw new System.NotImplementedException();
+        public override IRgbPwmLed? OnboardRgbLed => null;
 
         /// <inheritdoc/>
-        public override ICO2ConcentrationSensor? CO2ConcentrationSensor => throw new System.NotImplementedException();
+        public override ICO2ConcentrationSensor? CO2ConcentrationSensor => null;
 
         /// <inheritdoc/>
-        public override IGyroscope? Gyroscope => throw new System.NotImplementedException();
+        public override IGyroscope? Gyroscope => null;
 
         /// <inheritdoc/>
-        public override IAccelerometer? Accelerometer => throw new System.NotImplementedException();
+        public override IAccelerometer? Accelerometer => null;
 
         /// <inheritdoc/>
-        public override IObservableAnalogInputPort? BatteryVoltageInput => throw new System.NotImplementedException();
+        public override IObservableAnalogInputPort? BatteryVoltageInput => null;
 
         /// <summary>
         /// Create a new GnssTrackerHardwareV1 object
