@@ -12,13 +12,15 @@
     <AssemblyName>GnssTracker</AssemblyName>
     <PackageProjectUrl>https://github.com/WildernessLabs/GNSS_Sensor_Tracker</PackageProjectUrl>
     <PackageId>Meadow.GnssTracker</PackageId>
-    <RepositoryUrl>https://github.com/WildernessLabs/Meadow.ProjectLab</RepositoryUrl>
+    <RepositoryUrl>https://github.com/WildernessLabs/GNSS_Sensor_Tracker</RepositoryUrl>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <PackageTags>Meadow.GnssTracker, Meadow, GnssTracker</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Convenience library for the Meadow GnssTracker family of boards</Description>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="Readme.md" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Meadow.Core\Source\implementations\f7\Meadow.F7\Meadow.F7.csproj" />
