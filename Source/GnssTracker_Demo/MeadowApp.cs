@@ -61,7 +61,7 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         if (gnssTracker.Accelerometer is { } accelerometer)
         {
-            accelerometer.Updated += AccelerometerUpdated; ;
+            accelerometer.Updated += AccelerometerUpdated;
         }
 
         if (gnssTracker.BatteryVoltageInput is { } batteryvoltage)
@@ -233,13 +233,13 @@ public class MeadowApp : App<F7CoreComputeV2>
         {
             Resolver.Log.Info("==================================================");
 
-            displayController.UpdateDisplay(
+            displayController?.UpdateDisplay(
                 batteryVoltage,
                 solarVoltage,
-                gnssTracker.TemperatureSensor.Temperature,
-                gnssTracker.HumiditySensor.Humidity,
-                gnssTracker.BarometricPressureSensor.Pressure,
-                gnssTracker.CO2ConcentrationSensor?.CO2Concentration ?? null,
+                gnssTracker.TemperatureSensor?.Temperature,
+                gnssTracker.HumiditySensor?.Humidity,
+                gnssTracker.BarometricPressureSensor?.Pressure,
+                gnssTracker.CO2ConcentrationSensor?.CO2Concentration,
                 lastGNSSPosition);
             await Task.Delay(sensorUpdateInterval);
         }

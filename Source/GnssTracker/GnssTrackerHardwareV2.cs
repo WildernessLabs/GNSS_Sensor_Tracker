@@ -17,7 +17,7 @@ namespace Meadow.Devices
         private IRgbPwmLed? _onboardRgbLed;
 
         private Scd40? scd40;
-        private ICO2ConcentrationSensor? cO2ConcentrationSensor;
+        private ICO2ConcentrationSensor? co2ConcentrationSensor;
 
         private Bmi270? bmi270;
         private IGyroscope? gyroscope;
@@ -104,12 +104,12 @@ namespace Meadow.Devices
 
         private ICO2ConcentrationSensor? GetCO2ConcentrationSensor()
         {
-            if (cO2ConcentrationSensor == null)
+            if (co2ConcentrationSensor == null)
             {
                 InitializeScd40();
             }
 
-            return cO2ConcentrationSensor;
+            return co2ConcentrationSensor;
         }
 
         private void InitializeScd40()
@@ -119,14 +119,14 @@ namespace Meadow.Devices
                 Logger?.Trace("SCD40 Initializing...");
                 var scd = new Scd40(I2cBus, (byte)Scd40.Addresses.Default);
                 scd40 = scd;
-                cO2ConcentrationSensor = scd;
+                co2ConcentrationSensor = scd;
                 Resolver.SensorService.RegisterSensor(scd);
 
                 Logger?.Trace("SCD40 Initialized");
             }
             catch (Exception ex)
             {
-                Logger?.Error($"Unable to create the SCD40 IMU: {ex.Message}");
+                Logger?.Error($"Unable to create the SCD40 CO2 sensor: {ex.Message}");
             }
         }
 
@@ -196,7 +196,7 @@ namespace Meadow.Devices
             {
                 Logger?.Debug("Battery Voltage Input Instantiating...");
                 batteryVoltageInput = device.Pins.A04.CreateAnalogInputPort(5);
-                Logger?.Debug("Battery Voltage Input up");
+                Logger?.Debug("Battery Voltage Input initialized");
             }
             catch (Exception ex)
             {
